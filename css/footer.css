@@ -1,0 +1,171 @@
+
+.footer {
+    background-color: var(--magnoliga-black); 
+    color: #ffffff;
+    padding-top: 4rem; 
+    font-family: var(--font-primary);
+    position: relative;
+    width: 100%;
+}
+
+
+.footer-container {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start;
+    flex-wrap: wrap; 
+    gap: 2rem;
+    padding-bottom: 3rem;
+}
+
+.footer-column {
+    flex: 1; 
+    min-width: 200px; 
+}
+
+
+.footer-column h6 {
+    color: #ffffff;
+    text-transform: uppercase; 
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column li {
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+
+.footer-column ul a {
+    color: #a3a3a3; 
+    transition: color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.footer-column ul a:hover {
+    color: var(--magnoliga-orange); 
+}
+
+
+.footer-brand {
+    flex: 1.5; 
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.logo-circle {/*hay que modificar de acuerdo al logo final*/
+    width: 32px;
+    height: 32px;
+    background-color: #166534; 
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+}
+
+.brand-description {
+    color: #a3a3a3;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 300px;
+}
+
+
+.social-icons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: #1f2937; 
+    border-radius: 50%;
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--magnoliga-orange); /* Naranja al hacer hover */
+    color: #ffffff;
+}
+
+
+.footer-contact .contact-icon {
+    color: var(--magnoliga-orange); /* Iconos naranjas, según imagen */
+    margin-right: 0.75rem;
+    width: 16px;
+    text-align: center;
+}
+
+.footer-contact span, 
+.footer-contact a {
+    color: #a3a3a3;
+    font-size: 0.95rem;
+}
+
+
+.footer-bottom {
+    border-top: 4px solid var(--magnoliga-orange); 
+    background-color: var(--magnoliga-gray-dark); 
+    padding: 1.5rem 0;
+}
+
+.footer-bottom-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyright {
+    color: #a3a3a3;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* --- Responsividad Básica --- */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .footer-bottom-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
