@@ -1,0 +1,94 @@
+/* --- Sección Hero --- */
+.hero {
+    background-color: var(--magnoliga-black);
+    padding: 80px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--magnoliga-gray-medium);
+}
+
+.hero h1 {
+    color: var(--magnoliga-orange);
+    font-family: var(--font-headings);
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.hero p {
+    color: #ffffff;
+    opacity: 0.8;
+    margin-top: 10px;
+}
+
+/* --- Grid de Tarjetas --- */
+section {
+    background-color: var(--magnoliga-black);
+    padding-bottom: 50px;
+}
+
+.card-basketball {
+    position: relative;
+    background-color: #1a1a1a;
+    border-radius: 15px; /* Bordes redondeados como la imagen */
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Imagen base: Muy oscura por defecto */
+.card-basketball .card-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    filter: brightness(0.3) contrast(1.1); /* Súper oscura inicialmente */
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+/* Overlay: Capa de degradado constante para asegurar que el texto se vea */
+.card-basketball .card-img-overlay {
+    background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+/* Texto: Blanco y centrado */
+.card-basketball .card-title {
+    color: #ffffff;
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    pointer-events: none; /* Evita que el texto interfiera con el hover */
+    text-shadow: 0px 2px 10px rgba(0,0,0,0.9);
+}
+
+/* --- ESTADO HOVER: Resaltar imagen --- */
+.card-basketball:hover {
+    transform: scale(1.02);
+}
+
+.card-basketball:hover .card-img {
+    filter: brightness(0.8) contrast(1); /* La imagen se ilumina al pasar el mouse */
+}
+
+/* --- ESTADO ACTIVO: Borde Naranja (Magnoliga) --- */
+/* En la imagen de referencia, la primera tiene un resplandor naranja inferior */
+.card-basketball.active {
+    outline: 3px solid var(--magnoliga-orange);
+    outline-offset: -3px;
+}
+
+.card-basketball.active .card-img-overlay {
+    /* Añade un toque naranja en la base para la tarjeta activa */
+    background: linear-gradient(to top, rgba(249, 115, 22, 0.4) 0%, rgba(0,0,0,0.2) 50%);
+}
+
+.card-basketball.active .card-title {
+    color: #ffffff; /* El texto se mantiene blanco para máximo contraste */
+}
