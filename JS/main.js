@@ -1,4 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => { 
+  document.addEventListener("DOMContentLoaded", () => { 
+
+    // navbar
+
+    fetch("./componentes/navbar.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+
+  // footer
   const footerContainer = document.getElementById("footer");
   console.log("Buscando contenedor footer..."); // Depuración
 
