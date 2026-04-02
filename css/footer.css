@@ -169,3 +169,16 @@
         text-align: center;
     }
 }
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 0 1rem;
+    }
+
+    .brand-description {
+        max-width: 100%;
+    }
+
+    .footer-column {
+        min-width: 100%;
+    }
+}
