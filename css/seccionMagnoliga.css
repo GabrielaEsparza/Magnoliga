@@ -309,3 +309,22 @@ textarea.form-control { resize: none; }
   .sm-hero { min-height: 70vh; }
   .sm-cta { padding: 2.5rem 1.5rem !important; }
 }
+/* ── Responsive adicional ── */
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.7rem;
+    }
+
+    .sm-hero {
+        min-height: 60vh;
+    }
+
+    .btn-filter {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.9rem;
+    }
+
+    .sponsor-img-wrap {
+        height: 160px;
+    }
+}

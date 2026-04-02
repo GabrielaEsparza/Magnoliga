@@ -92,3 +92,35 @@ section {
 .card-basketball.active .card-title {
     color: #ffffff; /* El texto se mantiene blanco para máximo contraste */
 }
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 16px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .card-basketball .card-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 40px 16px;
+    }
+
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .card-basketball {
+        aspect-ratio: 16 / 9;
+    }
+
+    .card-basketball .card-title {
+        font-size: 1rem;
+    }
+}

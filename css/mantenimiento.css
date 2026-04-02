@@ -189,4 +189,38 @@
 /* 4. Ajuste de tu Hero para que no se vea el texto tapado por el menú */
 .maint-hero {
     padding-top: 90px; /* Le damos aire arriba para compensar el menú flotante */
+
+
+    @media (max-width: 768px) {
+    .maint-hero {
+        min-height: 40vh;
+        padding-top: 90px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .maint-card {
+        padding: 28px 18px;
+    }
+
+    .contenedor-logo {
+        margin-left: 15px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+}
 }
