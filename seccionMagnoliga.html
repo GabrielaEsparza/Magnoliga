@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sección Magnoliga - Aliados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/footer.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/navbar.css" />
+  <link rel="stylesheet" href="./css/seccionMagnoliga.css" />
+</head>
+<body>
+ 
+  <div id="navbar"></div>
+ 
+  <!-- Hero -->
+  <header class="sm-hero d-flex align-items-center justify-content-center text-center position-relative">
+    <div class="sm-hero-overlay"></div>
+    <div class="position-relative z-1 px-3">
+      <p class="text-uppercase text-orange fw-semibold ls-wide mb-2 small">Conoce a</p>
+      <h1 class="sm-hero-title display-1 fw-bold text-white text-uppercase mb-3">SECCIÓN MAGNOLIGA</h1>
+      <p class="text-light mx-auto" style="max-width:560px;">
+        Gracias a quienes hacen posible Magnoliga
+      </p>
+      <a href="#aliados" class="btn btn-orange mt-4 px-4 py-2 fw-semibold">Ver aliados</a>
+    </div>
+  </header>
+ 
+  <!-- Aliados -->
+  <section class="py-5" id="aliados">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-2">
+        <h2 class="section-title text-uppercase text-white mb-0">Nuestros Aliados</h2>
+        <button class="btn btn-orange fw-semibold px-4 py-2 d-flex align-items-center gap-2"
+                data-bs-toggle="modal" data-bs-target="#addSponsorModal">
+          <i class="bi bi-plus-lg"></i> Agregar patrocinador
+        </button>
+      </div>
+      <p class="text-secondary mb-5" style="max-width:600px;">
+        Empresas que apoyan el desarrollo del baloncesto en nuestra comunidad
+      </p>
+ 
+      <!-- Filtros de nivel -->
+      <div class="d-flex justify-content-start gap-2 flex-wrap mb-5" id="filtros">
+        <button class="btn btn-filter active" data-filter="all">Todos</button>
+        <button class="btn btn-filter" data-filter="Oro">
+          <span class="badge-nivel oro me-1"></span> Oro
+        </button>
+        <button class="btn btn-filter" data-filter="Plata">
+          <span class="badge-nivel plata me-1"></span> Plata
+        </button>
+        <button class="btn btn-filter" data-filter="Bronce">
+          <span class="badge-nivel bronce me-1"></span> Bronce
+        </button>
+      </div>
+ 
+      <!-- Grid patrocinadores -->
+      <div class="row g-4" id="sponsors-grid">
+        <!-- Se renderizan desde JS -->
+      </div>
+    </div>
+  </section>
+ 
+  <!-- CTA -->
+  <section class="py-5 px-3">
+    <div class="container">
+      <div class="sm-cta text-center p-5">
+        <h2 class="fw-bold text-white mb-2">¿Quieres ser parte de Magnoliga?</h2>
+        <p class="text-white-50 mb-4">Únete a nuestros patrocinadores y apoya el desarrollo del baloncesto</p>
+        <a href="mailto:contacto@magnoliga.com" class="btn btn-white fw-semibold px-4 py-2">
+          Contáctanos
+        </a>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- Modal Agregar Patrocinador -->
+  <div class="modal fade" id="addSponsorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-card border-0">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title text-white fw-bold">Agregar Patrocinador</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body pt-3">
+          <form id="addSponsorForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label text-secondary small">Nombre del patrocinador *</label>
+                <input type="text" class="form-control bg-input border-0 text-white" id="sp-nombre" placeholder="Ej. Dogos Oscarín" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary small">Categoría *</label>
+                <input type="text" class="form-control bg-input border-0 text-white" id="sp-categoria" placeholder="Ej. Alimentos y Bebidas" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label text-secondary small">Descripción *</label>
+                <textarea class="form-control bg-input border-0 text-white" id="sp-desc" rows="2" placeholder="Breve descripción del patrocinador..." required></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary small">Nivel *</label>
+                <select class="form-select bg-input border-0 text-white" id="sp-nivel" required>
+                  <option value="" disabled selected>Selecciona nivel</option>
+                  <option value="Oro">🥇 Oro</option>
+                  <option value="Plata">🥈 Plata</option>
+                  <option value="Bronce">🥉 Bronce</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label text-secondary small">Imagen (URL o subir)</label>
+                <div class="d-flex gap-2">
+                  <input type="url" class="form-control bg-input border-0 text-white" id="sp-img-url" placeholder="https://..." />
+                  <span class="text-secondary d-flex align-items-center small">ó</span>
+                  <button type="button" class="btn btn-outline-secondary btn-sm px-3" id="btn-upload-img">
+                    <i class="bi bi-upload"></i>
+                  </button>
+                  <input type="file" id="sp-img-file" accept="image/*" class="d-none" />
+                </div>
+              </div>
+              <!-- Preview imagen -->
+              <div class="col-12" id="img-preview-container" style="display:none!important;">
+                <div class="sm-img-preview">
+                  <img id="sp-img-preview" src="" alt="" />
+                  <button type="button" class="btn-remove-preview" id="btn-remove-img"><i class="bi bi-x"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button type="submit" class="btn btn-orange fw-semibold px-4">Agregar patrocinador</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Modal Ver Patrocinador -->
+  <div class="modal fade" id="viewSponsorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-card border-0">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-white" id="view-nombre"></h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="view-img" src="" alt="" class="sm-view-img mb-3" />
+          <span id="view-nivel-badge" class="badge mb-2"></span>
+          <p id="view-categoria" class="fw-semibold mb-1" style="color:var(--orange)"></p>
+          <p id="view-desc" class="text-secondary small"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div id="footer"></div>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./JS/main.js"></script>
+  <script src="./JS/seccionMagnoliga.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+
+ 
+:root {
+  --bg: #0a0a0a;
+  --card-bg: #161616;
+  --input-bg: #1e1e1e;
+  --orange: #f97316;
+  --orange-dark: #ea580c;
+  --text-white: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --gold: #f59e0b;
+  --silver: #94a3b8;
+  --bronze: #b45309;
+}
+ 
+* { box-sizing: border-box; }
+ 
+body {
+  background-color: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-white);
+  margin: 0;
+}
+ 
+/* ===== HERO ===== */
+.sm-hero {
+  min-height: 85vh;
+  background: url('../assets/seccionMagnoliga.png') center/cover no-repeat;
+  margin-top: -90px;
+  padding-top: 90px;
+}
+ 
+.sm-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(10,10,10,0.25));
+}
+ 
+.sm-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.2em;
+}
+ 
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 0.12em;
+}
+ 
+.ls-wide { letter-spacing: 0.15em; }
+.text-orange { color: var(--orange) !important; }
+ 
+.btn-orange {
+  background-color: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+.btn-orange:hover {
+  background-color: var(--orange-dark);
+  color: #fff;
+}
+ 
+/* ===== FILTROS ===== */
+.btn-filter {
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  border: 1px solid #2a2a2a;
+  border-radius: 2rem;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-filter:hover,
+.btn-filter.active {
+  background: var(--orange);
+  color: #fff;
+  border-color: var(--orange);
+}
+ 
+.badge-nivel {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.badge-nivel.oro    { background: var(--gold); }
+.badge-nivel.plata  { background: var(--silver); }
+.badge-nivel.bronce { background: var(--bronze); }
+ 
+/* ===== SPONSOR CARD ===== */
+.sponsor-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  border: 1px solid #1f1f1f;
+}
+.sponsor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(249,115,22,0.15);
+}
+ 
+.sponsor-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.sponsor-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.sponsor-card:hover .sponsor-img-wrap img {
+  transform: scale(1.05);
+}
+ 
+.nivel-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 3px 12px;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+.nivel-badge.oro    { background: var(--gold);   color: #000; }
+.nivel-badge.plata  { background: var(--silver); color: #000; }
+.nivel-badge.bronce { background: var(--bronze); color: #fff; }
+ 
+.sponsor-body {
+  padding: 1rem 1.2rem 1.2rem;
+}
+.sponsor-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-white);
+  margin-bottom: 2px;
+}
+.sponsor-cat {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+.sponsor-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+ 
+/* Botón eliminar */
+.btn-delete-sponsor {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  z-index: 3;
+  font-size: 0.85rem;
+}
+.sponsor-card:hover .btn-delete-sponsor {
+  opacity: 1;
+}
+.btn-delete-sponsor:hover { color: #ef4444; }
+ 
+/* Placeholder sin imagen */
+.sponsor-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #333;
+}
+ 
+/* ===== CTA ===== */
+.sm-cta {
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  border-radius: 1.25rem;
+}
+.btn-white {
+  background: #fff;
+  color: var(--orange-dark);
+  border: none;
+  border-radius: 2rem;
+  transition: all 0.2s;
+}
+.btn-white:hover {
+  background: #f0f0f0;
+  color: var(--orange-dark);
+}
+ 
+/* ===== MODAL ===== */
+.bg-card  { background-color: var(--card-bg) !important; }
+.bg-input { background-color: var(--input-bg) !important; }
+ 
+.modal-content { border-radius: 1rem; }
+ 
+.form-control,
+.form-select {
+  box-shadow: none !important;
+}
+.form-control::placeholder { color: #555; }
+.form-control:focus,
+.form-select:focus {
+  border: 1px solid var(--orange) !important;
+}
+.form-select option {
+  background: var(--input-bg);
+  color: var(--text-white);
+}
+textarea.form-control { resize: none; }
+ 
+/* Preview imagen en modal */
+.sm-img-preview {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  max-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--input-bg);
+}
+.sm-img-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+.btn-remove-preview {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.btn-remove-preview:hover { color: #ef4444; }
+ 
+/* Modal ver patrocinador */
+.sm-view-img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+ 
+/* Badge en modal de vista */
+.badge.badge-oro    { background: var(--gold);   color: #000; }
+.badge.badge-plata  { background: var(--silver); color: #000; }
+.badge.badge-bronce { background: var(--bronze); color: #fff; }
+ 
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+.empty-state i {
+  font-size: 3rem;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+ 
+/* Animación entrada cards */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sponsor-col {
+  animation: fadeInUp 0.4s ease both;
+}
+ 
+/* Responsive */
+@media (max-width: 767px) {
+  .section-title { font-size: 2rem; }
+  .sm-hero { min-height: 70vh; }
+  .sm-cta { padding: 2.5rem 1.5rem !important; }
+}
