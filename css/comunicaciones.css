@@ -155,3 +155,43 @@ h1 {
     font-family: var(--font-display);
     letter-spacing: 1px;
 }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .hero-section {
+        height: auto;
+        min-height: 60vh;
+        padding: 80px 16px 40px;
+        background-attachment: scroll; /* fixed no funciona bien en móvil */
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    .card-custom {
+        padding: 2rem 1rem;
+    }
+
+    .icon-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+    }
+
+    .event-item {
+        padding: 1rem;
+    }
+
+    .event-info-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 50vh;
+    }
+}
