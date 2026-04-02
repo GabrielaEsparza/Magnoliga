@@ -1,0 +1,192 @@
+/* Paleta y Configuración Base */
+.bg-magnoliga-dark {
+    background-color: #050505 !important;
+    color: #ffffff;
+}
+
+/* Hero Section */
+.maint-hero {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* PEGA EL LINK AQUÍ ABAJO */
+    background-image: linear-gradient(rgba(50, 50, 50, 0.3), rgba(30, 30, 30, 0.4)),
+                      url('/assets/canchamantenimiento.png');
+    
+    /* Ajustes para que no se vea cortada ni repetida */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Título: Más compacto y sin tanto aire */
+.hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; /* Tamaño fijo más controlado */
+    letter-spacing: 1px; /* Letras más pegaditas */
+    line-height: 0.9; /* Reduce el espacio entre el título y el subtítulo */
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+/* TÍTULO DE SECCIÓN: Nuestros Servicios */
+.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+.section-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 0px;
+    
+}
+
+/* El overlay para que no se vea tan gris la imagen */
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+/* TARJETAS ESTILO FIGMA */
+.maint-card {
+    background-color: #111111; /* Fondo oscuro de la card */
+    border: 1px solid #222222; /* Borde sutil inicial */
+    border-radius: 15px;
+    padding: 40px 25px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.maint-icon {
+    font-size: 2.5rem;
+    color: var(--magnoliga-orange);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.maint-card h5 {
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff; /* Texto siempre blanco/visible */
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.maint-card p {
+    color: #888888; /* Gris para la descripción */
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* EFECTO HOVER (ILUMINACIÓN NARANJA) */
+.maint-card:hover {
+    transform: translateY(-12px);
+    background-color: #000000;
+    border-color: var(--magnoliga-orange); /* Borde naranja neón */
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.4); /* Brillo naranja */
+}
+
+.maint-card:hover .maint-icon {
+    transform: scale(1.2);
+}
+
+.maint-card:hover h5 {
+    color: var(--magnoliga-orange); /* Título cambia a naranja */
+}
+
+/* Animación de entrada */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Admin Box */
+.admin-box {
+    border: 1px dashed var(--magnoliga-orange);
+    background: rgba(249, 115, 22, 0.05);
+    border-radius: 10px;
+}
+
+.btn-orange {
+    background-color: var(--magnoliga-orange);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+}
+/* Quitar el subrayado de Magnoliga y de todo el menú */
+.navbar a, 
+.nombre, 
+.nombre a {
+    text-decoration: none !important; /* Esto quita la línea de abajo */
+    color: white !important;         /* Asegura que siga siendo blanco */
+}
+
+/* Por si acaso el link está dentro de la clase .nombre */
+.nombre a:hover {
+    text-decoration: none !important; /* Que no aparezca ni al pasar el mouse */
+}
+/* ============================================================
+   RESETEO TOTAL DEL NAVBAR PARA MANTENIMIENTO
+   ============================================================ */
+
+/* 1. Obligamos al contenedor a no ocupar espacio y ser transparente */
+#navbar {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent !important;
+}
+
+/* 2. Quitamos el "sticky" y cualquier fondo/borde del navbar de tus amigas */
+.navbar {
+    position: relative !important; /* Anula el sticky */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 90px !important; /* Aseguramos que mida lo mismo que en inicio */
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 3. Alineación exacta del Logo y Nombre (Basado en el CSS que me pasaste) */
+.contenedor-logo {
+    margin-left: 50px !important; /* Ajusta este número si ves que se mueve */
+    display: flex !important;
+    align-items: center !important;
+}
+
+.nombre, .nombre a {
+    text-decoration: none !important; /* Quita el subrayado */
+    color: white !important;
+    font-family: 'Oswald', sans-serif !important; /* La fuente de inicio */
+}
+
+/* 4. Ajuste de tu Hero para que no se vea el texto tapado por el menú */
+.maint-hero {
+    padding-top: 90px; /* Le damos aire arriba para compensar el menú flotante */
+}
