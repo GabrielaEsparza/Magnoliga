@@ -4,6 +4,8 @@ body {
 }
 .navbar {
     position: sticky;
+    top: 0;
+    background-color: transparent; 
     margin-top: 0;
     left: auto;
     width: 100%;
@@ -67,4 +69,11 @@ body {
     color: var(--magnoliga-orange);
 } 
 
-
+.nombre {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    list-style: none;
+    text-decoration: none; /* ← esto es lo que falta */
+}
