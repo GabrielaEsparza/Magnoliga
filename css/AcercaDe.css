@@ -1,0 +1,171 @@
+body {
+    margin: 0;
+    background-color: #000;
+}
+
+.hero {
+    background-image: url(../assets/AcercaFondo.png);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    position: relative;
+    text-align: center;
+}
+
+.hero::before {
+    content: "";              
+    position: absolute;       
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+.hero > * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding-right: 20px;
+    max-width: 90%;
+}
+
+#navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.hero-content h1 {
+    font-size: clamp(2rem, 7vw, 60px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -2px;
+}
+
+.hero-content p {
+    font-size: clamp(20px, 2.5vw, 18px);
+    letter-spacing: 2px;
+}
+
+.naranja {
+    color: var(--magnoliga-orange);
+}
+
+.card {
+    background: transparent;
+    border: none;
+    max-width: 1200px;
+    margin: 80px auto;
+    margin-bottom: 50px;
+}
+
+.row{
+    display: flex;
+    align-items: stretch;    
+}
+
+.card-body {
+    color: white;
+    padding: 40px;
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.card-text {
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.col-md-4 {
+    display: flex;
+}
+
+.col-md-4 img {
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-columnas {
+    display: flex;
+    gap: 40px;
+    max-width: 80%;
+    border-top: 1px solid var(--chart-3);
+    border-bottom: 1px solid var(--chart-3);
+    text-align: center;
+    margin: 80px auto;
+    padding: 40px 0px 40px 0px;
+}
+
+.contenedor-columnas h2 {
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.columna{
+    flex: 1;
+}
+
+.gris {
+    color: var(--sidebar-ring);
+}
+
+.pilares h3 {
+    font-size: 25px;
+    font-weight: 700;
+    color: white;
+}
+
+.pilares{
+    border: 1px solid var(--chart-3);
+    border-radius: 15px;
+    justify-content: center;
+}
+
+.pilares:hover {
+    border: 1px solid var(--magnoliga-orange)
+}
+.nuestrospilares{
+    color: white;
+    display: flex;
+    font-weight: 700;
+    justify-content: center;
+    margin-top: 150px;
+    margin-bottom: 50px;
+}
+
+.tarjetas {
+    width: 80%;
+    margin:auto;
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.tarjetas 
+.naranja {
+    font-weight: 700;
+}
