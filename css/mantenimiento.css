@@ -1,6 +1,6 @@
 /* Paleta y Configuración Base */
 .bg-magnoliga-dark {
-    background-color: #050505 !important;
+    background-color: #0d121d !important;
     color: #ffffff;
 }
 
@@ -60,8 +60,8 @@
 
 /* TARJETAS ESTILO FIGMA */
 .maint-card {
-    background-color: #111111; /* Fondo oscuro de la card */
-    border: 1px solid #222222; /* Borde sutil inicial */
+    background-color: #0d121d; /* Fondo oscuro de la card */
+    border: 1px solid #36425c; /* Borde sutil inicial */
     border-radius: 15px;
     padding: 40px 25px;
     text-align: center;
@@ -96,7 +96,7 @@
 /* EFECTO HOVER (ILUMINACIÓN NARANJA) */
 .maint-card:hover {
     transform: translateY(-12px);
-    background-color: #000000;
+    background-color: #0d121d;
     border-color: var(--magnoliga-orange); /* Borde naranja neón */
     box-shadow: 0 0 25px rgba(249, 115, 22, 0.4); /* Brillo naranja */
 }
@@ -126,7 +126,7 @@
 /* Admin Box */
 .admin-box {
     border: 1px dashed var(--magnoliga-orange);
-    background: rgba(249, 115, 22, 0.05);
+    background: #0d121d;
     border-radius: 10px;
 }
 
