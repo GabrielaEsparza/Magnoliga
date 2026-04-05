@@ -1,11 +1,11 @@
 <nav class="navbar">
     <div class="contenedor-logo">
         <div class="logo">
-            <a href="../index.html">
-                <img src="../assets/magnoliga-logo.png" alt="Logo Magnoliga">
+            <a href="./index.html">
+                <img src="./assets/magnoliga-logo.png" alt="Logo Magnoliga">
             </a>
         </div>
-        <a href="../index.html" class="nombre"> MAGNOLIGA </a>
+        <a href="./index.html" class="nombre">MAGNOLIGA</a>
     </div>
 
     <button class="navbar-toggle" id="navbarToggle" aria-label="Abrir menú">
@@ -13,29 +13,14 @@
         <span></span>
         <span></span>
     </button>
-        
+
     <ul id="navMenu">
-        <li><a href="#"> ACERCA DE </a></li>
-        <li><a href="../categorias.html"> CATEGORÍAS </a></li>
-        <li><a href="#"> ROL DE JUEGOS </a></li>
-        <li><a href="../Comunicaciones.html"> MAGNOLIGA COMUNICACIONES </a></li>
-        <li><a href="../depoturismo.html"> DEPOTURISMO </a></li>
-        <li><a href="#"> MANTENIMIENTO A INSTALACIONES DEPORTIVAS </a></li>
-        <li><a href="../seccionMagnoliga.html"> SECCIÓN MAGNOLIGA </a></li>
+        <li><a href="#">ACERCA DE</a></li>
+        <li><a href="./categorias.html">CATEGORÍAS</a></li>
+        <li><a href="#">ROL DE JUEGOS</a></li>
+        <li><a href="./Comunicaciones.html">MAGNOLIGA COMUNICACIONES</a></li>
+        <li><a href="./depoturismo.html">DEPOTURISMO</a></li>
+        <li><a href="../mantenimiento.html">MANTENIMIENTO A INSTALACIONES</a></li>
+        <li><a href="./seccionMagnoliga.html">SECCIÓN MAGNOLIGA</a></li>
     </ul>
 </nav>
-
-<script>
-    const toggle = document.getElementById('navbarToggle');
-    const menu = document.getElementById('navMenu');
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        menu.classList.toggle('open');
-    });
-    menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            toggle.classList.remove('open');
-            menu.classList.remove('open');
-        });
-    });
-</script>

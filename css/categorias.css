@@ -1,35 +1,21 @@
-/* --- Sección Hero --- */
-.hero {
+/* Hero: imagen de fondo específica de esta página */
+.page-hero {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+                      url('../assets/magnoliga-categorias.jpg');
+    min-height: 45vh;
+}
+
+/* Sección de tarjetas */
+.categorias-section {
     background-color: var(--magnoliga-black);
-    padding: 80px 20px;
-    text-align: center;
-    border-bottom: 1px solid var(--magnoliga-gray-medium);
+    padding: 4rem 0 5rem;
 }
 
-.hero h1 {
-    color: var(--magnoliga-orange);
-    font-family: var(--font-headings);
-    font-size: 3rem;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.hero p {
-    color: #ffffff;
-    opacity: 0.8;
-    margin-top: 10px;
-}
-
-/* --- Grid de Tarjetas --- */
-section {
-    background-color: var(--magnoliga-black);
-    padding-bottom: 50px;
-}
-
+/* ── Tarjeta de categoría ── */
 .card-basketball {
     position: relative;
     background-color: #1a1a1a;
-    border-radius: 15px; /* Bordes redondeados como la imagen */
+    border-radius: 12px;
     overflow: hidden;
     aspect-ratio: 16 / 10;
     border: none;
@@ -37,16 +23,14 @@ section {
     transition: transform 0.3s ease;
 }
 
-/* Imagen base: Muy oscura por defecto */
 .card-basketball .card-img {
     object-fit: cover;
     height: 100%;
     width: 100%;
-    filter: brightness(0.3) contrast(1.1); /* Súper oscura inicialmente */
+    filter: brightness(0.3) contrast(1.1);
     transition: filter 0.4s ease, transform 0.4s ease;
 }
 
-/* Overlay: Capa de degradado constante para asegurar que el texto se vea */
 .card-basketball .card-img-overlay {
     background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
     display: flex;
@@ -55,7 +39,6 @@ section {
     padding: 15px;
 }
 
-/* Texto: Blanco y centrado */
 .card-basketball .card-title {
     color: #ffffff;
     font-family: var(--font-headings);
@@ -64,63 +47,33 @@ section {
     text-transform: uppercase;
     text-align: center;
     margin: 0;
-    pointer-events: none; /* Evita que el texto interfiera con el hover */
-    text-shadow: 0px 2px 10px rgba(0,0,0,0.9);
+    pointer-events: none;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
 }
 
-/* --- ESTADO HOVER: Resaltar imagen --- */
 .card-basketball:hover {
     transform: scale(1.02);
 }
 
 .card-basketball:hover .card-img {
-    filter: brightness(0.8) contrast(1); /* La imagen se ilumina al pasar el mouse */
+    filter: brightness(0.8) contrast(1);
 }
 
-/* --- ESTADO ACTIVO: Borde Naranja (Magnoliga) --- */
-/* En la imagen de referencia, la primera tiene un resplandor naranja inferior */
 .card-basketball.active {
     outline: 3px solid var(--magnoliga-orange);
     outline-offset: -3px;
 }
 
 .card-basketball.active .card-img-overlay {
-    /* Añade un toque naranja en la base para la tarjeta activa */
-    background: linear-gradient(to top, rgba(249, 115, 22, 0.4) 0%, rgba(0,0,0,0.2) 50%);
+    background: linear-gradient(to top, rgba(249,115,22,0.4) 0%, rgba(0,0,0,0.2) 50%);
 }
 
-.card-basketball.active .card-title {
-    color: #ffffff; /* El texto se mantiene blanco para máximo contraste */
-}
-/* ── Responsive ── */
 @media (max-width: 768px) {
-    .hero {
-        padding: 60px 16px;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .card-basketball .card-title {
-        font-size: 1.2rem;
-    }
+    .card-basketball .card-title { font-size: 1.2rem; }
 }
 
 @media (max-width: 480px) {
-    .hero {
-        padding: 40px 16px;
-    }
-
-    .hero h1 {
-        font-size: 1.6rem;
-    }
-
-    .card-basketball {
-        aspect-ratio: 16 / 9;
-    }
-
-    .card-basketball .card-title {
-        font-size: 1rem;
-    }
+    .card-basketball { aspect-ratio: 16 / 9; }
+    .card-basketball .card-title { font-size: 1rem; }
 }
+
