@@ -1,0 +1,107 @@
+/* Hero: imagen específica de esta página */
+.page-hero {
+    background-image: url('../assets/comunicaciones.png');
+    background-attachment: fixed;
+    min-height: 75vh;
+}
+
+@media (max-width: 768px) {
+    .page-hero { background-attachment: scroll; }
+}
+
+/* ── Cards de servicios ── */
+.card-custom {
+    background-color: var(--magnoliga-gray-dark);
+    border: 1px solid var(--magnoliga-gray-light);
+    padding: 3rem 1.5rem;
+    border-radius: 12px;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.card-custom:hover {
+    transform: translateY(-10px);
+    border-color: var(--magnoliga-orange);
+    box-shadow: 0 10px 30px rgba(249,115,22,0.1);
+}
+
+.icon-circle {
+    width: 65px;
+    height: 65px;
+    background: rgba(249,115,22,0.1);
+    color: var(--magnoliga-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.8rem;
+    border: 1px solid rgba(249,115,22,0.2);
+}
+
+.bg-dark-section { background-color: #050505; }
+
+/* ── Tarjeta de equipo ── */
+.team-card {
+    background: var(--magnoliga-gray-dark);
+    border: 1px solid var(--magnoliga-gray-medium);
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    background: var(--magnoliga-gray-medium);
+    border-color: var(--magnoliga-orange);
+}
+
+.team-card i { color: var(--magnoliga-orange); font-size: 1.5rem; }
+
+.team-card h6 {
+    font-family: var(--font-headings);
+    margin: 0.8rem 0 0.3rem;
+    font-size: 0.9rem;
+}
+
+.team-card span { font-size: 0.7rem; color: #666; text-transform: uppercase; }
+
+/* ── Eventos ── */
+.event-item {
+    background: var(--magnoliga-gray-dark);
+    border: 1px solid var(--magnoliga-gray-medium);
+    padding: 1.25rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.event-item:hover { border-color: var(--magnoliga-orange); }
+
+.event-info-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.event-info-group span {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.event-info-group i {
+    margin-right: 0.5rem;
+    color: var(--magnoliga-orange);
+}
+
+.orange-text { color: var(--magnoliga-orange); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .card-custom { padding: 2rem 1rem; }
+    .icon-circle { width: 50px; height: 50px; font-size: 1.4rem; }
+    .event-item  { padding: 1rem; }
+    .event-info-group { flex-direction: column; gap: 0.5rem; }
+}

@@ -1,0 +1,67 @@
+.page-hero {
+    background-image: linear-gradient(rgba(40,40,40,0.3), rgba(20,20,20,0.5)),
+                      url('../assets/canchamantenimiento.png');
+    min-height: 85vh;
+    align-items: center;
+}
+
+/* ── Tarjetas de servicios ── */
+.maint-card {
+    background-color: #111111;
+    border: 1px solid #222222;
+    border-radius: 15px;
+    padding: 40px 25px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.maint-icon {
+    font-size: 2.5rem;
+    color: var(--magnoliga-orange);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.maint-card h5 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.maint-card p {
+    color: #888888;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.maint-card:hover {
+    transform: translateY(-12px);
+    background-color: #000000;
+    border-color: var(--magnoliga-orange);
+    box-shadow: 0 0 25px rgba(249,115,22,0.3);
+}
+
+.maint-card:hover .maint-icon { transform: scale(1.2); }
+.maint-card:hover h5          { color: var(--magnoliga-orange); }
+
+/* ── Admin box ── */
+.admin-box {
+    border: 1px dashed var(--magnoliga-orange);
+    background: rgba(249,115,22,0.05);
+    border-radius: 10px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .page-hero   { min-height: 40vh; }
+    .maint-card  { padding: 28px 18px; }
+}
+
+@media (max-width: 480px) {
+    .page-hero  { min-height: 35vh; }
+}

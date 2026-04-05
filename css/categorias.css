@@ -1,0 +1,79 @@
+/* Hero: imagen de fondo específica de esta página */
+.page-hero {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+                      url('../assets/magnoliga-categorias.jpg');
+    min-height: 45vh;
+}
+
+/* Sección de tarjetas */
+.categorias-section {
+    background-color: var(--magnoliga-black);
+    padding: 4rem 0 5rem;
+}
+
+/* ── Tarjeta de categoría ── */
+.card-basketball {
+    position: relative;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card-basketball .card-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    filter: brightness(0.3) contrast(1.1);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.card-basketball .card-img-overlay {
+    background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.card-basketball .card-title {
+    color: #ffffff;
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    pointer-events: none;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
+
+.card-basketball:hover {
+    transform: scale(1.02);
+}
+
+.card-basketball:hover .card-img {
+    filter: brightness(0.8) contrast(1);
+}
+
+.card-basketball.active {
+    outline: 3px solid var(--magnoliga-orange);
+    outline-offset: -3px;
+}
+
+.card-basketball.active .card-img-overlay {
+    background: linear-gradient(to top, rgba(249,115,22,0.4) 0%, rgba(0,0,0,0.2) 50%);
+}
+
+@media (max-width: 768px) {
+    .card-basketball .card-title { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+    .card-basketball { aspect-ratio: 16 / 9; }
+    .card-basketball .card-title { font-size: 1rem; }
+}
+
