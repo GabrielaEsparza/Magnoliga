@@ -1,8 +1,20 @@
-/* Hero: imagen de fondo específica de esta página */
+
 .page-hero {
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
                       url('../assets/magnoliga-categorias.jpg');
     min-height: 45vh;
+}
+
+.hero {
+    margin-top: var(--navbar-height); 
+    text-align: center;
+    background-color: #000; 
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 /* Sección de tarjetas */
