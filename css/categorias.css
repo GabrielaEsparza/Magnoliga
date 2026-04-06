@@ -2,23 +2,7 @@
    categorias.css — Magnoliga · Página de Categorías
    ============================================================ */
 
-:root {
-  --or:  #FF5E00;
-  --or2: #cc4b00;
-  --bg:  #0a0a0a;
-  --s1:  #111214;
-  --s2:  #1a1c20;
-  --s3:  #22252b;
-  --bd:  #2a2d33;
-  --tx:  #e8e8e8;
-  --dim: #888;
-  --gr:  #22c55e;
-  --rd:  #ef4444;
-  --r:   10px;
-}
-
 *, *::before, *::after { box-sizing: border-box; }
-body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-serif; margin: 0; }
 
 /* ══ HERO ══════════════════════════════════════════════════════ */
 .page-hero {
@@ -32,7 +16,6 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 }
 .page-hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
 .page-hero-content h1 {
-  font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(3rem,8vw,5.5rem); font-weight: 900;
   text-transform: uppercase; letter-spacing: 4px; line-height: 1; margin-bottom: 8px;
 }
@@ -52,7 +35,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   border-radius: 14px !important; overflow: hidden; cursor: pointer;
   transition: transform .25s, box-shadow .25s;
   position: relative;
-  aspect-ratio: 1 / 1;          /* cuadradas siempre */
+  aspect-ratio: 1 / 1;
 }
 .card-basketball:hover {
   transform: translateY(-6px);
@@ -74,7 +57,6 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   background: linear-gradient(to top, rgba(255,94,0,.72) 0%, rgba(0,0,0,.18) 100%);
 }
 .card-basketball .card-title {
-  font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(1.1rem,2.5vw,1.7rem); letter-spacing: 2px;
   text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,.6);
   text-align: center; margin: 0;
@@ -83,8 +65,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   display: none;
   background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35);
   color: #fff; border-radius: 6px; padding: 5px 16px;
-  font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
-  font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
   cursor: pointer; transition: background .2s; backdrop-filter: blur(4px);
 }
 .card-manage-btn:hover { background: var(--or); border-color: var(--or); }
@@ -137,11 +118,10 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 }
 .cat-modal-hero-cnt { position: relative; padding: 20px 28px; }
 .cat-modal-tag {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   letter-spacing: 3px; color: var(--or); text-transform: uppercase; margin-bottom: 3px;
 }
 .cat-modal-title {
-  font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(1.7rem,4vw,2.8rem); font-weight: 900;
   text-transform: uppercase; line-height: 1; color: #fff;
 }
@@ -153,7 +133,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   border-radius: 8px; color: var(--tx); font-size: 13px;
   padding: 5px 14px; cursor: pointer; z-index: 10;
   transition: background .15s, border-color .15s;
-  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 1px;
+  font-weight: 700; letter-spacing: 1px;
 }
 .cat-modal-close:hover { background: var(--rd); border-color: var(--rd); }
 
@@ -163,7 +143,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 .cat-tab-list li { flex: 1; }
 .cat-tab-list li button {
   width: 100%; padding: 12px 8px; background: none; border: none;
-  color: var(--dim); font-family: 'Barlow Condensed', sans-serif;
+  color: var(--dim);
   font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
   cursor: pointer; transition: color .2s; border-bottom: 2px solid transparent;
 }
@@ -176,15 +156,14 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 .cat-panel.active { display: block; }
 
 .sec-h {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 1.55rem; font-weight: 900;
+  font-size: 1.55rem; font-weight: 900;
   text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; color: #fff;
 }
 
 /* ══ BOTONES ════════════════════════════════════════════════════ */
 .btn {
   padding: 7px 15px; border-radius: 7px;
-  font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
-  font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
   cursor: pointer; border: 1px solid var(--bd); background: none; color: var(--dim);
   transition: all .15s;
 }
@@ -210,7 +189,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   padding: 13px 16px; cursor: pointer; user-select: none; transition: background .15s;
 }
 .jorn-hd:hover { background: var(--s2); }
-.jorn-num { font-family: 'Barlow Condensed', sans-serif; font-size: .92rem; font-weight: 700; text-transform: uppercase; color: #fff; }
+.jorn-num { font-size: .92rem; font-weight: 700; text-transform: uppercase; color: #fff; }
 .jorn-dl  { font-size: 11px; color: var(--or); margin-left: 10px; }
 .chevron  { color: var(--dim); transition: transform .25s; font-size: 13px; }
 .jorn-item.open .chevron { transform: rotate(180deg); }
@@ -227,7 +206,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   display: flex; align-items: center; gap: 4px; background: var(--s3);
   border-radius: 7px; padding: 4px 10px; min-width: 80px; justify-content: center;
 }
-.sv { font-family: 'Barlow Condensed', sans-serif; font-size: 1.35rem; font-weight: 700; }
+.sv { font-size: 1.35rem; font-weight: 700; }
 .sv.w { color: var(--gr); } .sv.l { color: var(--rd); } .ss { color: var(--dim); font-size: .9rem; }
 .time-blk {
   display: flex; align-items: center; gap: 5px; background: var(--s3);
@@ -238,7 +217,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 .add-game-btn {
   display: flex; align-items: center; gap: 7px; padding: 8px 11px; margin-top: 6px;
   background: none; border: 1px dashed var(--bd); border-radius: 7px; color: var(--dim);
-  font-size: 12px; cursor: pointer; width: 100%; transition: all .15s; font-family: 'Barlow', sans-serif;
+  font-size: 12px; cursor: pointer; width: 100%; transition: all .15s;
 }
 .add-game-btn:hover { border-color: var(--or); color: var(--or); }
 .jorn-foot { display: flex; gap: 7px; padding: 7px 11px 0; margin-top: 3px; border-top: 1px solid var(--bd); }
@@ -246,8 +225,8 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 13px; margin-top: 6px; background: none;
   border: 2px dashed var(--bd); border-radius: var(--r); color: var(--dim);
-  font-family: 'Barlow Condensed', sans-serif; font-size: .86rem;
-  font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all .2s;
+  font-size: .86rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer; transition: all .2s;
 }
 .add-jorn-btn:hover { border-color: var(--or); color: var(--or); }
 
@@ -260,7 +239,7 @@ body { background: var(--bg); color: var(--tx); font-family: 'Barlow', sans-seri
 .tabla-hint { font-size: 11px; color: var(--dim); }
 table.st { width: 100%; border-collapse: collapse; }
 table.st th {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+  font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 1px; color: var(--dim);
   padding: 8px 10px; text-align: center; border-bottom: 1px solid var(--bd); background: var(--s2);
 }
@@ -273,10 +252,10 @@ table.st tr:active { cursor: grabbing; }
 table.st tr:hover td { background: var(--s2); }
 table.st tr.dragging  { opacity: .35; }
 table.st tr.drag-over td { border-top: 2px solid var(--or); }
-.rank-n { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 900; color: var(--dim); }
+.rank-n { font-size: 1rem; font-weight: 900; color: var(--dim); }
 .rank-n.top { color: var(--or); }
 .t-name-cell { font-weight: 600; }
-.pts-c { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: var(--or); }
+.pts-c { font-size: 1rem; font-weight: 700; color: var(--or); }
 .ec { outline: none; min-width: 24px; display: inline-block; padding: 2px 4px; border-radius: 4px; cursor: text; }
 .ec:focus { background: var(--s3); outline: 1px solid var(--or); }
 
@@ -292,12 +271,12 @@ table.st tr.drag-over td { border-top: 2px solid var(--or); }
 .eq-av {
   width: 36px; height: 36px; border-radius: 50%; background: var(--s3);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; font-weight: 900; color: var(--or);
+  font-size: .9rem; font-weight: 900; color: var(--or);
   flex-shrink: 0; border: 2px solid rgba(255,94,0,.35);
 }
 .eq-ne {
   font-weight: 700; font-size: 14px; background: none; border: none; color: var(--tx);
-  font-family: 'Barlow', sans-serif; cursor: text; outline: none; padding: 2px 6px;
+  cursor: text; outline: none; padding: 2px 6px;
   border-radius: 4px; max-width: 200px;
 }
 .eq-ne:focus { background: var(--s3); outline: 1px solid var(--or); }
@@ -318,11 +297,10 @@ table.st tr.drag-over td { border-top: 2px solid var(--or); }
 
 table.asist-table { border-collapse: collapse; white-space: nowrap; }
 table.asist-table th {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+  font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 1px; color: var(--dim);
   padding: 6px 7px; text-align: center; border-bottom: 1px solid var(--bd); background: var(--s2);
 }
-/* Primeras 2 columnas pegadas a la izquierda */
 table.asist-table th:nth-child(1) { text-align: left; position: sticky; left: 0; z-index: 2; background: var(--s2); min-width: 44px; }
 table.asist-table th:nth-child(2) { text-align: left; position: sticky; left: 44px; z-index: 2; background: var(--s2); min-width: 110px; }
 table.asist-table td { padding: 7px 7px; border-bottom: 1px solid var(--bd); text-align: center; vertical-align: middle; font-size: 12px; color: var(--tx); background: var(--s1); }
@@ -337,17 +315,16 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 
 .asist-num-input {
   background: none; border: none; color: var(--dim);
-  font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   width: 38px; padding: 2px 4px; border-radius: 4px; outline: none; text-align: center;
 }
 .asist-num-input:focus { background: var(--s3); outline: 1px solid var(--or); }
 .asist-name-input {
   background: none; border: none; color: var(--tx); font-size: 12px;
-  font-family: 'Barlow', sans-serif; outline: none; padding: 2px 4px; border-radius: 4px; width: 100%;
+  outline: none; padding: 2px 4px; border-radius: 4px; width: 100%;
 }
 .asist-name-input:focus { background: var(--s3); outline: 1px solid var(--or); }
 
-/* Botón palomita / tachita */
 .asist-btn {
   width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--bd);
   background: var(--s3); cursor: pointer; font-size: 12px;
@@ -366,7 +343,7 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 .add-player {
   display: flex; align-items: center; gap: 6px; padding: 7px 10px; margin-top: 8px;
   background: none; border: 1px dashed var(--bd); border-radius: 7px; color: var(--dim);
-  font-size: 12px; cursor: pointer; width: 100%; transition: all .15s; font-family: 'Barlow', sans-serif;
+  font-size: 12px; cursor: pointer; width: 100%; transition: all .15s;
 }
 .add-player:hover { border-color: var(--or); color: var(--or); }
 .asist-legend { margin-top: 7px; font-size: 11px; color: var(--dim); }
@@ -374,31 +351,28 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 13px; margin-top: 6px; background: none;
   border: 2px dashed var(--bd); border-radius: var(--r); color: var(--dim);
-  font-family: 'Barlow Condensed', sans-serif; font-size: .86rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all .2s;
+  font-size: .86rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer; transition: all .2s;
 }
 .add-eq-btn:hover { border-color: var(--or); color: var(--or); }
 
 /* ══ GALERÍA ════════════════════════════════════════════════════ */
-
-/* Formulario de agregar media */
 .gal-add-section {
   background: var(--s1); border: 1px solid var(--bd);
   border-radius: var(--r); padding: 18px; margin-bottom: 18px;
 }
 .gal-add-title {
-  font-family: 'Barlow Condensed', sans-serif; font-size: .95rem; font-weight: 700;
+  font-size: .95rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 1px; color: var(--tx); margin-bottom: 12px;
 }
 .gal-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
 .gal-type-btn {
   flex: 1; padding: 7px; border-radius: 7px; border: 1px solid var(--bd); background: none;
-  color: var(--dim); font-family: 'Barlow Condensed', sans-serif; font-size: 13px;
-  font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all .2s;
+  color: var(--dim); font-size: 13px; font-weight: 600; text-transform: uppercase;
+  cursor: pointer; transition: all .2s;
 }
 .gal-type-btn.active { background: var(--or); border-color: var(--or); color: #fff; }
 
-/* Dropzone foto */
 .gal-photo-drop {
   border: 2px dashed var(--bd); border-radius: 9px; height: 100px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -416,7 +390,6 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 .gal-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .gal-form-row.single { grid-template-columns: 1fr; }
 
-/* Grid de fotos/videos */
 .gal-grid { columns: 3 180px; column-gap: 10px; margin-top: 4px; }
 .gal-item {
   break-inside: avoid; margin-bottom: 10px; border-radius: 10px;
@@ -435,14 +408,11 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 .gal-badge {
   position: absolute; bottom: 6px; left: 6px;
   background: rgba(0,0,0,.72); color: var(--or);
-  border-radius: 4px; font-size: 9px;
-  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 1px;
+  border-radius: 4px; font-size: 9px; font-weight: 700; letter-spacing: 1px;
   padding: 2px 6px; text-transform: uppercase;
 }
 .gal-title {
-  padding: 5px 8px; font-size: 11px; font-weight: 600;
-  color: var(--tx); background: var(--s2);
-  font-family: 'Barlow', sans-serif;
+  padding: 5px 8px; font-size: 11px; font-weight: 600; color: var(--tx); background: var(--s2);
 }
 
 /* ══ MODALES INTERNOS ══════════════════════════════════════════ */
@@ -460,7 +430,7 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
   to   { transform: translateY(0);    opacity: 1; }
 }
 .m-title {
-  font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 800;
+  font-size: 1.25rem; font-weight: 800;
   text-transform: uppercase; letter-spacing: .5px; margin-bottom: 14px; color: #fff;
 }
 .mclose {
@@ -472,7 +442,7 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 .fl { display: block; font-size: 10px; font-weight: 600; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
 .fi, .fs {
   width: 100%; background: var(--s2); border: 1px solid var(--bd); border-radius: 7px;
-  color: var(--tx); font-size: 13px; padding: 7px 10px; font-family: 'Barlow', sans-serif;
+  color: var(--tx); font-size: 13px; padding: 7px 10px;
   outline: none; transition: border-color .2s;
 }
 .fi:focus, .fs:focus { border-color: var(--or); }
@@ -480,8 +450,8 @@ table.asist-table tr:hover td:nth-child(2) { background: var(--s2); }
 .ftog { display: flex; gap: 6px; margin-bottom: 12px; }
 .tbtn {
   flex: 1; padding: 7px; border-radius: 7px; border: 1px solid var(--bd); background: none;
-  color: var(--dim); font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
-  font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all .2s;
+  color: var(--dim); font-size: 12px; font-weight: 600; text-transform: uppercase;
+  cursor: pointer; transition: all .2s;
 }
 .tbtn.active { background: var(--or); border-color: var(--or); color: #fff; }
 .mfoot { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
