@@ -1,67 +1,18 @@
 const initialSponsors = [
-  {
-    id: 1,
-    nombre: "Dogos Oscarin",
-    categoria: "Alimentos y Bebidas",
-    desc: "Los mejores hot dogs de Guadalajara",
-    nivel: "Oro",
-    img: ""
-  },
-  {
-    id: 2,
-    nombre: "GTI Automotors",
-    categoria: "Automotriz",
-    desc: "Servicio automotriz de excelencia",
-    nivel: "Oro",
-    img: ""
-  },
-  {
-    id: 3,
-    nombre: "Moda Dental",
-    categoria: "Salud",
-    desc: "Cuidado dental profesional",
-    nivel: "Oro",
-    img: ""
-  },
-  {
-    id: 4,
-    nombre: "PowerSports GDL",
-    categoria: "Deportes",
-    desc: "Equipamiento deportivo profesional",
-    nivel: "Plata",
-    img: ""
-  },
-  {
-    id: 5,
-    nombre: "FitZone",
-    categoria: "Salud y Fitness",
-    desc: "Tu gimnasio de confianza",
-    nivel: "Plata",
-    img: ""
-  },
-  {
-    id: 6,
-    nombre: "Prime Drinks",
-    categoria: "Bebidas",
-    desc: "Hidratación para campeones",
-    nivel: "Bronce",
-    img: ""
-  },
-  {
-    id: 7,
-    nombre: "SneakerZone",
-    categoria: "Calzado",
-    desc: "Las mejores zapatillas deportivas",
-    nivel: "Bronce",
-    img: ""
-  }
+  { id: 1, nombre: "Dogos Oscarin",  categoria: "Alimentos y Bebidas", desc: "Los mejores hot dogs de Guadalajara",    nivel: "Oro",    img: "" },
+  { id: 2, nombre: "GTI Automotors", categoria: "Automotriz",          desc: "Servicio automotriz de excelencia",      nivel: "Oro",    img: "" },
+  { id: 3, nombre: "Moda Dental",    categoria: "Salud",               desc: "Cuidado dental profesional",             nivel: "Oro",    img: "" },
+  { id: 4, nombre: "PowerSports GDL",categoria: "Deportes",            desc: "Equipamiento deportivo profesional",     nivel: "Plata",  img: "" },
+  { id: 5, nombre: "FitZone",        categoria: "Salud y Fitness",     desc: "Tu gimnasio de confianza",               nivel: "Plata",  img: "" },
+  { id: 6, nombre: "Prime Drinks",   categoria: "Bebidas",             desc: "Hidratación para campeones",             nivel: "Bronce", img: "" },
+  { id: 7, nombre: "SneakerZone",    categoria: "Calzado",             desc: "Las mejores zapatillas deportivas",      nivel: "Bronce", img: "" }
 ];
  
 // ===== Estado =====
 let sponsors = JSON.parse(localStorage.getItem('magnoliga_sponsors')) || initialSponsors;
 let nextId = sponsors.length ? Math.max(...sponsors.map(s => s.id)) + 1 : 1;
 let currentFilter = 'all';
-let pendingImageData = null; // base64 de imagen subida
+let pendingImageData = null;
  
 // ===== Guardar en localStorage =====
 function saveSponsors() {
@@ -144,41 +95,13 @@ document.getElementById('filtros').addEventListener('click', e => {
   renderSponsors();
 });
  
-// ===== Formulario agregar =====
-const form = document.getElementById('addSponsorForm');
- 
-form.addEventListener('submit', e => {
-  e.preventDefault();
- 
-  const nombre    = document.getElementById('sp-nombre').value.trim();
-  const categoria = document.getElementById('sp-categoria').value.trim();
-  const desc      = document.getElementById('sp-desc').value.trim();
-  const nivel     = document.getElementById('sp-nivel').value;
-  const imgUrl    = document.getElementById('sp-img-url').value.trim();
- 
-  if (!nombre || !categoria || !desc || !nivel) return;
- 
-  const imgFinal = pendingImageData || imgUrl || '';
- 
-  sponsors.push({ id: nextId++, nombre, categoria, desc, nivel, img: imgFinal });
-  saveSponsors();
- 
-  // Reset form
-  form.reset();
-  clearImagePreview();
-  bootstrap.Modal.getInstance(document.getElementById('addSponsorModal')).hide();
- 
-  // Si el filtro activo coincide o es "all", re-render
-  renderSponsors();
-});
- 
 // ===== Preview imagen =====
-const btnUpload      = document.getElementById('btn-upload-img');
-const fileInput      = document.getElementById('sp-img-file');
-const imgUrlInput    = document.getElementById('sp-img-url');
-const previewBox     = document.getElementById('img-preview-container');
-const previewImg     = document.getElementById('sp-img-preview');
-const btnRemoveImg   = document.getElementById('btn-remove-img');
+const btnUpload    = document.getElementById('btn-upload-img');
+const fileInput    = document.getElementById('sp-img-file');
+const imgUrlInput  = document.getElementById('sp-img-url');
+const previewBox   = document.getElementById('img-preview-container');
+const previewImg   = document.getElementById('sp-img-preview');
+const btnRemoveImg = document.getElementById('btn-remove-img');
  
 btnUpload.addEventListener('click', () => fileInput.click());
  
@@ -221,11 +144,43 @@ function clearImagePreview() {
   previewBox.style.display = 'none';
 }
  
-// Limpiar preview al cerrar modal
-document.getElementById('addSponsorModal').addEventListener('hidden.bs.modal', () => {
-  form.reset();
-  clearImagePreview();
+// ===== Botón Agregar patrocinador (reemplaza form submit) =====
+document.getElementById('submitSponsor').addEventListener('click', () => {
+  const nombre    = document.getElementById('sp-nombre').value.trim();
+  const categoria = document.getElementById('sp-categoria').value.trim();
+  const desc      = document.getElementById('sp-desc').value.trim();
+  const nivel     = document.getElementById('sp-nivel').value;
+  const imgUrl    = document.getElementById('sp-img-url').value.trim();
+ 
+  if (!nombre || !categoria || !desc || !nivel) return;
+ 
+  const imgFinal = pendingImageData || imgUrl || '';
+ 
+  sponsors.push({ id: nextId++, nombre, categoria, desc, nivel, img: imgFinal });
+  saveSponsors();
+ 
+  // Reset campos manualmente (no hay form.reset())
+  document.getElementById('sp-nombre').value    = '';
+  document.getElementById('sp-categoria').value = '';
+  document.getElementById('sp-desc').value      = '';
+  document.getElementById('sp-nivel').value     = '';
+  document.getElementById('sp-img-url').value   = '';
   fileInput.value = '';
+  clearImagePreview();
+ 
+  bootstrap.Modal.getInstance(document.getElementById('addSponsorModal')).hide();
+  renderSponsors();
+});
+ 
+// Limpiar al cerrar el modal
+document.getElementById('addSponsorModal').addEventListener('hidden.bs.modal', () => {
+  document.getElementById('sp-nombre').value    = '';
+  document.getElementById('sp-categoria').value = '';
+  document.getElementById('sp-desc').value      = '';
+  document.getElementById('sp-nivel').value     = '';
+  document.getElementById('sp-img-url').value   = '';
+  fileInput.value = '';
+  clearImagePreview();
 });
  
 // ===== Init =====
