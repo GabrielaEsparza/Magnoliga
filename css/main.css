@@ -152,7 +152,7 @@ em, i     { font-style: italic; }
   padding-top: var(--navbar-height);
   padding-left: 1rem;
   padding-right: 1rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .page-hero::before {

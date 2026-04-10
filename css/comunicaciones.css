@@ -2,7 +2,7 @@
 .page-hero {
     background-image: url('../assets/comunicaciones.png');
     background-attachment: fixed;
-    min-height: 75vh;
+    min-height: 85vh;
 }
 
 @media (max-width: 768px) {
