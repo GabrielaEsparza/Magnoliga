@@ -9,22 +9,44 @@
 /* ============================================================
    HERO SECTION (Título y Subtítulo)
    ============================================================ */
-.game-hero {
-    min-height: 55vh;
-    background: linear-gradient(rgba(3, 10, 22, 0.7), rgba(3, 10, 22, 0.9)),
-                url('../assets/canchaoscura.png'); /* Usa tu imagen generada */
+
+/* Usamos .page-hero para que use los estilos base de mantenimiento */
+.page-hero {
+    background-image: linear-gradient(rgba(194, 194, 194, 0.151), rgba(136, 136, 136, 0.212)),
+                      url('../assets/canchaoscura.png'); 
     background-size: cover;
     background-position: center;
-    padding-top: 100px;
+    min-height: 85vh; /* Altura idéntica */
+    display: flex;
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
     position: relative;
+    padding: 0; /* Limpiamos cualquier padding que esté estirando la imagen */
+}
+
+.page-hero-content {
+    z-index: 1;
+    width: 100%;
+}
+
+.page-hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.page-hero-content p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .hero-title {
     font-family: 'Oswald', sans-serif;
     font-size: 3.5rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    color: #ffffff;
+    margin: 0; /* Quitamos márgenes que estiran la caja */
 }
 
 .hero-subtitle {
@@ -217,6 +239,29 @@
 
 @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
+}
+/* AGREGA ESTO AL FINAL DE TU CSS */
+.bg-input {
+    background-color: #222 !important;
+    color: white !important;
+    border: 1px solid #333 !important;
+}
+
+.match-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.match-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-btns .btn {
+    padding: 2px 8px;
+    font-size: 1.1rem;
 }
 
 /* Responsividad */

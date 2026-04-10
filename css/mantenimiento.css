@@ -1,5 +1,5 @@
 .page-hero {
-    background-image: linear-gradient(rgba(40,40,40,0.3), rgba(20,20,20,0.5)),
+    background-image: linear-gradient(rgba(194, 194, 194, 0.151), rgba(136, 136, 136, 0.212)),
                       url('../assets/canchamantenimiento.png');
     min-height: 85vh;
     align-items: center;
@@ -65,3 +65,44 @@
 @media (max-width: 480px) {
     .page-hero  { min-height: 35vh; }
 }
+/* Estilos para la galería de mantenimiento */
+.bg-card { background-color: #1a1a1a !important; }
+.bg-input { background-color: #222222 !important; }
+
+.dropzone {
+    border: 2px dashed #444;
+    border-radius: 15px;
+    min-height: 200px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.02);
+}
+.dropzone:hover {
+    border-color: var(--magnoliga-orange);
+    background: rgba(249,115,22,0.05);
+}
+
+.photo-preview-box {
+    border: 2px dashed #444;
+    border-radius: 10px;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.photo-preview-box img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+}
+
+.user-card { position: relative; }
+.user-card .remove-btn {
+    position: absolute; top: 10px; right: 10px; z-index: 10;
+    background: rgba(0,0,0,0.8); border: none; color: white;
+    width: 30px; height: 30px; border-radius: 50%;
+}
+
+.gallery-img { height: 250px; object-fit: cover; border-radius: 10px 10px 0 0; }
