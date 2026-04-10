@@ -7,6 +7,7 @@ body{background:#0a0a0f;color:#e8e8ee;font-family:inherit}
 /* ── HERO ── */
 .page-hero{
   position:relative;
+  min-height: 85vh;
   height:380px;
   display:flex;
   flex-direction:column;
@@ -16,7 +17,9 @@ body{background:#0a0a0f;color:#e8e8ee;font-family:inherit}
   gap:12px;
   background:url("../assets/depoturismo.png") center/cover no-repeat;
   overflow:hidden
+  
 }
+
 
 .page-hero::after{
   content:'';
