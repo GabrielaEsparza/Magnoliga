@@ -106,3 +106,20 @@
 }
 
 .gallery-img { height: 250px; object-fit: cover; border-radius: 10px 10px 0 0; }
+
+@media (max-width: 900px) {
+    .page-hero {
+        padding-top: 130px !important;
+        margin-top: -70px !important;
+        min-height: 60vh !important;  /* más espacio para respirar */
+    }
+    .maint-card { padding: 28px 18px; }
+}
+
+@media (max-width: 480px) {
+    .page-hero {
+        padding-top: 110px !important;
+        margin-top: -60px !important;
+        min-height: 55vh !important;
+    }
+}
