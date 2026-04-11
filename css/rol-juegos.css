@@ -24,37 +24,7 @@
     padding: 0; /* Limpiamos cualquier padding que esté estirando la imagen */
 }
 
-.page-hero-content {
-    z-index: 1;
-    width: 100%;
-}
-
-.page-hero-content h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-}
-
-.page-hero-content p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.hero-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin: 0; /* Quitamos márgenes que estiran la caja */
-}
-
-.hero-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.85);
-}
+/* page-hero-content: heredado de main.css */
 
 /* ============================================================
    CUADRÍCULA COMPACTA DE CATEGORÍAS (CSS Grid)
@@ -96,7 +66,7 @@
 /* EFECTO AL PASAR EL MOUSE (Iluminación Naranja y Brillo) */
 .category-card:hover {
     transform: translateY(-8px) scale(1.02);
-    border-color: #f97316; /* Naranja Magnoliga */
+    border-color: var(--magnoliga-orange); /* Naranja Magnoliga */
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -117,7 +87,7 @@
 }
 
 .category-card h3 { 
-    font-family: 'Oswald', sans-serif; 
+    font-family: var(--font-headings); 
     font-weight: 700; 
     text-transform: uppercase; 
     font-size: 2.2rem; /* Título grande y sólido */
@@ -128,7 +98,7 @@
 }
 
 .category-card p {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
     font-weight: 600;
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
@@ -137,7 +107,7 @@
 
 /* EFECTO AL PASAR EL MOUSE: Título cambia a naranja */
 .category-card:hover .card-content-centered h3 {
-    color: #f97316;
+    color: var(--magnoliga-orange);
 }
 
 /* ============================================================
@@ -154,17 +124,17 @@
     align-items: center;
 }
 
-.text-orange { color: #f97316 !important; }
+.text-orange { color: var(--magnoliga-orange) !important; }
 
 .category-card .date {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
     font-weight: 700;
     font-size: 0.85rem;
-    color: #f97316; /* Naranja */
+    color: var(--magnoliga-orange); /* Naranja */
 }
 
 .category-card .click-prompt {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.5);
     font-style: italic;
@@ -180,7 +150,7 @@
 /* --- ESTILO DE LA NOTA IMPORTANTE --- */
 .important-note-box {
     background-color: rgba(249, 115, 22, 0.05); /* Naranja muy suave de fondo */
-    border-left: 4px solid #f97316; /* Línea naranja lateral */
+    border-left: 4px solid var(--magnoliga-orange); /* Línea naranja lateral */
     padding: 25px;
     border-radius: 8px;
     border-top: 1px solid rgba(249, 115, 22, 0.1);
@@ -189,20 +159,20 @@
 }
 
 .important-note-box h4 {
-    font-family: 'Oswald', sans-serif;
+    font-family: var(--font-headings);
     text-transform: uppercase;
     letter-spacing: 1px;
     color: #ffffff;
 }
 
 .important-note-box p {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.95rem;
     line-height: 1.6;
 }
 
-.text-orange { color: #f97316 !important; }
+.text-orange { color: var(--magnoliga-orange) !important; }
 /* ============================================================
    SECCIÓN DETALLE (Naranja Transparente)
    ============================================================ */
