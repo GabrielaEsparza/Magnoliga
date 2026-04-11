@@ -25,43 +25,51 @@
     </header>
 
     <section class="py-5 text-center bg-black">
-        <div class="container">
-            <h2 class="section-title mb-2">NUESTROS SERVICIOS</h2>
-            <p class="section-subtitle mb-5">Cobertura profesional de eventos deportivos de baloncesto.</p>
+    <div class="container">
+        <h2 class="section-title mb-2">NUESTROS SERVICIOS</h2>
+        <p class="section-subtitle mb-5">Cobertura profesional de eventos deportivos de baloncesto.</p>
 
-            <div class="row g-4 justify-content-center">
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <div class="icon-circle mb-3"><i class="fas fa-microphone"></i></div>
-                        <h5>Narración en vivo</h5>
-                        <p>Cobertura profesional de eventos deportivos con narración dinámica y emocionante.</p>
-                    </div>
+        <div id="contenedor-servicios" class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-circle mb-3"><i class="fas fa-microphone"></i></div>
+                    <h5>Narración en vivo</h5>
+                    <p>Cobertura profesional de eventos deportivos con narración dinámica y emocionante.</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <div class="icon-circle mb-3"><i class="fas fa-video"></i></div>
-                        <h5>Producción Audiovisual</h5>
-                        <p>Grabación y transmisión de partidos para plataformas digitales y redes sociales.</p>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-circle mb-3"><i class="fas fa-video"></i></div>
+                    <h5>Producción Audiovisual</h5>
+                    <p>Grabación y transmisión de partidos para plataformas digitales y redes sociales.</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="card-custom">
-                        <div class="icon-circle mb-3"><i class="fas fa-rss"></i></div>
-                        <h5>Comentarios y Análisis</h5>
-                        <p>Análisis detallado de jugadas, estrategias y desempeño de equipos y jugadores.</p>
-                    </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-circle mb-3"><i class="fas fa-rss"></i></div>
+                    <h5>Comentarios y Análisis</h5>
+                    <p>Análisis detallado de jugadas, estrategias y desempeño de equipos y jugadores.</p>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="mt-4">
+            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#modalServicio">
+                <i class="fas fa-plus"></i> Agregar Servicio
+            </button>
+        </div>
+    </div>
+</section>
 
-    <section class="py-5 text-center bg-dark-section">
-        <div class="container">
-            <h2 class="section-title mb-2">EQUIPOS QUE CUBRIMOS</h2>
-            <p class="section-subtitle mb-5">Además de Magnoliga, narramos eventos de equipos regionales y estatales.</p>
+<section class="py-5 text-center bg-black">
+    <div class="container">
+        <div class="mb-5">
+            <i class="fas fa-users-cog text-orange fa-2x mb-3"></i>
+            <h2 class="section-title">EQUIPOS QUE CUBRIMOS</h2>
+            <p class="section-subtitle">Además de Magnoliga, narramos eventos de equipos regionales y estatales.</p>
+        </div>
 
-            <div class="row g-3 justify-content-center">
-                <div class="col-6 col-md-2">
+        <div id="contenedor-equipos" class="row g-3 justify-content-center">
+            <div class="col-6 col-md-2">
                     <div class="team-card">
                         <i class="fas fa-trophy mb-2"></i>
                         <h6>Los Lakers</h6>
@@ -102,65 +110,172 @@
                         <h6>Phoenix Suns</h6>
                         <span>Externo</span>
                     </div>
+            </div>
+            </div>
+        
+        <div class="mt-4">
+            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#modalEquipo">
+                <i class="fas fa-plus"></i> Agregar Equipo
+            </button>
+        </div>
+    </div>
+</section>
+
+   <section class="py-5 bg-black">
+    <div class="container text-center">
+        <h2 class="section-title mb-2">EVENTOS CUBIERTOS RECIENTEMENTE</h2>
+        <p class="section-subtitle mb-5">Nuestra cobertura profesional de eventos deportivos.</p>
+
+        <div id="contenedor-eventos" class="event-list mx-auto" style="max-width: 800px">
+            
+            <div class="event-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="text-start">
+                        <h6>Final Regional Lakers vs Celtics</h6>
+                        <div class="event-info-group">
+                            <span><i class="far fa-calendar-alt"></i> 14 de marzo de 2026</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Arena Centro</span>
+                        </div>
+                        <p>Cobertura completa de la final regional con transmisión en vivo y análisis post-partido.</p>
+                    </div>
+                    <i class="fas fa-video orange-text fa-lg"></i>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="py-5 bg-black">
-        <div class="container text-center">
-            <h2 class="section-title mb-2">EVENTOS CUBIERTOS</h2>
-            <p class="section-subtitle mb-5">Nuestra cobertura profesional de eventos deportivos.</p>
-
-            <div class="event-list mx-auto" style="max-width: 800px">
-                <div class="event-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="text-start">
-                            <h6>Final Regional Lakers vs Celtics</h6>
-                            <div class="event-info-group">
-                                <span><i class="far fa-calendar-alt"></i> 14 de marzo de 2026</span>
-                                <span><i class="fas fa-trophy"></i> Arena Centro</span>
-                            </div>
-                            <p class="mt-3">Cobertura completa de la final regional con transmisión en vivo y análisis post-partido.</p>
+            <div class="event-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="text-start">
+                        <h6>Torneo Estatal Warriors United</h6>
+                        <div class="event-info-group">
+                            <span><i class="far fa-calendar-alt"></i> 7 de marzo de 2026</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Estadio Municipal</span>
                         </div>
-                        <i class="fas fa-video orange-text fa-lg"></i>
+                        <p>Narración de semifinales y final del torneo estatal con entrevistas exclusivas.</p>
                     </div>
-                </div>
-
-                <div class="event-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="text-start">
-                            <h6>Torneo Estatal Warriors United</h6>
-                            <div class="event-info-group">
-                                <span><i class="far fa-calendar-alt"></i> 7 de marzo de 2025</span>
-                                <span><i class="fas fa-trophy"></i> Estadio Municipal</span>
-                            </div>
-                            <p class="mt-3">Narración de semifinales y final del torneo estatal con entrevistas exclusivas.</p>
-                        </div>
-                        <i class="fas fa-video orange-text fa-lg"></i>
-                    </div>
-                </div>
-
-                <div class="event-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="text-start">
-                            <h6>Clásico Anual Heat Team</h6>
-                            <div class="event-info-group">
-                                <span><i class="far fa-calendar-alt"></i> 27 de febrero de 2026</span>
-                                <span><i class="fas fa-trophy"></i> Gimnasio Deportivo</span>
-                            </div>
-                            <p class="mt-3">Transmisión del clásico anual con cobertura especial y comentarios técnicos.</p>
-                        </div>
-                        <i class="fas fa-video orange-text fa-lg"></i>
-                    </div>
+                    <i class="fas fa-video orange-text fa-lg"></i>
                 </div>
             </div>
+
+            <div class="event-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="text-start">
+                        <h6>Clásico Anual Heat Team</h6>
+                        <div class="event-info-group">
+                            <span><i class="far fa-calendar-alt"></i> 27 de febrero de 2026</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Gimnasio Deportivo</span>
+                        </div>
+                        <p>Transmisión del clásico anual con cobertura especial y comentarios técnicos.</p>
+                    </div>
+                    <i class="fas fa-video orange-text fa-lg"></i>
+                </div>
+            </div>
+
+        </div> <div class="mt-4">
+            <button class="btn btn-orange m-2" data-bs-toggle="modal" data-bs-target="#modalEvento">
+                <i class="fas fa-calendar-plus"></i> Agregar Evento
+            </button>
         </div>
-    </section>
+    </div>
+</section>
+
+    <!--Modal eventos-->
+    <div class="modal fade" id="modalEvento" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-orange">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title orange-text">NUEVO EVENTO</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formEvento">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Partido/Evento</label>
+                        <input type="text" class="form-control admin-input" placeholder="Ej: Lakers vs Celtics" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-control admin-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lugar / Sede</label>
+                        <input type="text" class="form-control admin-input" placeholder="Ej: Arena Guadalajara">
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="submit" class="btn btn-orange w-100">Publicar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal Equipos-->
+
+<div class="modal fade" id="modalEquipo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-orange">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title orange-text">REGISTRAR EQUIPO</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formEquipo">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del Equipo</label>
+                        <input type="text" class="form-control admin-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Equipo</label>
+                        <select class="form-select admin-input">
+                            <option value="interno">Magnoliga (Local)</option>
+                            <option value="externo">Invitado (Regional)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="submit" class="btn btn-orange w-100">Guardar Equipo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal Servicios-->
+
+<div class="modal fade" id="modalServicio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-orange">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title orange-text">NUEVO SERVICIO</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formServicio">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Título del Servicio</label>
+                        <input type="text" class="form-control admin-input" placeholder="Ej: Fotografía Profesional" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción Corta</label>
+                        <textarea class="form-control admin-input" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Icono (FontAwesome)</label>
+                        <input type="text" class="form-control admin-input" placeholder="Ej: fa-camera">
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="submit" class="btn btn-orange w-100">Agregar Servicio</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
     <div id="footer"></div>
 
     <script src="./JS/main.js"></script>
+    <script src="./JS/comunicaciones.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
