@@ -43,7 +43,7 @@ body{background:#0a0a0f;color:#e8e8ee;font-family:inherit}
   font-weight:700;
   font-size:.95rem;
   cursor:pointer;
-  transition:background .18s,transform .12s
+  transition: background: .18s,transform .12s
 }
 .btn-orange:hover{background:#e05500;transform:translateY(-1px)}
 
@@ -174,7 +174,7 @@ body{background:#0a0a0f;color:#e8e8ee;font-family:inherit}
   line-height:1;
   padding:.2rem .4rem;
   border-radius:4px;
-  transition:color .15s,background .15s
+  transition:color .15s, backgroundÑ .15s
 }
 .btn-close:hover{color:#fff;background:#222}
 
@@ -217,3 +217,38 @@ body{background:#0a0a0f;color:#e8e8ee;font-family:inherit}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#0a0a0f}
 ::-webkit-scrollbar-thumb{background:#2a2a3e;border-radius:3px}
+
+/* Contenedor relativo para posicionar la X */
+.card-admin-item {
+    position: relative;
+}
+
+/* Botón de eliminar (La X) */
+.btn-delete {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.btn-delete:hover {
+    background: #cc0000;
+    transform: scale(1.2);
+}
+
+/* Ocultar botones de eliminar por defecto (Opcional) */
+/* Puedes añadir una lógica para que solo se vean si activas un "Modo Edición" */
