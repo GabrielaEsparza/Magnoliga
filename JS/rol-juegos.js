@@ -1,117 +1,177 @@
 (function () {
-    // Datos iniciales para que no se vea vacío
+
+    // ── Estado ──────────────────────────────────────────────────────
     let partidosData = [
-        { categoria: 'cat_1', t1: 'LOBOS GDL', t2: 'SPARTANS', hora: '18:00 HRS', cancha: 'Cancha 1' },
-        { categoria: 'cat_1', t1: 'TITANES', t2: 'REYES', hora: '20:00 HRS', cancha: 'Cancha 2' },
-        { categoria: 'cat_2', t1: 'EQUIPO A', t2: 'EQUIPO B', hora: '19:00 HRS', cancha: 'Cancha Central' }
+        { categoria: 'cat_1', t1: 'LOBOS GDL', t2: 'SPARTANS', fecha: '2026-03-29', hora: '18:00', cancha: 'Cancha 1 - Domo Code' },
+        { categoria: 'cat_1', t1: 'TITANES',   t2: 'REYES',    fecha: '2026-03-29', hora: '20:00', cancha: 'Cancha 2' },
+        { categoria: 'cat_2', t1: 'EQUIPO A',  t2: 'EQUIPO B', fecha: '2026-03-29', hora: '19:00', cancha: 'Cancha Central' }
     ];
 
-    let editIndex = null;
-    let categoriaActual = "";
+    let editIndex       = null;
+    let categoriaActual = '';
     let matchModal;
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // Inicializar modal
-        const modalEl = document.getElementById('matchModal');
-        if(modalEl) matchModal = new bootstrap.Modal(modalEl);
-        
-        const btnSave = document.getElementById('btn-save-match');
-        const btnAdd = document.getElementById('btn-add-match');
+    // ── Helpers ─────────────────────────────────────────────────────
+    function formatHora(time24) {
+        if (!time24) return '';
+        const [h, m] = time24.split(':').map(Number);
+        const suffix = h >= 12 ? 'PM' : 'AM';
+        const h12    = ((h % 12) || 12);
+        return `${h12}:${String(m).padStart(2, '0')} ${suffix}`;
+    }
 
-        if(btnAdd) {
-            btnAdd.onclick = () => {
-                editIndex = null;
-                document.getElementById('matchModalLabel').innerText = "Nuevo Partido";
-                document.getElementById('team1').value = "";
-                document.getElementById('team2').value = "";
-                document.getElementById('matchTime').value = "";
-                document.getElementById('matchCourt').value = "";
-                matchModal.show();
-            };
-        }
+    function formatFecha(dateStr) {
+        if (!dateStr) return '';
+        const [y, m, d] = dateStr.split('-');
+        const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        return `${parseInt(d)} ${meses[parseInt(m) - 1]} ${y}`;
+    }
 
-        if(btnSave) {
-            btnSave.onclick = () => {
-                const p = {
-                    categoria: categoriaActual,
-                    t1: document.getElementById('team1').value,
-                    t2: document.getElementById('team2').value,
-                    hora: document.getElementById('matchTime').value,
-                    cancha: document.getElementById('matchCourt').value
-                };
-                if(editIndex === null) { partidosData.push(p); } 
-                else { partidosData[editIndex] = p; }
-                matchModal.hide();
-                renderPartidos();
-            };
-        }
-    });
-
-    // Función que recibe los datos de la card
-    window.expandirPartidos = function(catId, titulo, fecha) {
-        categoriaActual = catId;
-        
-        // Poner el título y fecha en el cuadro naranja
-        document.getElementById('expanded-cat-title').innerText = titulo;
-        if(fecha) document.getElementById('expanded-cat-date').innerText = fecha;
-        
-        document.getElementById('categories-grid').classList.add('d-none');
-        document.querySelector('.important-note-box').classList.add('d-none');
-        document.getElementById('matches-section').classList.remove('d-none');
-        
-        renderPartidos();
-    };
-
-    window.renderPartidos = function() {
+    // ── Render ──────────────────────────────────────────────────────
+    function renderPartidos() {
         const container = document.getElementById('matches-container');
-        container.innerHTML = "";
-        
-        // Solo mostramos los de la categoría seleccionada
-        partidosData.forEach((p, index) => {
-            if(p.categoria === categoriaActual) {
-                const div = document.createElement('div');
-                div.className = "match-item d-flex justify-content-between align-items-center p-3 mb-2 reveal-up";
-                div.innerHTML = `
+        const empty     = document.getElementById('matches-empty');
+        container.innerHTML = '';
+
+        const lista = partidosData
+            .map((p, i) => ({ ...p, _idx: i }))
+            .filter(p => p.categoria === categoriaActual);
+
+        if (lista.length === 0) {
+            empty.classList.remove('d-none');
+            return;
+        }
+        empty.classList.add('d-none');
+
+        lista.forEach(function (p) {
+            const div = document.createElement('div');
+            div.className = 'match-item p-3 mb-3 reveal-up';
+
+            div.innerHTML = `
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                     <div class="teams flex-grow-1">
-                        <span class="fw-bold text-white">${p.t1}</span>
-                        <span class="mx-3 text-orange fw-bold">VS</span>
-                        <span class="fw-bold text-white">${p.t2}</span>
+                        <span class="fw-bold text-white fs-6">${p.t1}</span>
+                        <span class="mx-2 mx-sm-3 text-orange fw-bold">VS</span>
+                        <span class="fw-bold text-white fs-6">${p.t2}</span>
                     </div>
-                    <div class="text-end me-4">
-                        <span class="d-block text-white fw-bold">${p.hora}</span>
-                        <span class="small text-white-50">${p.cancha}</span>
+                    <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                        <div class="text-end">
+                            <span class="d-block text-white fw-bold">${formatHora(p.hora)}</span>
+                            <span class="small text-white-50">${p.cancha}</span>
+                            ${p.fecha ? `<span class="d-block small text-orange">${formatFecha(p.fecha)}</span>` : ''}
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-edit text-warning p-1" data-idx="${p._idx}" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-del text-danger p-1" data-idx="${p._idx}" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="btns">
-                        <button class="btn btn-sm text-warning" onclick="editarPartido(${index})"><i class="bi bi-pencil-square"></i></button>
-                        <button class="btn btn-sm text-danger" onclick="eliminarPartido(${index})"><i class="bi bi-trash"></i></button>
-                    </div>
-                `;
-                container.appendChild(div);
-            }
+                </div>
+            `;
+
+            container.appendChild(div);
         });
-    };
 
-    window.editarPartido = function(idx) {
-        editIndex = idx;
-        const p = partidosData[idx];
-        document.getElementById('team1').value = p.t1;
-        document.getElementById('team2').value = p.t2;
-        document.getElementById('matchTime').value = p.hora;
-        document.getElementById('matchCourt').value = p.cancha;
-        document.getElementById('matchModalLabel').innerText = "Editar Partido";
+        container.querySelectorAll('.btn-edit').forEach(function (btn) {
+            btn.addEventListener('click', function () { editarPartido(parseInt(this.dataset.idx)); });
+        });
+        container.querySelectorAll('.btn-del').forEach(function (btn) {
+            btn.addEventListener('click', function () { eliminarPartido(parseInt(this.dataset.idx)); });
+        });
+    }
+
+    // ── Modal nuevo ─────────────────────────────────────────────────
+    function abrirModalNuevo() {
+        editIndex = null;
+        document.getElementById('matchModalLabel').innerText = 'Agregar partido';
+        document.getElementById('matchDate').value  = '';
+        document.getElementById('matchTime').value  = '';
+        document.getElementById('matchCourt').value = '';
+        document.getElementById('team1').value      = '';
+        document.getElementById('team2').value      = '';
+        document.getElementById('match-error').classList.add('d-none');
         matchModal.show();
-    };
+    }
 
-    window.eliminarPartido = function(idx) {
-        if(confirm("¿Borrar partido?")) {
+    // ── Editar ──────────────────────────────────────────────────────
+    function editarPartido(idx) {
+        editIndex = idx;
+        const p   = partidosData[idx];
+        document.getElementById('matchModalLabel').innerText = 'Editar partido';
+        document.getElementById('matchDate').value  = p.fecha  || '';
+        document.getElementById('matchTime').value  = p.hora   || '';
+        document.getElementById('matchCourt').value = p.cancha || '';
+        document.getElementById('team1').value      = p.t1     || '';
+        document.getElementById('team2').value      = p.t2     || '';
+        document.getElementById('match-error').classList.add('d-none');
+        matchModal.show();
+    }
+
+    // ── Eliminar ────────────────────────────────────────────────────
+    function eliminarPartido(idx) {
+        if (confirm('¿Eliminar este partido?')) {
             partidosData.splice(idx, 1);
             renderPartidos();
         }
+    }
+
+    // ── Guardar ─────────────────────────────────────────────────────
+    function guardarPartido() {
+        const t1     = document.getElementById('team1').value.trim();
+        const t2     = document.getElementById('team2').value.trim();
+        const hora   = document.getElementById('matchTime').value.trim();
+        const cancha = document.getElementById('matchCourt').value.trim();
+        const fecha  = document.getElementById('matchDate').value;
+
+        if (!t1 || !t2 || !hora || !cancha) {
+            document.getElementById('match-error').classList.remove('d-none');
+            return;
+        }
+        document.getElementById('match-error').classList.add('d-none');
+
+        const partido = { categoria: categoriaActual, t1, t2, hora, cancha, fecha };
+
+        if (editIndex === null) {
+            partidosData.push(partido);
+        } else {
+            partidosData[editIndex] = partido;
+        }
+
+        matchModal.hide();
+        renderPartidos();
+    }
+
+    // ── Expandir categoría ──────────────────────────────────────────
+    window.expandirPartidos = function (catId, titulo, fecha) {
+        categoriaActual = catId;
+        document.getElementById('expanded-cat-title').innerText = titulo || 'Categoría';
+        document.getElementById('expanded-cat-date').innerText  = fecha  || '';
+        document.getElementById('categories-grid').classList.add('d-none');
+        document.getElementById('nota-importante').classList.add('d-none');
+        document.getElementById('matches-section').classList.remove('d-none');
+        renderPartidos();
+        document.getElementById('matches-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
-    window.cerrarPartidos = function() {
+    // ── Cerrar ──────────────────────────────────────────────────────
+    window.cerrarPartidos = function () {
         document.getElementById('matches-section').classList.add('d-none');
         document.getElementById('categories-grid').classList.remove('d-none');
-        document.querySelector('.important-note-box').classList.remove('d-none');
+        document.getElementById('nota-importante').classList.remove('d-none');
     };
+
+    // ── Init ────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalEl = document.getElementById('matchModal');
+        if (modalEl) matchModal = new bootstrap.Modal(modalEl);
+
+        const btnAdd  = document.getElementById('btn-add-match');
+        const btnSave = document.getElementById('btn-save-match');
+        if (btnAdd)  btnAdd.addEventListener('click',  abrirModalNuevo);
+        if (btnSave) btnSave.addEventListener('click', guardarPartido);
+    });
+
 })();

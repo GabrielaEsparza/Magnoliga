@@ -4,44 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rol de Juegos - Magnoliga</title>
-    <link rel="icon" type="image/x-icon" href="/assets/magnoliga-logo.jpg"> <!--favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/magnoliga-logo.jpg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/navbar.css"/>
     <link rel="stylesheet" href="./css/footer.css" />
-    <link rel="stylesheet" href="./css/rol-juegos.css" /> </head>
+    <link rel="stylesheet" href="./css/rol-juegos.css" />
+</head>
 <body class="bg-magnoliga-dark">
 
     <div id="navbar"></div>
 
-   <header class="page-hero">
-    <div class="page-hero-content reveal-up text-center">
-        <h1>ROL DE JUEGOS</h1>
-        <p>Consulta los partidos programados de esta semana por categoría</p>
-    </div>
-</header>
+    <header class="page-hero">
+        <div class="page-hero-content reveal-up text-center">
+            <h1>ROL DE JUEGOS</h1>
+            <p>Consulta los partidos programados de esta semana por categoría</p>
+        </div>
+    </header>
 
     <section class="py-5">
         <div class="container">
-            <div id="admin-category-actions" class="text-center mb-5 d-none">
-                <button class="btn btn-orange btn-sm" onclick="abrirModalCategoria('crear')">
-                    <i class="bi bi-plus-circle me-1"></i> Agregar Nueva Categoría
-                </button>
-            </div>
 
+            <!-- Grid de categorías -->
             <div id="categories-grid" class="mb-5">
-                
+
                 <div class="reveal-up">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_1')" style="background-image: url('./assets/+40.jpeg');">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_1', '+40', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/+40.jpeg');">
                         <div class="card-overlay"></div>
-                        
                         <div class="card-content-centered text-center">
                             <h3>+40</h3>
-                            <p>La edad es solo un numero</p>
+                            <p>La edad es solo un número</p>
                         </div>
-                        
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
                             <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
@@ -49,8 +46,10 @@
                     </div>
                 </div>
 
-                <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3ra.jpeg');">
+                <div class="reveal-up" style="animation-delay:0.1s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_2', '3ra Fuerza', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/3ra.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3ra Fuerza</h3>
@@ -58,12 +57,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/a.jpg');">
+                <div class="reveal-up" style="animation-delay:0.2s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_3', 'A', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/a.jpg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>A</h3>
@@ -71,12 +73,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/b.jpg');">
+                <div class="reveal-up" style="animation-delay:0.3s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_4', 'B', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/b.jpg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>B</h3>
@@ -84,12 +89,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
-                
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/Fem5vs5.jpeg');">
+
+                <div class="reveal-up" style="animation-delay:0.4s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_5', 'Femenil', 'Viernes 28 Marzo 2026')"
+                         style="background-image: url('./assets/Fem5vs5.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>Femenil</h3>
@@ -97,12 +105,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Viernes 28 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3Fem.jpeg');">
+                <div class="reveal-up" style="animation-delay:0.5s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_6', '3x3 Femenil A', 'Viernes 28 Marzo 2026')"
+                         style="background-image: url('./assets/3x3Fem.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3x3 Femenil A</h3>
@@ -110,12 +121,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Viernes 28 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3miercoles.jpg');">
+                <div class="reveal-up" style="animation-delay:0.6s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_7', '3x3 Varonil Miércoles', 'Miércoles 26 Marzo 2026')"
+                         style="background-image: url('./assets/3x3miercoles.jpg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3x3 Varonil Miércoles</h3>
@@ -123,12 +137,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Miércoles 26 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3jueves.jpg');">
+                <div class="reveal-up" style="animation-delay:0.7s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_8', '3x3 Varonil Jueves', 'Jueves 27 Marzo 2026')"
+                         style="background-image: url('./assets/3x3jueves.jpg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3x3 Varonil Jueves</h3>
@@ -136,12 +153,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Jueves 27 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3Mixto.jpeg');">
+                <div class="reveal-up" style="animation-delay:0.8s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_9', 'Mixto 3x3', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/3x3Mixto.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>Mixto 3x3</h3>
@@ -149,12 +169,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3Vet.jpeg');">
+                <div class="reveal-up" style="animation-delay:0.9s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_10', 'Veteranos +40 3x3', 'Sábado 29 Marzo 2026')"
+                         style="background-image: url('./assets/3x3Vet.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>Veteranos +40 3x3</h3>
@@ -162,12 +185,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Sábado 29 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3DomA.jpeg');">
+                <div class="reveal-up" style="animation-delay:1.0s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_11', '3x3 Domingo Grupo A', 'Domingo 30 Marzo 2026')"
+                         style="background-image: url('./assets/3x3DomA.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3x3 Domingo Grupo A</h3>
@@ -175,12 +201,15 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Domingo 30 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                 <div class="reveal-up" style="animation-delay: 0.1s;">
-                    <div class="category-card category-card-rect" onclick="expandirPartidos('cat_2')" style="background-image: url('./assets/3x3Dominical.jpeg');">
+                <div class="reveal-up" style="animation-delay:1.1s">
+                    <div class="category-card category-card-rect"
+                         onclick="expandirPartidos('cat_12', '3x3 Domingo Grupo B', 'Domingo 30 Marzo 2026')"
+                         style="background-image: url('./assets/3x3Dominical.jpeg');">
                         <div class="card-overlay"></div>
                         <div class="card-content-centered text-center">
                             <h3>3x3 Domingo Grupo B</h3>
@@ -188,56 +217,119 @@
                         </div>
                         <div class="card-footer-info">
                             <span class="date text-orange">Domingo 30 Marzo 2026</span>
+                            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
                         </div>
                     </div>
                 </div>
 
-                </div>
+            </div><!-- /categories-grid -->
 
-                <div class="important-note-box reveal-up mb-5">
+            <!-- Nota importante -->
+            <div class="important-note-box reveal-up mb-5" id="nota-importante">
                 <div class="d-flex align-items-center mb-2">
                     <i class="bi bi-exclamation-triangle-fill text-orange me-2 fs-4"></i>
                     <h4 class="mb-0">Nota Importante</h4>
                 </div>
                 <p class="mb-0">
-                    Los horarios pueden estar sujetos a cambios. Verifica con tu equipo y mantente atento a las comunicaciones oficiales de Magnoliga. 
+                    Los horarios pueden estar sujetos a cambios. Verifica con tu equipo y mantente atento a las comunicaciones oficiales de Magnoliga.
                     <strong>Se recomienda llegar 15 minutos antes del horario programado.</strong>
                 </p>
             </div>
 
-            <div id="matches-section" class="details-section d-none p-5 reveal-up">
+            <!-- Sección detalle de partidos -->
+            <div id="matches-section" class="details-section d-none p-4 p-md-5 reveal-up">
                 <div class="orange-overlay"></div>
-                
-                <div class="section-header d-flex justify-content-between align-items-start z-1">
+
+                <!-- Header -->
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 z-1 mb-4">
                     <div>
-                        <h2 class="expanded-title" id="expanded-cat-title">Juegos 3 x 3</h2>
-                        <p class="expanded-subtitle">Mantenemos las mejores instalaciones para tu desempeño</p>
+                        <h2 class="mb-1" id="expanded-cat-title">Categoría</h2>
+                        <p class="mb-0 text-white-50" id="expanded-cat-date"></p>
                     </div>
-                    <div class="text-end text-white">
-                        <p class="mb-0 fs-5"><i class="bi bi-calendar3 me-2"></i>15-19 Abril, 2026</p>
-                        <button class="btn btn-sm btn-outline-light mt-3" onclick="cerrarPartidos()">Regresar al Rol</button>
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <button class="btn btn-orange btn-sm fw-semibold" id="btn-add-match">
+                            <i class="bi bi-plus-circle me-1"></i> Agregar partido
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" onclick="cerrarPartidos()">
+                            <i class="bi bi-arrow-left me-1"></i> Regresar
+                        </button>
                     </div>
                 </div>
 
-                <div class="matches-list mt-5 z-1">
-                    <div class="match-item d-flex justify-content-between align-items-center p-3 mb-2">
-                        <div class="teams flex-grow-1">
-                            <span class="team-name fw-bold">LOBOS GDL</span>
-                            <span class="vs mx-4 text-orange fw-bolder">VS</span>
-                            <span class="team-name fw-bold">SPARTANS</span>
-                        </div>
-                        <div class="time-court text-end">
-                            <span class="time d-block fw-bold fs-5">18:00 HRS</span>
-                            <span class="court small text-white-50">Cancha 1 - Domo Code</span>
-                        </div>
-                        <div class="admin-match-actions d-none ms-3">
-                            <button class="btn btn-sm text-warning"><i class="bi bi-pencil-square"></i></button>
-                        </div>
-                    </div>
-                    </div>
-            </div>
+                <!-- Lista de partidos -->
+                <div id="matches-container" class="z-1">
+                    <!-- Se llena dinámicamente -->
+                </div>
+
+                <!-- Estado vacío -->
+                <div id="matches-empty" class="z-1 text-center py-5 d-none">
+                    <i class="bi bi-calendar-x fs-1 text-white-50 mb-3 d-block"></i>
+                    <p class="text-white-50">No hay partidos registrados para esta categoría.<br>¡Agrega el primero!</p>
+                </div>
+
+            </div><!-- /matches-section -->
+
         </div>
     </section>
+
+    <!-- ══════════════ MODAL AGREGAR / EDITAR PARTIDO ══════════════ -->
+    <div class="modal fade" id="matchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="background:#161616; border-radius:1rem;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white" id="matchModalLabel">Agregar partido</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-3">
+
+                    <!-- Fecha -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Fecha</label>
+                        <input type="date" class="form-control bg-input border-0 text-white" id="matchDate">
+                    </div>
+
+                    <!-- Hora -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Hora</label>
+                        <input type="time" class="form-control bg-input border-0 text-white" id="matchTime">
+                    </div>
+
+                    <!-- Cancha / Lugar -->
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Cancha / Lugar</label>
+                        <input type="text" class="form-control bg-input border-0 text-white" id="matchCourt" placeholder="Ej. Cancha 1 - Domo Code">
+                    </div>
+
+                    <!-- Equipos -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-5">
+                            <label class="form-label text-secondary small">Equipo 1</label>
+                            <input type="text" class="form-control bg-input border-0 text-white" id="team1" placeholder="Nombre equipo">
+                        </div>
+                        <div class="col-2 d-flex align-items-end justify-content-center pb-2">
+                            <span class="text-orange fw-bold">VS</span>
+                        </div>
+                        <div class="col-5">
+                            <label class="form-label text-secondary small">Equipo 2</label>
+                            <input type="text" class="form-control bg-input border-0 text-white" id="team2" placeholder="Nombre equipo">
+                        </div>
+                    </div>
+
+                    <!-- Alerta de error -->
+                    <div id="match-error" class="alert alert-danger py-2 small d-none">
+                        Por favor llena los campos obligatorios: equipos, hora y cancha.
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-orange fw-semibold flex-grow-1" id="btn-save-match">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ══════════════════════════════════════════════════════════════ -->
 
     <div id="footer"></div>
 
