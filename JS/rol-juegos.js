@@ -174,4 +174,16 @@
         if (btnSave) btnSave.addEventListener('click', guardarPartido);
     });
 
+// ── Cambio de foto por tarjeta ──────────────────────────────
+window.abrirCambioFoto = function (inputId) {
+    document.getElementById(inputId).click();
+};
+
+window.cambiarFotoTarjeta = function (inputEl, cardEl) {
+    const file = inputEl.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    cardEl.style.backgroundImage = `url('${url}')`;
+};
+
 })();

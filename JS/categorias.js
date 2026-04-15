@@ -136,7 +136,7 @@ function renderCategories() {
       <div class="cat-card" onclick="openCatModal(${i})">
         <img src="${cat.img}" alt="${cat.name}" loading="lazy">
         <div class="cat-overlay"><span class="cat-name">${cat.name}</span></div>
-        <button class="btn-edit-cat" onclick="openEditCat(event,${i})">✏ Editar</button>
+        
       </div>`;
     grid.appendChild(col);
   });
@@ -640,4 +640,19 @@ function addGalleryVideo() {
   input.value = '';
   titleEl.value = '';
   showToast('Video agregado');
+}  // ← cierra addGalleryVideo correctamente ✅
+
+// ── CAMBIO DE FOTO DE CATEGORÍA ──────────────
+function openCatPhotoUpload() {
+  document.getElementById('catPhotoInput').value = '';
+  document.getElementById('catPhotoInput').click();
+}
+
+function saveCatPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  state.categories[state.currentCatIdx].img = url;
+  renderCategories();
+  showToast('Foto actualizada');
 }

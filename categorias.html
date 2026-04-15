@@ -47,9 +47,17 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content bg-card border-0">
                 <div class="modal-header border-bottom border-secondary">
-                    <h5 class="modal-title text-white fw-bold text-uppercase ls-wide" id="modalCatName">Categoría</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
+    <h5 class="modal-title text-white fw-bold text-uppercase ls-wide" id="modalCatName">Categoría</h5>
+    <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn-change-photo" onclick="openCatPhotoUpload()">
+            <i class="bi bi-image me-1"></i>Cambiar foto
+        </button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    </div>
+</div>
+
+<!-- Input oculto para cambio de foto de categoría -->
+<input type="file" id="catPhotoInput" accept="image/*" class="d-none" onchange="saveCatPhoto(event)">
 
                 <!-- Tabs -->
                 <div class="modal-tabs d-flex border-bottom border-secondary">
