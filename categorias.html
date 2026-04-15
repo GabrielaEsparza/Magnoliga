@@ -47,9 +47,17 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content bg-card border-0">
                 <div class="modal-header border-bottom border-secondary">
-                    <h5 class="modal-title text-white fw-bold text-uppercase ls-wide" id="modalCatName">Categoría</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
+    <h5 class="modal-title text-white fw-bold text-uppercase ls-wide" id="modalCatName">Categoría</h5>
+    <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn-change-photo" onclick="openCatPhotoUpload()">
+            <i class="bi bi-image me-1"></i>Cambiar foto
+        </button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    </div>
+</div>
+
+<!-- Input oculto para cambio de foto de categoría -->
+<input type="file" id="catPhotoInput" accept="image/*" class="d-none" onchange="saveCatPhoto(event)">
 
                 <!-- Tabs -->
                 <div class="modal-tabs d-flex border-bottom border-secondary">
@@ -162,23 +170,38 @@
                     </div>
 
                     <!-- GALERÍA -->
-                    <div class="tab-pane-cat" id="tab-galeria">
-                        <h6 class="text-white text-uppercase fw-bold mb-3">Galería</h6>
-                        <div class="row g-3" id="galleryGrid">
-                            <div class="col-md-4">
-                                <label class="gallery-add d-flex flex-column align-items-center justify-content-center text-center" for="galleryUpload">
-                                    <div class="icon-circle mb-2"><i class="bi bi-plus-lg fs-5"></i></div>
-                                    <span class="text-white small fw-medium">Agregar foto</span>
-                                </label>
-                                <input type="file" id="galleryUpload" accept="image/*" class="d-none" onchange="addGalleryPhoto(event)">
-                            </div>
-                        </div>
-                    </div>
+                    <!-- GALERÍA -->
+<div class="tab-pane-cat" id="tab-galeria">
+    <h6 class="text-white text-uppercase fw-bold mb-3">Galería</h6>
+    <div class="row g-3" id="galleryGrid">
 
-                </div><!-- /modal-body -->
-            </div>
+        <!-- Agregar foto -->
+        <div class="col-md-4">
+            <label class="gallery-add d-flex flex-column align-items-center justify-content-center text-center" for="galleryUpload">
+                <div class="icon-circle mb-2"><i class="bi bi-plus-lg fs-5"></i></div>
+                <span class="text-white small fw-medium">Agregar foto</span>
+            </label>
+            <input type="file" id="galleryUpload" accept="image/*" class="d-none" onchange="addGalleryPhoto(event)">
         </div>
+
+        <!-- Agregar video YouTube -->
+<div class="col-md-4">
+    <div class="gallery-add d-flex flex-column align-items-center justify-content-center text-center gap-2 p-3">
+        <div class="icon-circle mb-1"><i class="bi bi-youtube fs-5"></i></div>
+        <span class="text-white small fw-medium">Agregar video</span>
+        <input type="text" id="youtubeTitle"
+               class="form-control bg-input border-0 text-white text-center small"
+               placeholder="Título del video">
+        <input type="text" id="youtubeUrlInput"
+               class="form-control bg-input border-0 text-white text-center small"
+               placeholder="Link de YouTube">
+        <button class="btn btn-orange btn-sm fw-semibold w-100"
+                onclick="addGalleryVideo()">Agregar</button>
     </div>
+</div>
+
+    </div>
+</div>
 
     <!-- ══ EDIT CATEGORY ══ -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">

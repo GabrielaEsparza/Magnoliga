@@ -317,3 +317,23 @@ textarea.form-control { resize: none; }
 @media (max-width: 576px) {
     .game-row { grid-template-columns: 1fr auto auto 1fr auto; font-size: 0.78rem; }
 }
+
+/* ── Botón cambiar foto (modal header) ── */
+.btn-change-photo {
+    background: rgba(249,115,22,0.12);
+    border: 1px solid rgba(249,115,22,0.35);
+    border-radius: 6px;
+    color: var(--magnoliga-orange);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+.btn-change-photo:hover {
+    background: rgba(249,115,22,0.22);
+    border-color: var(--magnoliga-orange);
+}

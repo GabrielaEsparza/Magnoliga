@@ -136,7 +136,7 @@ function renderCategories() {
       <div class="cat-card" onclick="openCatModal(${i})">
         <img src="${cat.img}" alt="${cat.name}" loading="lazy">
         <div class="cat-overlay"><span class="cat-name">${cat.name}</span></div>
-        <button class="btn-edit-cat" onclick="openEditCat(event,${i})">✏ Editar</button>
+        
       </div>`;
     grid.appendChild(col);
   });
@@ -577,6 +577,22 @@ function savePlayer() {
 }
 
 // ── GALLERY ────────────────────────────────
+// ── Extrae el ID de cualquier formato de URL de YouTube ──
+function getYouTubeId(url) {
+  const patterns = [
+    /[?&]v=([^&#]+)/,          // youtube.com/watch?v=ID
+    /youtu\.be\/([^?&#]+)/,    // youtu.be/ID
+    /embed\/([^?&#]+)/,        // youtube.com/embed/ID
+    /shorts\/([^?&#]+)/        // youtube.com/shorts/ID
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+// ── Foto (igual que antes) ──
 function addGalleryPhoto(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -587,8 +603,56 @@ function addGalleryPhoto(e) {
   col.innerHTML = `
     <div class="gallery-img-card">
       <img src="${url}" alt="foto">
-      <button class="gallery-img-remove" onclick="this.closest('.col-md-4').remove()"><i class="bi bi-x"></i></button>
+      <button class="gallery-img-remove"
+              onclick="this.closest('.col-md-4').remove()">
+        <i class="bi bi-x"></i>
+      </button>
     </div>`;
   grid.insertBefore(col, grid.firstChild);
   showToast('Foto agregada');
+}
+
+// ── Video de YouTube ──
+function addGalleryVideo() {
+  const input   = document.getElementById('youtubeUrlInput');
+  const titleEl = document.getElementById('youtubeTitle');
+  const videoId = getYouTubeId(input.value.trim());
+  if (!videoId) { showToast('Link inválido'); return; }
+
+  const title = titleEl.value.trim();
+
+  const grid = document.getElementById('galleryGrid');
+  const col  = document.createElement('div');
+  col.className = 'col-md-4';
+  col.innerHTML = `
+    <div class="gallery-img-card">
+      <div class="ratio ratio-16x9">
+        <iframe src="https://www.youtube.com/embed/${videoId}"
+                title="${title || 'video'}" allowfullscreen loading="lazy"></iframe>
+      </div>
+      ${title ? `<p class="gallery-video-title">${title}</p>` : ''}
+      <button class="gallery-img-remove"
+              onclick="this.closest('.col-md-4').remove()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>`;
+  grid.insertBefore(col, grid.firstChild);
+  input.value = '';
+  titleEl.value = '';
+  showToast('Video agregado');
+}  // ← cierra addGalleryVideo correctamente ✅
+
+// ── CAMBIO DE FOTO DE CATEGORÍA ──────────────
+function openCatPhotoUpload() {
+  document.getElementById('catPhotoInput').value = '';
+  document.getElementById('catPhotoInput').click();
+}
+
+function saveCatPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  state.categories[state.currentCatIdx].img = url;
+  renderCategories();
+  showToast('Foto actualizada');
 }
