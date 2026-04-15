@@ -13,7 +13,7 @@
 /* Usamos .page-hero para que use los estilos base de mantenimiento */
 .page-hero {
     background-image: linear-gradient(rgba(194, 194, 194, 0.151), rgba(136, 136, 136, 0.212)),
-                      url('../assets/canchaoscura.png'); 
+                      url('../assets/laperla.png'); 
     background-size: cover;
     background-position: center;
     min-height: 85vh; /* Altura idéntica */
