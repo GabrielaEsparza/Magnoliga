@@ -8,10 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/mantenimiento.css">
+    <link rel="stylesheet" href="./css/depoturismo.css">
 </head>
 <body>
 
@@ -20,8 +23,8 @@
     <header class="page-hero">
         <div class="page-hero-content reveal-up">
             <p class="text-uppercase text-orange fw-semibold ls-wide mb-2 small">Los indicados para tu cancha</p>
-            <h1>MANTENIMIENTO DE INSTALACIONES</h1>
-            <p>Comprometidos con la excelencia de nuestras instalaciones</p>
+            <h1>ARQUITECTURA DEPORTIVA</h1>
+            <p>Creación, mantenimiento y renovación de espacios deportivos.</p>
              <a href="#contenido" class="btn-orange mt-3 d-inline-block px-4 py-2 fw-semibold">Explorar</a>
         </div>
     </header>
@@ -38,22 +41,22 @@
                 <div class="col-md-3 col-sm-6 reveal-up">
                     <div class="maint-card">
                         <div class="maint-icon"><i class="bi bi-tools"></i></div>
-                        <h5>Mantenimiento de Canchas</h5>
-                        <p>Inspección y reparación regular de superficies, líneas y marcas de juego.</p>
+                        <h5>Pintura y trazado de canchas de juego</h5>
+                        <p>Inspección y reparación regular de superficies, líneas y marcas de juego de básquetbol, volibol y fútbol.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 reveal-up" style="animation-delay:0.1s;">
                     <div class="maint-card">
                         <div class="maint-icon"><i class="bi bi-check-circle-fill"></i></div>
-                        <h5>Equipamiento</h5>
+                        <h5>Fabricación de postes para tableros de básquetbol</h5>
                         <p>Mantenimiento de aros, tableros, redes y todo el equipamiento deportivo.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 reveal-up" style="animation-delay:0.2s;">
                     <div class="maint-card">
                         <div class="maint-icon"><i class="bi bi-calendar3"></i></div>
-                        <h5>Programación</h5>
-                        <p>Calendario de mantenimiento preventivo para asegurar instalaciones en óptimas condiciones.</p>
+                        <h5>Instalación de pasto sintético y equipo de fútbol</h5>
+                        <p>Fabricación de porterías, pintura de gradas y espacios de recreación</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 reveal-up" style="animation-delay:0.3s;">
@@ -70,69 +73,80 @@
    <section class="pb-5" id="contenido">
         <div class="container">
             <div class="text-center mb-4 reveal-up">
-                <h2 class="section-title">NUESTROS TRABAJOS</h2>
+                <h2 class="section-title">TRABAJOS REALIZADOS</h2>
                 <p class="section-subtitle">Evidencia de mantenimiento y reparaciones en nuestras sedes</p>
             </div>
+            
+           <!-- Contenido de usuarios -->
+    <section class="pb-5" id="contenido">
+        <div class="container">
+
             
             <div class="row g-4" id="user-media-grid">
                 <div class="col-md-6" id="add-card-col">
                     <div class="dropzone d-flex flex-column align-items-center justify-content-center text-center" id="dropzone">
                         <div class="icon-circle mb-3"><i class="bi bi-play-circle fs-5"></i></div>
-                        <p class="text-white small fw-medium mb-1">Agregar video de reparación</p>
-                        <p class="text-secondary small mb-0">Link de YouTube</p>
+                        <p class="text-white small fw-medium mb-1">Agregar video de YouTube</p>
+                        <p class="text-secondary small mb-0">Arrastra un link o haz clic</p>
                     </div>
                 </div>
                 <div class="col-md-6" id="add-photo-col">
                     <div class="dropzone d-flex flex-column align-items-center justify-content-center text-center" id="photo-dropzone">
                         <div class="icon-circle mb-3"><i class="bi bi-image fs-5"></i></div>
-                        <p class="text-white small fw-medium mb-1">Agregar foto de evidencia</p>
-                        <p class="text-secondary small mb-0">Clic para seleccionar imagen</p>
-                        <input type="file" id="photo-file-input" accept="image/*" class="">
+                        <p class="text-white small fw-medium mb-1">Agregar foto</p>
+                        <p class="text-secondary small mb-0">Haz clic para seleccionar una imagen</p>
+                        <input type="file" id="photo-file-input" accept="image/*" class="d-none">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Modal Video -->
     <div class="modal fade" id="addMediaModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-card border-0">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title text-white">Registrar video de mantenimiento</h5>
+                    <h5 class="modal-title text-white">Agregar video</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label text-secondary small">Área / Cancha</label>
-                        <input type="text" class="form-control bg-input border-0 text-white" id="mediaTitle" placeholder="Ej: Cancha Principal Arena Norte">
+                        <label class="form-label text-secondary small">Título</label>
+                        <input type="text" class="form-control bg-input border-0 text-white" id="mediaTitle" placeholder="Nombre del contenido">
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary small">Link de YouTube</label>
-                        <input type="url" class="form-control bg-input border-0 text-white" id="mediaUrl" placeholder="https://youtube.com/watch?v=...">
+                        <div class="input-group">
+                            <span class="input-group-text bg-input border-0 text-secondary"><i class="bi bi-link-45deg"></i></span>
+                            <input type="url" class="form-control bg-input border-0 text-white" id="mediaUrl" placeholder="https://youtube.com/watch?v=...">
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label text-secondary small">Detalles de la reparación</label>
-                        <textarea class="form-control bg-input border-0 text-white" id="mediaDesc" rows="2" placeholder="Describe brevemente el trabajo realizado..."></textarea>
+                        <label class="form-label text-secondary small">Descripción <span class="text-secondary">(opcional)</span></label>
+                        <textarea class="form-control bg-input border-0 text-white" id="mediaDesc" rows="2" placeholder="Breve descripción del video..."></textarea>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-orange fw-semibold" id="submitMedia">Publicar</button>
+                        <button type="button" class="btn btn-orange fw-semibold" id="submitMedia">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal Foto -->
     <div class="modal fade" id="addPhotoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-card border-0">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title text-white">Subir evidencia fotográfica</h5>
+                    <h5 class="modal-title text-white">Agregar foto</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label text-secondary small">Instalación</label>
-                        <input type="text" class="form-control bg-input border-0 text-white" id="photoTitle" placeholder="Ej: Tableros Cancha Sur">
+                        <label class="form-label text-secondary small">Título</label>
+                        <input type="text" class="form-control bg-input border-0 text-white" id="photoTitle" placeholder="Nombre de la foto">
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary small">Foto</label>
@@ -140,27 +154,31 @@
                             <img id="photo-preview-img" src="" alt="" class="d-none">
                             <div id="photo-preview-placeholder">
                                 <i class="bi bi-cloud-upload fs-4 text-secondary"></i>
-                                <p class="text-secondary small mt-2 mb-0">Seleccionar imagen</p>
+                                <p class="text-secondary small mt-2 mb-0">Haz clic para seleccionar</p>
                             </div>
                         </div>
                         <input type="file" id="photo-modal-input" accept="image/*" class="d-none">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label text-secondary small">Descripción</label>
-                        <textarea class="form-control bg-input border-0 text-white" id="photoDesc" rows="2" placeholder="¿Qué se reparó?"></textarea>
+                        <label class="form-label text-secondary small">Descripción <span class="text-secondary">(opcional)</span></label>
+                        <textarea class="form-control bg-input border-0 text-white" id="photoDesc" rows="2" placeholder="¿Qué muestra esta foto?"></textarea>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-orange fw-semibold" id="submitPhoto">Publicar</button>
+                        <button type="button" class="btn btn-orange fw-semibold" id="submitPhoto">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
     <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./JS/main.js"></script>
+    
     <script src="./JS/mantenimiento.js"></script>
+    
 </body>
 </html>
