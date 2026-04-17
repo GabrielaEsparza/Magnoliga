@@ -1,95 +1,153 @@
-// --- FUNCIONES PARA AGREGAR ELEMENTOS ---
+(function () {
+  const userMedia = [];
 
-// 1. Agregar Servicio
-document.getElementById('formServicio')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const titulo = this.querySelector('input[placeholder*="Ej: Fotografía"]').value;
-    const desc = this.querySelector('textarea').value;
-    const icono = this.querySelector('input[placeholder*="fa-"]').value || 'fa-star';
+  /* ── Helpers ── */
+  function getYouTubeId(url) {
+    const m = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
+    );
+    return m ? m[1] : null;
+  }
 
-    const nuevoServicio = `
-        <div class="col-md-4 position-relative card-admin-item">
-            <button class="btn-delete" onclick="this.parentElement.remove()">×</button>
-            <div class="card-custom">
-                <div class="icon-circle mb-3"><i class="fas ${icono}"></i></div>
-                <h5>${titulo}</h5>
-                <p>${desc}</p>
+  function isImageUrl(url) {
+    return /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    /* ── Referencias ── */
+    const grid          = document.getElementById("user-media-grid");
+    const addCol        = document.getElementById("add-card-col");
+    const dropzone      = document.getElementById("dropzone");
+    const photoDropzone = document.getElementById("photo-dropzone");
+
+    const titleInput    = document.getElementById("mediaTitle");
+    const urlInput      = document.getElementById("mediaUrl");
+    const descInput     = document.getElementById("mediaDesc");
+
+    const photoTitleInput         = document.getElementById("photoTitle");
+    const photoDescInput          = document.getElementById("photoDesc");
+    const photoModalInput         = document.getElementById("photo-modal-input");
+    const photoPreviewImg         = document.getElementById("photo-preview-img");
+    const photoPreviewPlaceholder = document.getElementById("photo-preview-placeholder");
+
+    /* ── Modales ── */
+    const modal      = new bootstrap.Modal(document.getElementById("addMediaModal"));
+    const photoModal = new bootstrap.Modal(document.getElementById("addPhotoModal"));
+
+    let pendingPhotoDataUrl = null;
+
+    /* ── Render ── */
+    function renderMedia() {
+      grid.querySelectorAll(".user-card-col").forEach(el => el.remove());
+
+      userMedia.forEach((item, idx) => {
+        const col = document.createElement("div");
+        col.className = "col-md-6 user-card-col";
+
+        let mediaHtml;
+
+        if (item.type === "photo") {
+          mediaHtml = `<img src="${item.dataUrl}" class="card-img-top gallery-img">`;
+        } else {
+          const ytId = getYouTubeId(item.url);
+          if (ytId) {
+            mediaHtml = `
+              <div class="ratio ratio-16x9">
+                <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>
+              </div>`;
+          } else if (isImageUrl(item.url)) {
+            mediaHtml = `<img src="${item.url}" class="card-img-top gallery-img">`;
+          } else {
+            mediaHtml = `<video src="${item.url}" controls class="w-100"></video>`;
+          }
+        }
+
+        const descHtml = item.desc
+          ? `<p class="card-desc px-3 pb-2 mb-0">${item.desc}</p>`
+          : "";
+
+        col.innerHTML = `
+          <div class="card bg-card border-0 overflow-hidden user-card">
+            <button class="remove-btn" data-idx="${idx}"><i class="bi bi-x-lg"></i></button>
+            ${mediaHtml}
+            <div class="card-body py-2 px-3">
+              <p class="text-white small mb-0 fw-medium">${item.title}</p>
             </div>
-        </div>`;
-    
-    document.getElementById('contenedor-servicios').insertAdjacentHTML('beforeend', nuevoServicio);
-    cerrarYLimpiar('modalServicio', this);
-});
+            ${descHtml}
+          </div>
+        `;
 
-// 2. Agregar Equipo
-document.getElementById('formEquipo')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nombre = this.querySelector('input').value;
-    const tipo = this.querySelector('select').value;
+        grid.insertBefore(col, addCol);
+      });
 
-    const nuevoEquipo = `
-        <div class="col-6 col-md-2 position-relative card-admin-item">
-            <button class="btn-delete" onclick="this.parentElement.remove()">×</button>
-            <div class="team-card">
-                <i class="fas fa-trophy mb-2"></i>
-                <h6>${nombre}</h6>
-                <span>${tipo}</span>
-            </div>
-        </div>`;
-
-    document.getElementById('contenedor-equipos').insertAdjacentHTML('beforeend', nuevoEquipo);
-    cerrarYLimpiar('modalEquipo', this);
-});
-
-// 3. Agregar Evento
-document.getElementById('formEvento')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nombre = this.querySelectorAll('input')[0].value;
-    const fecha = this.querySelectorAll('input')[1].value;
-    const sede = this.querySelectorAll('input')[2].value;
-
-    const nuevoEvento = `
-        <div class="event-item position-relative card-admin-item">
-            <button class="btn-delete" onclick="this.parentElement.remove()">×</button>
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="text-start">
-                    <h6>${nombre}</h6>
-                    <div class="event-info-group">
-                        <span><i class="far fa-calendar-alt"></i> ${fecha}</span>
-                        <span><i class="fas fa-trophy"></i> ${sede}</span>
-                    </div>
-                </div>
-                <i class="fas fa-video orange-text fa-lg"></i>
-            </div>
-        </div>`;
-
-    document.getElementById('contenedor-eventos').insertAdjacentHTML('beforeend', nuevoEvento);
-    cerrarYLimpiar('modalEvento', this);
-});
-
-// Utilidad para cerrar modal y limpiar formulario
-function cerrarYLimpiar(modalId, form) {
-    const modalElement = document.getElementById(modalId);
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    modalInstance.hide();
-    form.reset();
-}
-
-// Función genérica para cerrar modales al enviar
-const setupForm = (formId, modalId) => {
-    const form = document.getElementById(formId);
-    if(form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Datos guardados correctamente en Magnoliga');
-            const modalElement = document.getElementById(modalId);
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide();
-            form.reset();
+      document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+          userMedia.splice(parseInt(this.dataset.idx), 1);
+          renderMedia();
         });
+      });
     }
-};
 
-setupForm('formEvento', 'modalEvento');
-setupForm('formEquipo', 'modalEquipo');
-setupForm('formServicio', 'modalServicio');
+    /* ── Video ── */
+    dropzone.addEventListener("click", () => {
+      titleInput.value = "";
+      urlInput.value   = "";
+      descInput.value  = "";
+      modal.show();
+    });
+
+    document.getElementById("submitMedia").addEventListener("click", () => {
+      const title = titleInput.value.trim();
+      const url   = urlInput.value.trim();
+      const desc  = descInput.value.trim();
+
+      if (title && url) {
+        userMedia.push({ type: "video", title, url, desc });
+        renderMedia();
+        modal.hide();
+      }
+    });
+
+    /* ── Foto ── */
+    photoDropzone.addEventListener("click", () => {
+      pendingPhotoDataUrl = null;
+      photoTitleInput.value = "";
+      photoDescInput.value  = "";
+      photoPreviewImg.classList.add("d-none");
+      photoPreviewPlaceholder.classList.remove("d-none");
+      photoModal.show();
+    });
+
+    document.getElementById("photo-preview-box").addEventListener("click", () => {
+      photoModalInput.click();
+    });
+
+    photoModalInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        pendingPhotoDataUrl = e.target.result;
+        photoPreviewImg.src = pendingPhotoDataUrl;
+        photoPreviewImg.classList.remove("d-none");
+        photoPreviewPlaceholder.classList.add("d-none");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("submitPhoto").addEventListener("click", () => {
+      const title = photoTitleInput.value.trim();
+      const desc  = photoDescInput.value.trim();
+
+      if (title && pendingPhotoDataUrl) {
+        userMedia.push({ type: "photo", title, dataUrl: pendingPhotoDataUrl, desc });
+        renderMedia();
+        photoModal.hide();
+      }
+    });
+
+  });
+
+})();
