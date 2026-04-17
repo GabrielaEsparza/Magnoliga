@@ -23,7 +23,7 @@
         <div class="page-hero-content reveal-up">
             <p class="text-uppercase text-orange fw-semibold ls-wide mb-2 small">Bienvenido a</p>
             <h1>DEPORTURISMO</h1>
-            <p>Vive la pasión del deporte mientras descubres nuevos destinos. Torneos, viajes y experiencias que unen aventura y competencia.</p>
+            <p>Una manera diferente de hacer deporte</p>
             <a href="#contenido" class="btn-orange mt-3 d-inline-block px-4 py-2 fw-semibold">Explorar</a>
         </div>
     </header>
@@ -33,28 +33,28 @@
         <div class="container">
             <h2 class="section-title text-center mb-2">NUESTRAS EXPERIENCIAS</h2>
             <p class="section-subtitle text-center mb-5 mx-auto" style="max-width:600px;">
-                Creamos oportunidades para que nuestros jugadores crezcan dentro y fuera de la cancha
+                Guía turística para conocer diferentes lugares del estado de Jalisco
             </p>
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card bg-card border-0 h-100 text-center p-4">
                         <div class="icon-circle mx-auto mb-3"><i class="bi bi-trophy fs-5"></i></div>
-                        <h5 class="text-white fw-bold">Torneos Regionales</h5>
-                        <p class="text-secondary small mb-0">Participamos en torneos de toda la región, llevando el talento de Magnoliga a diferentes ciudades.</p>
+                        <h5 class="text-white fw-bold">Tropical hoops</h5>
+                        <p class="text-secondary small mb-0">Torneos de básquetlbol en la playa.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-card border-0 h-100 text-center p-4">
                         <div class="icon-circle mx-auto mb-3"><i class="bi bi-geo-alt fs-5"></i></div>
-                        <h5 class="text-white fw-bold">Viajes de Equipo</h5>
-                        <p class="text-secondary small mb-0">Organizamos viajes para equipos destacados, fortaleciendo el compañerismo y la experiencia deportiva.</p>
+                        <h5 class="text-white fw-bold">Naturaleza</h5>
+                        <p class="text-secondary small mb-0">Encontrando nuevos lugares para que los deportistas y sus familias puedan visitar.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-card border-0 h-100 text-center p-4">
                         <div class="icon-circle mx-auto mb-3"><i class="bi bi-camera fs-5"></i></div>
                         <h5 class="text-white fw-bold">Eventos Especiales</h5>
-                        <p class="text-secondary small mb-0">Experiencias únicas como campamentos, clínicas y eventos de intercambio deportivo.</p>
+                        <p class="text-secondary small mb-0">Porque a veces salen planes que todos tienen que conocer.</p>
                     </div>
                 </div>
             </div>
@@ -62,24 +62,34 @@
             <!-- Galería -->
             <div class="row g-4 mt-2">
                 <div class="col-md-4">
-                    <div class="card bg-card border-0 overflow-hidden">
+                    <div class="card bg-card border-0 overflow-hidden gallery-item position-relative">
+                        <button class="edit-btn" title="Editar"><i class="fas fa-pen"></i></button>
                         <img src="./assets/colima.png" alt="Excelentes paisajes" class="card-img-top gallery-img">
-                        <div class="card-body py-2 px-3"><p class="text-white small mb-0 fw-medium">Excelentes paisajes</p></div>
+                        <div class="card-body py-2 px-3">
+                            <p class="text-white small mb-0 fw-medium">Excelentes paisajes</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-card border-0 overflow-hidden">
+                    <div class="card bg-card border-0 overflow-hidden gallery-item position-relative">
+                        <button class="edit-btn" title="Editar"><i class="fas fa-pen"></i></button>
                         <img src="./assets/senderismo.png" alt="En acción" class="card-img-top gallery-img">
-                        <div class="card-body py-2 px-3"><p class="text-white small mb-0 fw-medium">En acción</p></div>
+                        <div class="card-body py-2 px-3">
+                            <p class="text-white small mb-0 fw-medium">En acción</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-card border-0 overflow-hidden">
+                    <div class="card bg-card border-0 overflow-hidden gallery-item position-relative">
+                        <button class="edit-btn" title="Editar"><i class="fas fa-pen"></i></button>
                         <img src="./assets/cascada.png" alt="Naturaleza" class="card-img-top gallery-img">
-                        <div class="card-body py-2 px-3"><p class="text-white small mb-0 fw-medium">Naturaleza</p></div>
+                        <div class="card-body py-2 px-3">
+                            <p class="text-white small mb-0 fw-medium">Naturaleza</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -180,10 +190,43 @@
         </div>
     </div>
 
+    <!-- Modal Editar Galería -->
+    <div class="modal fade" id="editGalleryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-card border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white">Editar foto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Título</label>
+                        <input type="text" id="editTitle" class="form-control bg-input border-0 text-white">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Foto</label>
+                        <div class="photo-preview-box" id="edit-photo-box">
+                            <img id="editPreviewImg" class="d-none w-100">
+                            <div id="editPlaceholder">
+                                <i class="bi bi-cloud-upload fs-4 text-secondary"></i>
+                                <p class="text-secondary small mt-2 mb-0">Haz clic para seleccionar</p>
+                            </div>
+                        </div>
+                        <input type="file" id="editImageInput" class="d-none" accept="image/*">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-orange" id="saveEdit">Guardar</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./JS/main.js"></script>
-    <script src="./JS/depoturismo.js"></script>
+    <script src="./JS/deporturismo.js"></script>
 </body>
 </html>

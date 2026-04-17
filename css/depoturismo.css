@@ -136,3 +136,21 @@ textarea.form-control { resize: none; }
         margin-top: -60px !important;
     }
 }
+
+.edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.edit-btn:hover {
+    background: #ff7a00; /* tu naranja */
+}
