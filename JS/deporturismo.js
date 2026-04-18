@@ -1,6 +1,6 @@
 (function () {
   const userMedia = [];
- 
+
   /* ── Helpers ── */
   function getYouTubeId(url) {
     const m = url.match(
@@ -8,177 +8,213 @@
     );
     return m ? m[1] : null;
   }
- 
+
   function isImageUrl(url) {
     return /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(url);
   }
- 
+
   document.addEventListener("DOMContentLoaded", function () {
- 
-    /* ── Referencias al DOM ── */
+
+    /* ── Referencias ── */
     const grid             = document.getElementById("user-media-grid");
     const addCol           = document.getElementById("add-card-col");
     const dropzone         = document.getElementById("dropzone");
     const photoDropzone    = document.getElementById("photo-dropzone");
+
     const titleInput       = document.getElementById("mediaTitle");
     const urlInput         = document.getElementById("mediaUrl");
     const descInput        = document.getElementById("mediaDesc");
+
     const photoTitleInput  = document.getElementById("photoTitle");
     const photoDescInput   = document.getElementById("photoDesc");
     const photoModalInput  = document.getElementById("photo-modal-input");
     const photoPreviewImg  = document.getElementById("photo-preview-img");
     const photoPreviewPlaceholder = document.getElementById("photo-preview-placeholder");
- 
-    /* ── Modales (Bootstrap) ── */
+
+    /* ── Modales ── */
     const modal      = new bootstrap.Modal(document.getElementById("addMediaModal"));
     const photoModal = new bootstrap.Modal(document.getElementById("addPhotoModal"));
- 
+
     let pendingPhotoDataUrl = null;
- 
+
     /* ── Render ── */
     function renderMedia() {
-      grid.querySelectorAll(".user-card-col").forEach(function (el) { el.remove(); });
- 
-      userMedia.forEach(function (item, idx) {
-        var col = document.createElement("div");
+      grid.querySelectorAll(".user-card-col").forEach(el => el.remove());
+
+      userMedia.forEach((item, idx) => {
+        const col = document.createElement("div");
         col.className = "col-md-6 user-card-col";
- 
-        var mediaHtml;
+
+        let mediaHtml;
+
         if (item.type === "photo") {
-          mediaHtml =
-            '<img src="' + item.dataUrl + '" alt="' + item.title +
-            '" class="card-img-top gallery-img" style="object-fit:cover;" loading="lazy" />';
+          mediaHtml = `<img src="${item.dataUrl}" class="card-img-top gallery-img">`;
         } else {
-          var ytId = getYouTubeId(item.url);
+          const ytId = getYouTubeId(item.url);
+
           if (ytId) {
-            mediaHtml =
-              '<div class="ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/' +
-              ytId + '" title="' + item.title + '" allowfullscreen></iframe></div>';
+            mediaHtml = `
+              <div class="ratio ratio-16x9">
+                <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe>
+              </div>`;
           } else if (isImageUrl(item.url)) {
-            mediaHtml =
-              '<img src="' + item.url + '" alt="' + item.title +
-              '" class="card-img-top gallery-img" style="object-fit:cover;" loading="lazy" />';
+            mediaHtml = `<img src="${item.url}" class="card-img-top gallery-img">`;
           } else {
-            mediaHtml =
-              '<video src="' + item.url +
-              '" controls class="w-100 gallery-img" style="object-fit:cover;"></video>';
+            mediaHtml = `<video src="${item.url}" controls class="w-100"></video>`;
           }
         }
- 
-        var descHtml = item.desc
-          ? '<p class="card-desc px-3 pb-2 mb-0">' + item.desc + '</p>'
-          : '';
- 
-        col.innerHTML =
-          '<div class="card bg-card border-0 overflow-hidden user-card">' +
-          '<button class="remove-btn" data-idx="' + idx + '"><i class="bi bi-x-lg"></i></button>' +
-          mediaHtml +
-          '<div class="card-body py-2 px-3"><p class="text-white small mb-0 fw-medium">' + item.title + '</p></div>' +
-          descHtml +
-          '</div>';
- 
+
+        const descHtml = item.desc ? `<p class="card-desc px-3 pb-2 mb-0">${item.desc}</p>` : "";
+
+        col.innerHTML = `
+          <div class="card bg-card border-0 overflow-hidden user-card">
+            <button class="remove-btn" data-idx="${idx}"><i class="bi bi-x-lg"></i></button>
+            ${mediaHtml}
+            <div class="card-body py-2 px-3">
+              <p class="text-white small mb-0 fw-medium">${item.title}</p>
+            </div>
+            ${descHtml}
+          </div>
+        `;
+
         grid.insertBefore(col, addCol);
       });
- 
-      grid.querySelectorAll(".remove-btn").forEach(function (btn) {
+
+      document.querySelectorAll(".remove-btn").forEach(btn => {
         btn.addEventListener("click", function () {
           userMedia.splice(parseInt(this.dataset.idx), 1);
           renderMedia();
         });
       });
     }
- 
-    /* ── Dropzone video: abrir modal ── */
-    dropzone.addEventListener("click", function () {
+
+    /* ── Video ── */
+    dropzone.addEventListener("click", () => {
       titleInput.value = "";
       urlInput.value   = "";
       descInput.value  = "";
       modal.show();
     });
- 
-    dropzone.addEventListener("dragover", function (e) {
-      e.preventDefault();
-      dropzone.classList.add("dragover");
-    });
- 
-    dropzone.addEventListener("dragleave", function () {
-      dropzone.classList.remove("dragover");
-    });
- 
-    dropzone.addEventListener("drop", function (e) {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-      var text = e.dataTransfer.getData("text/plain") || e.dataTransfer.getData("text/uri-list");
-      if (text) {
-        urlInput.value   = text;
-        titleInput.value = "";
-        descInput.value  = "";
-        modal.show();
-      }
-    });
- 
-    /* ── Botón Agregar video ── */
-    document.getElementById("submitMedia").addEventListener("click", function () {
-      var title = titleInput.value.trim();
-      var url   = urlInput.value.trim();
-      var desc  = descInput.value.trim();
+
+    document.getElementById("submitMedia").addEventListener("click", () => {
+      const title = titleInput.value.trim();
+      const url   = urlInput.value.trim();
+      const desc  = descInput.value.trim();
+
       if (title && url) {
-        userMedia.push({ type: "video", title: title, url: url, desc: desc });
+        userMedia.push({ type: "video", title, url, desc });
         renderMedia();
         modal.hide();
-        titleInput.value = "";
-        urlInput.value   = "";
-        descInput.value  = "";
       }
     });
- 
-    /* ── Dropzone foto: abrir modal ── */
-    photoDropzone.addEventListener("click", function () {
+
+    /* ── Foto ── */
+    photoDropzone.addEventListener("click", () => {
       pendingPhotoDataUrl = null;
       photoTitleInput.value = "";
       photoDescInput.value  = "";
       photoPreviewImg.classList.add("d-none");
-      photoPreviewImg.src = "";
       photoPreviewPlaceholder.classList.remove("d-none");
       photoModal.show();
     });
- 
-    /* ── Preview dentro del modal foto ── */
-    document.getElementById("photo-preview-box").addEventListener("click", function () {
+
+    document.getElementById("photo-preview-box").addEventListener("click", () => {
       photoModalInput.click();
     });
- 
+
     photoModalInput.addEventListener("change", function () {
-      var file = this.files[0];
+      const file = this.files[0];
       if (!file) return;
-      var reader = new FileReader();
+
+      const reader = new FileReader();
+
       reader.onload = function (e) {
         pendingPhotoDataUrl = e.target.result;
         photoPreviewImg.src = pendingPhotoDataUrl;
         photoPreviewImg.classList.remove("d-none");
         photoPreviewPlaceholder.classList.add("d-none");
       };
+
       reader.readAsDataURL(file);
     });
- 
-    /* ── Botón Agregar foto ── */
-    document.getElementById("submitPhoto").addEventListener("click", function () {
-      var title = photoTitleInput.value.trim();
-      var desc  = photoDescInput.value.trim();
+
+    document.getElementById("submitPhoto").addEventListener("click", () => {
+      const title = photoTitleInput.value.trim();
+      const desc  = photoDescInput.value.trim();
+
       if (title && pendingPhotoDataUrl) {
-        userMedia.push({ type: "photo", title: title, dataUrl: pendingPhotoDataUrl, desc: desc });
+        userMedia.push({ type: "photo", title, dataUrl: pendingPhotoDataUrl, desc });
         renderMedia();
         photoModal.hide();
-        photoTitleInput.value = "";
-        photoDescInput.value  = "";
-        pendingPhotoDataUrl   = null;
-        photoPreviewImg.src   = "";
-        photoPreviewImg.classList.add("d-none");
-        photoPreviewPlaceholder.classList.remove("d-none");
-        photoModalInput.value = "";
       }
     });
- 
-  }); // fin DOMContentLoaded
- 
+
+    /* ── EDITAR GALERÍA (tus 3 cards) ── */
+
+    let selectedCard = null;
+    let newImageData = null;
+
+    const editModal = new bootstrap.Modal(document.getElementById("editGalleryModal"));
+
+    const editTitle = document.getElementById("editTitle");
+    const editImageInput = document.getElementById("editImageInput");
+    const previewImg = document.getElementById("editPreviewImg");
+    const placeholder = document.getElementById("editPlaceholder");
+
+    document.addEventListener("click", function (e) {
+      if (e.target.closest(".edit-btn")) {
+        const btn = e.target.closest(".edit-btn");
+
+        selectedCard = btn.closest(".gallery-item");
+
+        const currentTitle = selectedCard.querySelector("p").innerText;
+        const currentImg = selectedCard.querySelector("img").src;
+
+        editTitle.value = currentTitle;
+        previewImg.src = currentImg;
+        previewImg.classList.remove("d-none");
+        placeholder.classList.add("d-none");
+
+        newImageData = null;
+
+        editModal.show();
+      }
+    });
+
+    document.getElementById("edit-photo-box").addEventListener("click", () => {
+      editImageInput.click();
+    });
+
+    editImageInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        newImageData = e.target.result;
+        previewImg.src = newImageData;
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("saveEdit").addEventListener("click", () => {
+      if (!selectedCard) return;
+
+      const newTitle = editTitle.value.trim();
+
+      if (newTitle) {
+        selectedCard.querySelector("p").innerText = newTitle;
+      }
+
+      if (newImageData) {
+        selectedCard.querySelector("img").src = newImageData;
+      }
+
+      editModal.hide();
+    });
+
+  });
+
 })();
