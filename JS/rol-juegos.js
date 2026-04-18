@@ -115,6 +115,7 @@
         if (confirm('¿Eliminar este partido?')) {
             partidosData.splice(idx, 1);
             renderPartidos();
+            actualizarFechaTarjeta(categoriaActual);
         }
     }
 
@@ -142,20 +143,39 @@
 
         matchModal.hide();
         renderPartidos();
+        actualizarFechaTarjeta(categoriaActual);
+    }
+
+    // ── Actualizar fecha en tarjeta del grid ─────────────────────────
+    function actualizarFechaTarjeta(catId) {
+        const primerPartido = partidosData.find(p => p.categoria === catId && p.fecha);
+        const card = document.getElementById('card-' + catId);
+        if (!card) return;
+        const spanFecha = card.querySelector('.card-footer-info .date');
+        if (!spanFecha) return;
+        if (primerPartido) {
+            spanFecha.textContent = formatFecha(primerPartido.fecha);
+        }
     }
 
     // ── Expandir categoría ──────────────────────────────────────────
-    window.expandirPartidos = function (catId, titulo, fecha) {
-        categoriaActual = catId;
-        document.getElementById('expanded-cat-title').innerText = titulo || 'Categoría';
-        document.getElementById('expanded-cat-date').innerText  = fecha  || '';
-        document.getElementById('categories-grid').classList.add('d-none');
-        document.getElementById('nota-importante').classList.add('d-none');
-        document.getElementById('matches-section').classList.remove('d-none');
-        renderPartidos();
-        document.getElementById('matches-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
+    // ── Expandir categoría ──────────────────────────────────────────
+window.expandirPartidos = function (catId, titulo) {
+    categoriaActual = catId;
+    document.getElementById('expanded-cat-title').innerText = titulo || 'Categoría';
 
+    // Tomar la fecha del primer partido de esta categoría
+    const primerPartido = partidosData.find(p => p.categoria === catId && p.fecha);
+    document.getElementById('expanded-cat-date').innerText = primerPartido
+        ? formatFecha(primerPartido.fecha)
+        : '';
+
+    document.getElementById('categories-grid').classList.add('d-none');
+    document.getElementById('nota-importante').classList.add('d-none');
+    document.getElementById('matches-section').classList.remove('d-none');
+    renderPartidos();
+    document.getElementById('matches-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
     // ── Cerrar ──────────────────────────────────────────────────────
     window.cerrarPartidos = function () {
         document.getElementById('matches-section').classList.add('d-none');
@@ -172,18 +192,22 @@
         const btnSave = document.getElementById('btn-save-match');
         if (btnAdd)  btnAdd.addEventListener('click',  abrirModalNuevo);
         if (btnSave) btnSave.addEventListener('click', guardarPartido);
+
+        // Inicializar fechas en tarjetas con los datos existentes
+        ['cat_1','cat_2','cat_3','cat_4','cat_5','cat_6','cat_7','cat_8','cat_9','cat_10','cat_11','cat_12']
+            .forEach(actualizarFechaTarjeta);
     });
 
-// ── Cambio de foto por tarjeta ──────────────────────────────
-window.abrirCambioFoto = function (inputId) {
-    document.getElementById(inputId).click();
-};
+    // ── Cambio de foto por tarjeta ──────────────────────────────
+    window.abrirCambioFoto = function (inputId) {
+        document.getElementById(inputId).click();
+    };
 
-window.cambiarFotoTarjeta = function (inputEl, cardEl) {
-    const file = inputEl.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    cardEl.style.backgroundImage = `url('${url}')`;
-};
+    window.cambiarFotoTarjeta = function (inputEl, cardEl) {
+        const file = inputEl.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        cardEl.style.backgroundImage = `url('${url}')`;
+    };
 
 })();
