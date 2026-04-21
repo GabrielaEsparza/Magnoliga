@@ -1,23 +1,33 @@
-const initialSponsors = [
-  { id: 1, nombre: "Dogos Oscarin",   categoria: "Alimentos y Bebidas", desc: "Los mejores hot dogs de Guadalajara",   img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 2, nombre: "GTI Automotors",  categoria: "Automotriz",          desc: "Servicio automotriz de excelencia",     img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 3, nombre: "Moda Dental",     categoria: "Salud",               desc: "Cuidado dental profesional",            img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 4, nombre: "PowerSports GDL", categoria: "Deportes",            desc: "Equipamiento deportivo profesional",    img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 5, nombre: "FitZone",         categoria: "Salud y Fitness",     desc: "Tu gimnasio de confianza",              img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 6, nombre: "Prime Drinks",    categoria: "Bebidas",             desc: "Hidratación para campeones",            img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" },
-  { id: 7, nombre: "SneakerZone",     categoria: "Calzado",             desc: "Las mejores zapatillas deportivas",     img: "", telefono: "", email: "", instagram: "", facebook: "", web: "" }
-];
+// ══════════════════════════════════════════
+// seccionMagnoliga.js  —  API version
+// ══════════════════════════════════════════
 
-let sponsors = JSON.parse(localStorage.getItem('magnoliga_sponsors')) || initialSponsors;
-let nextId = sponsors.length ? Math.max(...sponsors.map(s => s.id)) + 1 : 1;
+function getCookie(name) {
+  const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return v ? v.pop() : '';
+}
+
+async function api(url, method = 'GET', body = null) {
+  const opts = {
+    method,
+    headers: { 'X-CSRFToken': getCookie('csrftoken') },
+  };
+  if (body instanceof FormData) {
+    opts.body = body;
+  } else if (body) {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  const res = await fetch(url, opts);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+let sponsors = [];
 let pendingImageData = null;
 let editPendingImageData = null;
 
-function saveSponsors() {
-  localStorage.setItem('magnoliga_sponsors', JSON.stringify(sponsors));
-}
-
-// ===== Render =====
+// ── RENDER ──────────────────────────────────
 function renderSponsors() {
   const grid = document.getElementById('sponsors-grid');
 
@@ -30,17 +40,19 @@ function renderSponsors() {
     return;
   }
 
-  grid.innerHTML = sponsors.map((s, i) => `
+  grid.innerHTML = sponsors.map((s, i) => {
+    const adminBtns = ES_ADMIN ? `
+      <button class="btn-delete-sponsor" onclick="deleteSponsor(event,${s.id})" title="Eliminar">
+        <i class="bi bi-trash3"></i>
+      </button>
+      <button class="btn-edit-sponsor" onclick="openEditModal(event,${s.id})" title="Editar">
+        <i class="bi bi-pencil"></i>
+      </button>` : '';
+
+    return `
     <div class="col-md-6 col-lg-3 sponsor-col" style="animation-delay:${i * 0.07}s">
       <div class="sponsor-card" onclick="viewSponsor(${s.id})">
-
-        <button class="btn-delete-sponsor" onclick="deleteSponsor(event,${s.id})" title="Eliminar">
-          <i class="bi bi-trash3"></i>
-        </button>
-        <button class="btn-edit-sponsor" onclick="openEditModal(event,${s.id})" title="Editar">
-          <i class="bi bi-pencil"></i>
-        </button>
-
+        ${adminBtns}
         <div class="sponsor-img-wrap">
           ${s.img
             ? `<img src="${s.img}" alt="${s.nombre}" loading="lazy">`
@@ -53,11 +65,21 @@ function renderSponsors() {
           <p class="sponsor-desc mb-0">${s.desc}</p>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
-// ===== Ver patrocinador =====
+// ── CARGAR ───────────────────────────────────
+async function loadSponsors() {
+  try {
+    sponsors = await api('/api/patrocinadores/');
+    renderSponsors();
+  } catch(e) {
+    console.error('Error cargando patrocinadores', e);
+  }
+}
+
+// ── VER ──────────────────────────────────────
 function viewSponsor(id) {
   const s = sponsors.find(x => x.id === id);
   if (!s) return;
@@ -77,7 +99,6 @@ function viewSponsor(id) {
     placeholder.classList.remove('d-none');
   }
 
-  // Teléfono
   const telRow = document.getElementById('view-telefono-row');
   if (s.telefono) {
     document.getElementById('view-telefono').textContent = s.telefono;
@@ -85,7 +106,6 @@ function viewSponsor(id) {
     telRow.classList.remove('d-none');
   } else { telRow.classList.add('d-none'); }
 
-  // Email
   const emailRow = document.getElementById('view-email-row');
   if (s.email) {
     document.getElementById('view-email').textContent = s.email;
@@ -93,7 +113,6 @@ function viewSponsor(id) {
     emailRow.classList.remove('d-none');
   } else { emailRow.classList.add('d-none'); }
 
-  // Instagram — solo icono grande con link
   const igEl = document.getElementById('view-instagram');
   if (s.instagram) {
     const handle = s.instagram.startsWith('@') ? s.instagram.slice(1) : s.instagram;
@@ -104,7 +123,68 @@ function viewSponsor(id) {
   new bootstrap.Modal(document.getElementById('viewSponsorModal')).show();
 }
 
-// ===== Editar =====
+// ── AGREGAR ──────────────────────────────────
+document.getElementById('submitSponsor').addEventListener('click', async () => {
+  const nombre    = document.getElementById('sp-nombre').value.trim();
+  const categoria = document.getElementById('sp-categoria').value.trim();
+  const desc      = document.getElementById('sp-desc').value.trim();
+  if (!nombre || !categoria || !desc) return;
+
+  const imgUrl = document.getElementById('sp-img-url').value.trim();
+
+  try {
+    if (pendingImageData instanceof File) {
+      // subir con FormData (imagen local)
+      const fd = new FormData();
+      fd.append('nombre', nombre);
+      fd.append('categoria', categoria);
+      fd.append('desc', desc);
+      fd.append('telefono',  document.getElementById('sp-telefono').value.trim());
+      fd.append('email',     document.getElementById('sp-email').value.trim());
+      fd.append('instagram', document.getElementById('sp-instagram').value.trim());
+      fd.append('facebook',  document.getElementById('sp-facebook').value.trim());
+      fd.append('web',       document.getElementById('sp-web').value.trim());
+      fd.append('imagen', pendingImageData);
+      fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+      const nuevo = await api('/api/patrocinadores/', 'POST', fd);
+      sponsors.push({ ...nuevo, categoria, desc,
+        telefono: document.getElementById('sp-telefono').value.trim(),
+        email: document.getElementById('sp-email').value.trim(),
+        instagram: document.getElementById('sp-instagram').value.trim(),
+        facebook: document.getElementById('sp-facebook').value.trim(),
+        web: document.getElementById('sp-web').value.trim(),
+      });
+    } else {
+      // sin imagen o URL
+      const fd = new FormData();
+      fd.append('nombre', nombre);
+      fd.append('categoria', categoria);
+      fd.append('desc', desc);
+      fd.append('telefono',  document.getElementById('sp-telefono').value.trim());
+      fd.append('email',     document.getElementById('sp-email').value.trim());
+      fd.append('instagram', document.getElementById('sp-instagram').value.trim());
+      fd.append('facebook',  document.getElementById('sp-facebook').value.trim());
+      fd.append('web',       document.getElementById('sp-web').value.trim());
+      fd.append('imagen_url', imgUrl);
+      fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+      const nuevo = await api('/api/patrocinadores/', 'POST', fd);
+      sponsors.push({ ...nuevo, categoria, desc,
+        telefono: document.getElementById('sp-telefono').value.trim(),
+        email: document.getElementById('sp-email').value.trim(),
+        instagram: document.getElementById('sp-instagram').value.trim(),
+        facebook: document.getElementById('sp-facebook').value.trim(),
+        web: document.getElementById('sp-web').value.trim(),
+      });
+    }
+
+    renderSponsors();
+    bootstrap.Modal.getInstance(document.getElementById('addSponsorModal')).hide();
+  } catch(e) {
+    alert('Error al agregar patrocinador');
+  }
+});
+
+// ── EDITAR ───────────────────────────────────
 function openEditModal(e, id) {
   e.stopPropagation();
   const s = sponsors.find(x => x.id === id);
@@ -120,80 +200,68 @@ function openEditModal(e, id) {
   document.getElementById('edit-sp-instagram').value = s.instagram || '';
   document.getElementById('edit-sp-facebook').value  = s.facebook  || '';
   document.getElementById('edit-sp-web').value       = s.web       || '';
-  document.getElementById('edit-sp-img-url').value   = (!s.img || s.img.startsWith('data:')) ? '' : s.img;
+  document.getElementById('edit-sp-img-url').value   = s.img && !s.img.startsWith('/media') ? s.img : '';
 
-  const editPreviewContainer = document.getElementById('edit-img-preview-container');
-  const editPreviewImg       = document.getElementById('edit-sp-img-preview');
+  const previewContainer = document.getElementById('edit-img-preview-container');
+  const previewImg       = document.getElementById('edit-sp-img-preview');
   if (s.img) {
-    editPreviewImg.src = s.img;
-    editPreviewContainer.style.display = 'block';
+    previewImg.src = s.img;
+    previewContainer.style.display = 'block';
   } else {
-    editPreviewContainer.style.display = 'none';
+    previewContainer.style.display = 'none';
   }
 
   new bootstrap.Modal(document.getElementById('editSponsorModal')).show();
 }
 
-document.getElementById('saveEditSponsor').addEventListener('click', () => {
+document.getElementById('saveEditSponsor').addEventListener('click', async () => {
   const id        = parseInt(document.getElementById('edit-sp-id').value);
   const nombre    = document.getElementById('edit-sp-nombre').value.trim();
   const categoria = document.getElementById('edit-sp-categoria').value.trim();
   const desc      = document.getElementById('edit-sp-desc').value.trim();
   if (!nombre || !categoria || !desc) return;
 
-  const imgUrl   = document.getElementById('edit-sp-img-url').value.trim();
-  const existing = sponsors.find(x => x.id === id);
-  const imgFinal = editPendingImageData || imgUrl ||
-    (existing?.img?.startsWith('data:') ? existing.img : '');
+  try {
+    // 1. Actualizar datos de texto
+    await api(`/api/patrocinadores/${id}/`, 'PUT', {
+      nombre, categoria, desc,
+      telefono:  document.getElementById('edit-sp-telefono').value.trim(),
+      email:     document.getElementById('edit-sp-email').value.trim(),
+      instagram: document.getElementById('edit-sp-instagram').value.trim(),
+      facebook:  document.getElementById('edit-sp-facebook').value.trim(),
+      web:       document.getElementById('edit-sp-web').value.trim(),
+      imagen_url: document.getElementById('edit-sp-img-url').value.trim(),
+    });
 
-  sponsors = sponsors.map(s => s.id === id ? {
-    ...s, nombre, categoria, desc,
-    telefono:  document.getElementById('edit-sp-telefono').value.trim(),
-    email:     document.getElementById('edit-sp-email').value.trim(),
-    instagram: document.getElementById('edit-sp-instagram').value.trim(),
-    facebook:  document.getElementById('edit-sp-facebook').value.trim(),
-    web:       document.getElementById('edit-sp-web').value.trim(),
-    img:       imgFinal
-  } : s);
+    // 2. Si hay imagen nueva, subirla aparte
+    if (editPendingImageData instanceof File) {
+      const fd = new FormData();
+      fd.append('imagen', editPendingImageData);
+      fd.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+      await api(`/api/patrocinadores/${id}/imagen/`, 'POST', fd);
+    }
 
-  saveSponsors();
-  bootstrap.Modal.getInstance(document.getElementById('editSponsorModal')).hide();
-  renderSponsors();
+    await loadSponsors();
+    bootstrap.Modal.getInstance(document.getElementById('editSponsorModal')).hide();
+  } catch(e) {
+    alert('Error al guardar cambios');
+  }
 });
 
-document.getElementById('edit-btn-upload-img').addEventListener('click', () => {
-  document.getElementById('edit-sp-img-file').click();
-});
-document.getElementById('edit-sp-img-file').addEventListener('change', function () {
-  const file = this.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    editPendingImageData = ev.target.result;
-    document.getElementById('edit-sp-img-preview').src = editPendingImageData;
-    document.getElementById('edit-img-preview-container').style.display = 'block';
-    document.getElementById('edit-sp-img-url').value = '';
-  };
-  reader.readAsDataURL(file);
-});
-document.getElementById('edit-btn-remove-img').addEventListener('click', () => {
-  editPendingImageData = null;
-  document.getElementById('edit-sp-img-preview').src = '';
-  document.getElementById('edit-img-preview-container').style.display = 'none';
-  document.getElementById('edit-sp-img-url').value = '';
-  document.getElementById('edit-sp-img-file').value = '';
-});
-
-// ===== Eliminar =====
-function deleteSponsor(e, id) {
+// ── ELIMINAR ─────────────────────────────────
+async function deleteSponsor(e, id) {
   e.stopPropagation();
   if (!confirm('¿Eliminar este patrocinador?')) return;
-  sponsors = sponsors.filter(s => s.id !== id);
-  saveSponsors();
-  renderSponsors();
+  try {
+    await api(`/api/patrocinadores/${id}/`, 'DELETE');
+    sponsors = sponsors.filter(s => s.id !== id);
+    renderSponsors();
+  } catch(e) {
+    alert('Error al eliminar');
+  }
 }
 
-// ===== Preview imagen (agregar) =====
+// ── PREVIEW IMAGEN (agregar) ─────────────────
 const btnUpload    = document.getElementById('btn-upload-img');
 const fileInput    = document.getElementById('sp-img-file');
 const imgUrlInput  = document.getElementById('sp-img-url');
@@ -205,13 +273,9 @@ btnUpload.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    pendingImageData = ev.target.result;
-    showPreview(ev.target.result);
-    imgUrlInput.value = '';
-  };
-  reader.readAsDataURL(file);
+  pendingImageData = file;           // guardamos el File, no base64
+  showPreview(URL.createObjectURL(file));
+  imgUrlInput.value = '';
 });
 imgUrlInput.addEventListener('input', () => {
   const url = imgUrlInput.value.trim();
@@ -234,28 +298,27 @@ function clearImagePreview() {
   previewBox.style.display = 'none';
 }
 
-// ===== Agregar =====
-document.getElementById('submitSponsor').addEventListener('click', () => {
-  const nombre    = document.getElementById('sp-nombre').value.trim();
-  const categoria = document.getElementById('sp-categoria').value.trim();
-  const desc      = document.getElementById('sp-desc').value.trim();
-  if (!nombre || !categoria || !desc) return;
-
-  sponsors.push({
-    id: nextId++, nombre, categoria, desc,
-    img:       pendingImageData || document.getElementById('sp-img-url').value.trim() || '',
-    telefono:  document.getElementById('sp-telefono').value.trim(),
-    email:     document.getElementById('sp-email').value.trim(),
-    instagram: document.getElementById('sp-instagram').value.trim(),
-    facebook:  document.getElementById('sp-facebook').value.trim(),
-    web:       document.getElementById('sp-web').value.trim(),
-  });
-
-  saveSponsors();
-  bootstrap.Modal.getInstance(document.getElementById('addSponsorModal')).hide();
-  renderSponsors();
+// ── PREVIEW IMAGEN (editar) ──────────────────
+document.getElementById('edit-btn-upload-img').addEventListener('click', () => {
+  document.getElementById('edit-sp-img-file').click();
+});
+document.getElementById('edit-sp-img-file').addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+  editPendingImageData = file;
+  document.getElementById('edit-sp-img-preview').src = URL.createObjectURL(file);
+  document.getElementById('edit-img-preview-container').style.display = 'block';
+  document.getElementById('edit-sp-img-url').value = '';
+});
+document.getElementById('edit-btn-remove-img').addEventListener('click', () => {
+  editPendingImageData = null;
+  document.getElementById('edit-sp-img-preview').src = '';
+  document.getElementById('edit-img-preview-container').style.display = 'none';
+  document.getElementById('edit-sp-img-url').value = '';
+  document.getElementById('edit-sp-img-file').value = '';
 });
 
+// ── LIMPIAR MODAL AL CERRAR ──────────────────
 document.getElementById('addSponsorModal').addEventListener('hidden.bs.modal', () => {
   ['sp-nombre','sp-categoria','sp-desc','sp-telefono','sp-email',
    'sp-instagram','sp-facebook','sp-web','sp-img-url'].forEach(id => {
@@ -265,4 +328,5 @@ document.getElementById('addSponsorModal').addEventListener('hidden.bs.modal', (
   clearImagePreview();
 });
 
-renderSponsors();
+// ── INIT ─────────────────────────────────────
+loadSponsors();

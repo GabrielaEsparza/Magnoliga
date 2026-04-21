@@ -237,8 +237,100 @@ window.cerrarPartidos = function() {
   document.getElementById('nota-importante').classList.remove('d-none');
 };
 
+// ── RENDER CATEGORÍAS ────────────────────────
+async function cargarCategorias() {
+  try {
+    const cats = await api('/api/rol/categorias/');
+    const grid = document.getElementById('categories-grid');
+    // Insertar tarjetas antes del botón de agregar (si existe)
+    const btnAgregar = document.getElementById('card-add-cat');
+
+    cats.forEach((cat, i) => {
+      const div = document.createElement('div');
+      div.className = 'reveal-up';
+      div.style.animationDelay = `${i * 0.1}s`;
+      div.id = `wrapper-${cat.slug}`;
+
+      const bg = cat.imagen ? cat.imagen : '/static/assets/+40.jpeg';
+      const adminBtns = ES_ADMIN ? `
+        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); document.getElementById('file-${cat.slug}').click()">
+          <i class="bi bi-image me-1"></i>Cambiar foto
+        </button>
+        <input type="file" id="file-${cat.slug}" accept="image/*" class="d-none"
+               onchange="cambiarFotoTarjeta(this, document.getElementById('card-${cat.slug}'), '${cat.slug}')">
+        <button class="btn-delete-cat" onclick="event.stopPropagation(); eliminarCategoria(&quot;${cat.slug}&quot;)" title="Eliminar categoría">
+          <i class="bi bi-trash3"></i>
+        </button>` : '';
+
+      div.innerHTML = `
+        <div class="category-card category-card-rect"
+             id="card-${cat.slug}"
+             onclick="expandirPartidos('${cat.slug}', '${cat.nombre}')"
+             style="background-image: url('${bg}');">
+          <div class="card-overlay"></div>
+          <div class="card-content-centered text-center">
+            <h3>${cat.nombre}</h3>
+          </div>
+          <div class="card-footer-info">
+            <span class="date text-orange"></span>
+            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
+          </div>
+          ${adminBtns}
+        </div>`;
+
+      if (btnAgregar) {
+        grid.insertBefore(div, btnAgregar);
+      } else {
+        grid.appendChild(div);
+      }
+    });
+  } catch(e) {
+    console.error('Error cargando categorías', e);
+  }
+}
+
+async function eliminarCategoria(slug) {
+  if (!confirm('¿Eliminar esta categoría y todos sus partidos?')) return;
+  try {
+    await api(`/api/rol/categorias/${slug}/`, 'DELETE');
+    const wrapper = document.getElementById(`wrapper-${slug}`);
+    if (wrapper) wrapper.remove();
+    showToast('Categoría eliminada');
+  } catch(e) {
+    showToast('Error al eliminar', true);
+  }
+}
+
+function abrirModalAgregarCategoria() {
+  document.getElementById('new-cat-nombre').value = '';
+  document.getElementById('new-cat-slug').value   = '';
+  document.getElementById('new-cat-error').classList.add('d-none');
+  new bootstrap.Modal(document.getElementById('modalAgregarCategoria')).show();
+}
+
+async function guardarNuevaCategoria() {
+  const nombre = document.getElementById('new-cat-nombre').value.trim();
+  const slug   = document.getElementById('new-cat-slug').value.trim()
+                   .toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  if (!nombre || !slug) {
+    document.getElementById('new-cat-error').classList.remove('d-none');
+    return;
+  }
+  try {
+    await api('/api/rol/categorias/', 'POST', { nombre, slug });
+    bootstrap.Modal.getInstance(document.getElementById('modalAgregarCategoria')).hide();
+    // Recargar el grid completo
+    document.querySelectorAll('[id^="wrapper-"]').forEach(el => el.remove());
+    await cargarCategorias();
+    showToast('Categoría agregada');
+  } catch(e) {
+    document.getElementById('new-cat-error').textContent = 'Error: el slug ya existe o datos inválidos.';
+    document.getElementById('new-cat-error').classList.remove('d-none');
+  }
+}
+
 // ── INIT ──────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   const modalEl = document.getElementById('matchModal');
   if (modalEl) matchModal = new bootstrap.Modal(modalEl);
 
@@ -246,4 +338,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnSave = document.getElementById('btn-save-match');
   if (btnAdd)  btnAdd.addEventListener('click',  abrirModalNuevo);
   if (btnSave) btnSave.addEventListener('click', guardarPartido);
+
+  const btnSaveCat = document.getElementById('btn-save-new-cat');
+  if (btnSaveCat) btnSaveCat.addEventListener('click', guardarNuevaCategoria);
+
+  await cargarCategorias();
 });

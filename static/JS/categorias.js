@@ -710,7 +710,7 @@ async function renderGaleria() {
       col.innerHTML = `
         <div class="gallery-img-card">
           <div class="ratio ratio-16x9">
-            <iframe src="https://www.youtube.com/embed/${videoId}" title="${item.titulo}" allowfullscreen loading="lazy"></iframe>
+            <iframe src="https://www.youtube.com/embed/${videoId}" title="${item.titulo}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
           </div>
           ${item.titulo ? `<p class="gallery-video-title">${item.titulo}</p>` : ''}
           ${removeBtn}
@@ -718,6 +718,39 @@ async function renderGaleria() {
     }
     grid.appendChild(col);
   });
+
+  // Volver a agregar botones de admin al final
+  if (ES_ADMIN) {
+    const addPhoto = document.createElement('div');
+    addPhoto.className = 'col-md-4';
+    addPhoto.id = 'gallery-add-photo';
+    addPhoto.innerHTML = `
+      <label class="gallery-add d-flex flex-column align-items-center justify-content-center text-center" for="galleryUpload">
+        <div class="icon-circle mb-2"><i class="bi bi-plus-lg fs-5"></i></div>
+        <span class="text-white small fw-medium">Agregar foto</span>
+      </label>
+      <input type="file" id="galleryUpload" accept="image/*" class="d-none">`;
+    grid.appendChild(addPhoto);
+    document.getElementById('galleryUpload').addEventListener('change', addGalleryPhoto);
+
+    const addVideo = document.createElement('div');
+    addVideo.className = 'col-md-4';
+    addVideo.id = 'gallery-add-video';
+    addVideo.innerHTML = `
+      <div class="gallery-add d-flex flex-column align-items-center justify-content-center text-center gap-2 p-3">
+        <div class="icon-circle mb-1"><i class="bi bi-youtube fs-5"></i></div>
+        <span class="text-white small fw-medium">Agregar video</span>
+        <input type="text" id="youtubeTitle"
+               class="form-control bg-input border-0 text-white text-center small"
+               placeholder="Título del video">
+        <input type="text" id="youtubeUrlInput"
+               class="form-control bg-input border-0 text-white text-center small"
+               placeholder="Link de YouTube">
+        <button class="btn btn-orange btn-sm fw-semibold w-100"
+                onclick="addGalleryVideo()">Agregar</button>
+      </div>`;
+    grid.appendChild(addVideo);
+  }
 }
 
 async function addGalleryPhoto(e) {

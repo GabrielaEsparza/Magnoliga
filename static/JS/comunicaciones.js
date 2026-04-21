@@ -64,7 +64,7 @@ async function renderMedia() {
       const ytId = getYouTubeId(item.video_url || '');
       mediaHtml = `
         <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/${ytId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
         </div>`;
     }
 
