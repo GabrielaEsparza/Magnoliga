@@ -11,6 +11,7 @@ urlpatterns = [
     path('deporturismo/',      views.deporturismo,     name='deporturismo'),
     path('mantenimiento/',     views.mantenimiento,    name='mantenimiento'),
     path('seccion-magnoliga/', views.seccion_magnoliga,name='seccion_magnoliga'),
+    path('api/rol/categorias/<slug:slug>/', api.rol_categoria_detalle, name='api_rol_categoria_detalle'),
 
     # ── API Categorías ───────────────────────
     path('api/categorias/',                      api.categorias_list,    name='api_categorias'),
@@ -53,5 +54,17 @@ urlpatterns = [
     # ── API Comunicaciones ───────────────────────────────────────────
     path('api/comunicaciones/',                api.comunicaciones_list,    name='api_comunicaciones'),
     path('api/comunicaciones/<int:item_id>/',  api.comunicaciones_detalle, name='api_comunicaciones_detalle'),
-]
 
+    # ── API Depoturismo ──────────────────────────────────────────────
+    path('api/depoturismo/',                   api.depoturismo_list,       name='api_depoturismo'),
+    path('api/depoturismo/<int:item_id>/',     api.depoturismo_detalle,    name='api_depoturismo_detalle'),
+
+    # ── API Arquitectura Deportiva ───────────────────────────────────
+    path('api/arquitectura/',                  api.arquitectura_list,      name='api_arquitectura'),
+    path('api/arquitectura/<int:item_id>/',    api.arquitectura_detalle,   name='api_arquitectura_detalle'),
+
+    # ── API Seccion magnoliga ─────────────
+    path('api/patrocinadores/',                  api.patrocinadores_list,    name='api_patrocinadores'),
+    path('api/patrocinadores/<int:pat_id>/',     api.patrocinador_detalle,   name='api_patrocinador_detalle'),
+    path('api/patrocinadores/<int:pat_id>/imagen/', api.patrocinador_imagen, name='api_patrocinador_imagen'),
+]

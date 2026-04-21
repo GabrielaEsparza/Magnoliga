@@ -33,306 +33,19 @@
             <!-- Grid de categorías -->
             <div id="categories-grid" class="mb-5">
 
-
-                <!-- 1 -->
-<div class="reveal-up">
-    <div class="category-card category-card-rect"
-         id="card-cat_1"
-         onclick="expandirPartidos('cat_1', '+40')"
-         style="background-image: url('/static/assets/+40.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>+40</h3>
-            <p>La edad es solo un número</p>
+    {% if es_admin %}
+    <div class="reveal-up" id="card-add-cat">
+        <div class="category-card category-card-rect category-card-add"
+             onclick="abrirModalAgregarCategoria()"
+             style="background:#1a1a1a; border: 2px dashed #f97316; cursor:pointer;">
+            <div class="card-overlay" style="opacity:0.1;"></div>
+            <div class="card-content-centered text-center">
+                <i class="bi bi-plus-circle fs-1 text-orange mb-2 d-block"></i>
+                <h3 class="text-orange">Agregar categoría</h3>
+            </div>
         </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_1')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_1" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_1'), 'cat_1')">
-        {% endif %}
     </div>
-</div>
-
-<!-- 2 -->
-<div class="reveal-up" style="animation-delay:0.1s">
-    <div class="category-card category-card-rect"
-         id="card-cat_2"
-         onclick="expandirPartidos('cat_2', '3ra Fuerza')"
-         style="background-image: url('/static/assets/3ra.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3ra Fuerza</h3>
-            <p>Juego, fuerza y determinación</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_2')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_2" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_2'), 'cat_2')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 3 -->
-<div class="reveal-up" style="animation-delay:0.2s">
-    <div class="category-card category-card-rect"
-         id="card-cat_3"
-         onclick="expandirPartidos('cat_3', 'A')"
-         style="background-image: url('/static/assets/a.jpg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>A</h3>
-            <p>El máximo nivel de competencia</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_3')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_3" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_3'), 'cat_3')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 4 -->
-<div class="reveal-up" style="animation-delay:0.3s">
-    <div class="category-card category-card-rect"
-         id="card-cat_4"
-         onclick="expandirPartidos('cat_4', 'B')"
-         style="background-image: url('/static/assets/b.jpg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>B</h3>
-            <p>Donde nacen las estrellas</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_4')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_4" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_4'), 'cat_4')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 5 -->
-<div class="reveal-up" style="animation-delay:0.4s">
-    <div class="category-card category-card-rect"
-         id="card-cat_5"
-         onclick="expandirPartidos('cat_5', 'Femenil')"
-         style="background-image: url('/static/assets/Fem5vs5.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>Femenil</h3>
-            <p>Juego, fuerza y pasión</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_5')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_5" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_5'), 'cat_5')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 6 -->
-<div class="reveal-up" style="animation-delay:0.5s">
-    <div class="category-card category-card-rect"
-         id="card-cat_6"
-         onclick="expandirPartidos('cat_6', '3x3 Femenil A')"
-         style="background-image: url('/static/assets/3x3Fem.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3x3 Femenil A</h3>
-            <p>Velocidad, ritmo y pasión</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_6')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_6" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_6'), 'cat_6')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 7 -->
-<div class="reveal-up" style="animation-delay:0.6s">
-    <div class="category-card category-card-rect"
-         id="card-cat_7"
-         onclick="expandirPartidos('cat_7', '3x3 Varonil Miércoles')"
-         style="background-image: url('/static/assets/3x3miercoles.jpg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3x3 Varonil Miércoles</h3>
-            <p>Velocidad, ritmo y precisión</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_7')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_7" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_7'), 'cat_7')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 8 -->
-<div class="reveal-up" style="animation-delay:0.7s">
-    <div class="category-card category-card-rect"
-         id="card-cat_8"
-         onclick="expandirPartidos('cat_8', '3x3 Varonil Jueves')"
-         style="background-image: url('/static/assets/3x3jueves.jpg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3x3 Varonil Jueves</h3>
-            <p>La batalla del jueves</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_8')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_8" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_8'), 'cat_8')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 9 -->
-<div class="reveal-up" style="animation-delay:0.8s">
-    <div class="category-card category-card-rect"
-         id="card-cat_9"
-         onclick="expandirPartidos('cat_9', 'Mixto 3x3')"
-         style="background-image: url('/static/assets/3x3Mixto.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>Mixto 3x3</h3>
-            <p>Unidos por el juego</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_9')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_9" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_9'), 'cat_9')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 10 -->
-<div class="reveal-up" style="animation-delay:0.9s">
-    <div class="category-card category-card-rect"
-         id="card-cat_10"
-         onclick="expandirPartidos('cat_10', 'Veteranos +40 3x3')"
-         style="background-image: url('/static/assets/3x3Vet.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>Veteranos +40 3x3</h3>
-            <p>Experiencia en la cancha</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_10')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_10" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_10'), 'cat_10')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 11 -->
-<div class="reveal-up" style="animation-delay:1.0s">
-    <div class="category-card category-card-rect"
-         id="card-cat_11"
-         onclick="expandirPartidos('cat_11', '3x3 Domingo Grupo A')"
-         style="background-image: url('/static/assets/3x3DomA.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3x3 Domingo Grupo A</h3>
-            <p>El domingo es de básquet</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_11')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_11" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_11'), 'cat_11')">
-        {% endif %}
-    </div>
-</div>
-
-<!-- 12 -->
-<div class="reveal-up" style="animation-delay:1.1s">
-    <div class="category-card category-card-rect"
-         id="card-cat_12"
-         onclick="expandirPartidos('cat_12', '3x3 Domingo Grupo B')"
-         style="background-image: url('/static/assets/3x3Dominical.jpeg');">
-        <div class="card-overlay"></div>
-        <div class="card-content-centered text-center">
-            <h3>3x3 Domingo Grupo B</h3>
-            <p>Domingos de competencia</p>
-        </div>
-        <div class="card-footer-info">
-            <span class="date text-orange"></span>
-            <span class="click-prompt">Click para ver partidos <i class="bi bi-arrow-right-short"></i></span>
-        </div>
-        {% if es_admin %}
-        <button class="btn-change-photo-rol" onclick="event.stopPropagation(); abrirCambioFoto('file-cat_12')">
-            <i class="bi bi-image me-1"></i>Cambiar foto
-        </button>
-        <input type="file" id="file-cat_12" accept="image/*" class="d-none"
-               onchange="cambiarFotoTarjeta(this, document.getElementById('card-cat_12'), 'cat_12')">
-        {% endif %}
-    </div>
-</div>
+    {% endif %}
                 
             </div><!-- /categories-grid -->
 
@@ -436,6 +149,37 @@
             </div>
         </div>
     </div>
+
+    {% if es_admin %}
+<div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0" style="background:#161616; border-radius:1rem;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title text-white">Agregar categoría</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Nombre de la categoría *</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-nombre" placeholder="Ej. Sub-17">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Slug (identificador único) *</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-slug" placeholder="Ej. cat_13">
+                    <small class="text-secondary">Solo letras, números y guiones bajos. Ej: cat_13</small>
+                </div>
+                <div id="new-cat-error" class="alert alert-danger py-2 small d-none">
+                    Por favor llena todos los campos correctamente.
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-orange fw-semibold flex-grow-1" id="btn-save-new-cat">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
     <div id="footer"></div>
 

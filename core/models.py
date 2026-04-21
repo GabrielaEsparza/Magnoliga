@@ -133,3 +133,59 @@ class ComunicacionesItem(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.titulo}"
+    
+
+    def __str__(self):
+        return f"{self.tipo} - {self.titulo}"
+
+
+class DepoturismoItem(models.Model):
+    tipo        = models.CharField(max_length=10)
+    titulo      = models.CharField(max_length=200, blank=True)
+    descripcion = models.TextField(blank=True)
+    imagen      = models.ImageField(upload_to='depoturismo/', blank=True, null=True)
+    video_url   = models.URLField(blank=True, null=True)
+    orden       = models.PositiveIntegerField(default=0)
+    creado      = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-creado']
+
+    def __str__(self):
+        return f"{self.tipo} - {self.titulo}"
+
+
+class ArquitecturaDeportiva(models.Model):
+    titulo      = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True)
+    imagen      = models.ImageField(upload_to='arquitectura/', blank=True, null=True)
+    video_url   = models.URLField(blank=True, null=True)
+    tipo        = models.CharField(max_length=10, default='foto')  # 'foto' | 'video'
+    orden       = models.PositiveIntegerField(default=0)
+    creado      = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-creado']
+
+    def __str__(self):
+        return self.titulo
+
+class Patrocinador(models.Model):
+    nombre    = models.CharField(max_length=200)
+    categoria = models.CharField(max_length=100)
+    desc      = models.TextField(blank=True)
+    telefono  = models.CharField(max_length=50, blank=True)
+    email     = models.EmailField(blank=True)
+    instagram = models.CharField(max_length=100, blank=True)
+    facebook  = models.CharField(max_length=200, blank=True)
+    web       = models.URLField(blank=True)
+    imagen    = models.ImageField(upload_to='patrocinadores/', blank=True, null=True)
+    imagen_url = models.URLField(blank=True)
+    orden     = models.PositiveIntegerField(default=0)
+    creado    = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['orden']
+
+    def __str__(self):
+        return self.nombre

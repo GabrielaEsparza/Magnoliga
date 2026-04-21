@@ -1,6 +1,6 @@
 import json
 from django.http import JsonResponse
-from .models import Categoria, Jornada, Partido, Equipo, Jugador, Asistencia, Standing, GaleriaItem, RolCategoria, RolPartido, ComunicacionesItem
+from .models import Categoria, Jornada, Partido, Equipo, Jugador, Asistencia, Standing, GaleriaItem, RolCategoria, RolPartido, ComunicacionesItem, DepoturismoItem, ArquitecturaDeportiva, Patrocinador
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.admin.views.decorators import staff_member_required
@@ -354,6 +354,19 @@ def rol_categorias_list(request):
         } for c in cats]
         return json_response(data)
 
+    if request.method == 'POST':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        body = json.loads(request.body)
+        nombre = body.get('nombre', '').strip()
+        slug   = body.get('slug', '').strip()
+        if not nombre or not slug:
+            return json_response({'error': 'nombre y slug requeridos'}, 400)
+        if RolCategoria.objects.filter(slug=slug).exists():
+            return json_response({'error': 'El slug ya existe'}, 400)
+        cat = RolCategoria.objects.create(nombre=nombre, slug=slug)
+        return json_response({'id': cat.id, 'slug': cat.slug, 'nombre': cat.nombre, 'imagen': None}, 201)
+
 
 @csrf_exempt
 def rol_categoria_foto(request, slug):
@@ -467,4 +480,194 @@ def comunicaciones_detalle(request, item_id):
         if not (request.user.is_authenticated and request.user.is_staff):
             return json_response({'error': 'No autorizado'}, 403)
         item.delete()
+        return json_response({'ok': True})
+
+
+# ── DEPOTURISMO ───────────────────────────────────────────────────────
+@csrf_exempt
+def depoturismo_list(request):
+    if request.method == 'GET':
+        items = DepoturismoItem.objects.all()
+        data = [{
+            'id':          i.id,
+            'tipo':        i.tipo,
+            'titulo':      i.titulo,
+            'descripcion': i.descripcion,
+            'imagen':      i.imagen.url if i.imagen else None,
+            'video_url':   i.video_url,
+        } for i in items]
+        return json_response(data)
+
+    if request.method == 'POST':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        tipo = request.POST.get('tipo', 'foto')
+        item = DepoturismoItem(
+            tipo        = tipo,
+            titulo      = request.POST.get('titulo', ''),
+            descripcion = request.POST.get('descripcion', ''),
+            orden       = DepoturismoItem.objects.count(),
+        )
+        if tipo == 'foto' and request.FILES.get('imagen'):
+            item.imagen = request.FILES['imagen']
+        if tipo == 'video':
+            item.video_url = request.POST.get('video_url', '')
+        item.save()
+        return json_response({
+            'id':        item.id,
+            'tipo':      item.tipo,
+            'titulo':    item.titulo,
+            'imagen':    item.imagen.url if item.imagen else None,
+            'video_url': item.video_url,
+        }, 201)
+
+
+@csrf_exempt
+def depoturismo_detalle(request, item_id):
+    item = get_object_or_404(DepoturismoItem, id=item_id)
+
+    if request.method == 'DELETE':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        item.delete()
+        return json_response({'ok': True})
+
+
+# ── ARQUITECTURA DEPORTIVA ────────────────────────────────────────────
+@csrf_exempt
+def arquitectura_list(request):
+    if request.method == 'GET':
+        items = ArquitecturaDeportiva.objects.all()
+        data = [{
+            'id':          i.id,
+            'tipo':        i.tipo,
+            'titulo':      i.titulo,
+            'descripcion': i.descripcion,
+            'imagen':      i.imagen.url if i.imagen else None,
+            'video_url':   i.video_url,
+        } for i in items]
+        return json_response(data)
+
+    if request.method == 'POST':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        tipo = request.POST.get('tipo', 'foto')
+        item = ArquitecturaDeportiva(
+            tipo        = tipo,
+            titulo      = request.POST.get('titulo', ''),
+            descripcion = request.POST.get('descripcion', ''),
+            orden       = ArquitecturaDeportiva.objects.count(),
+        )
+        if tipo == 'foto' and request.FILES.get('imagen'):
+            item.imagen = request.FILES['imagen']
+        if tipo == 'video':
+            item.video_url = request.POST.get('video_url', '')
+        item.save()
+        return json_response({
+            'id':        item.id,
+            'tipo':      item.tipo,
+            'titulo':    item.titulo,
+            'imagen':    item.imagen.url if item.imagen else None,
+            'video_url': item.video_url,
+        }, 201)
+
+
+@csrf_exempt
+def arquitectura_detalle(request, item_id):
+    item = get_object_or_404(ArquitecturaDeportiva, id=item_id)
+
+    if request.method == 'DELETE':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        item.delete()
+        return json_response({'ok': True})
+    
+
+
+
+# ── PATROCINADORES ────────────────────────────────────────────────────
+@csrf_exempt
+def patrocinadores_list(request):
+    if request.method == 'GET':
+        items = Patrocinador.objects.all()
+        data = [{
+            'id':        p.id,
+            'nombre':    p.nombre,
+            'categoria': p.categoria,
+            'desc':      p.desc,
+            'telefono':  p.telefono,
+            'email':     p.email,
+            'instagram': p.instagram,
+            'facebook':  p.facebook,
+            'web':       p.web,
+            'img':       p.imagen.url if p.imagen else p.imagen_url,
+        } for p in items]
+        return json_response(data)
+
+    if request.method == 'POST':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        p = Patrocinador(
+            nombre    = request.POST.get('nombre', ''),
+            categoria = request.POST.get('categoria', ''),
+            desc      = request.POST.get('desc', ''),
+            telefono  = request.POST.get('telefono', ''),
+            email     = request.POST.get('email', ''),
+            instagram = request.POST.get('instagram', ''),
+            facebook  = request.POST.get('facebook', ''),
+            web       = request.POST.get('web', ''),
+            imagen_url = request.POST.get('imagen_url', ''),
+            orden     = Patrocinador.objects.count(),
+        )
+        if request.FILES.get('imagen'):
+            p.imagen = request.FILES['imagen']
+        p.save()
+        return json_response({
+            'id':     p.id,
+            'nombre': p.nombre,
+            'img':    p.imagen.url if p.imagen else p.imagen_url,
+        }, 201)
+
+
+@csrf_exempt
+def patrocinador_detalle(request, pat_id):
+    p = get_object_or_404(Patrocinador, id=pat_id)
+
+    if request.method == 'PUT':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        body = json.loads(request.body)
+        for f in ['nombre','categoria','desc','telefono','email','instagram','facebook','web','imagen_url']:
+            setattr(p, f, body.get(f, getattr(p, f)))
+        p.save()
+        return json_response({'ok': True})
+
+    if request.method == 'DELETE':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        p.delete()
+        return json_response({'ok': True})
+
+
+@csrf_exempt
+def patrocinador_imagen(request, pat_id):
+    if not (request.user.is_authenticated and request.user.is_staff):
+        return json_response({'error': 'No autorizado'}, 403)
+    p    = get_object_or_404(Patrocinador, id=pat_id)
+    foto = request.FILES.get('imagen')
+    if foto:
+        p.imagen = foto
+        p.imagen_url = ''
+        p.save()
+        return json_response({'img': p.imagen.url})
+    return json_response({'error': 'No se recibió imagen'}, 400)
+
+@csrf_exempt
+def rol_categoria_detalle(request, slug):
+    cat = get_object_or_404(RolCategoria, slug=slug)
+
+    if request.method == 'DELETE':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        cat.delete()
         return json_response({'ok': True})

@@ -1,8 +1,7 @@
 /* Hero: imagen específica */
-.page-hero {
+.page-hero--depoturismo {
     background-image: url('../assets/depoturismo.png');
     min-height: 85vh;
-    /* ✅ NO redefinir padding, display, align-items — los hereda de main.css */
 }
 
 .hero-overlay {
@@ -98,45 +97,7 @@ textarea.form-control { resize: none; }
 
 .modal-content { border-radius: 1rem; }
 
-/* ── Responsive ── */
-@media (max-width: 767px) {
-    .page-hero   { min-height: 70vh; }
-    .gallery-img { height: 220px; }
-}
-
-@media (max-width: 480px) {
-    .page-hero   { min-height: 60vh; }
-    .gallery-img { height: 180px; }
-    .dropzone    { min-height: 160px; padding: 1.2rem; }
-}
-
-/* ── Fix navbar overlap en móvil (solo depoturismo) ── */
-@media (max-width: 900px) {
-    .page-hero-content {
-        margin-top: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .page-hero-content {
-        margin-top: 1rem;
-    }
-}
-
-@media (max-width: 900px) {
-    .page-hero {
-        padding-top: 130px !important;
-        margin-top: -70px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .page-hero {
-        padding-top: 110px !important;
-        margin-top: -60px !important;
-    }
-}
-
+/* ── Botón editar ── */
 .edit-btn {
     position: absolute;
     top: 10px;
@@ -150,7 +111,33 @@ textarea.form-control { resize: none; }
     cursor: pointer;
     transition: 0.2s;
 }
+.edit-btn:hover { background: var(--magnoliga-orange); }
 
-.edit-btn:hover {
-    background: #ff7a00; /* tu naranja */
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .page-hero--depoturismo {
+        padding-top: 130px !important;
+        margin-top: -70px !important;
+    }
+    .page-hero-content {
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-hero--depoturismo { min-height: 70vh; }
+    .gallery-img { height: 220px; }
+}
+
+@media (max-width: 480px) {
+    .page-hero--depoturismo {
+        padding-top: 110px !important;
+        margin-top: -60px !important;
+        min-height: 60vh !important;
+    }
+    .page-hero-content {
+        margin-top: 1rem;
+    }
+    .gallery-img { height: 180px; }
+    .dropzone    { min-height: 160px; padding: 1.2rem; }
 }
