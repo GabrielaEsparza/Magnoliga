@@ -1,0 +1,80 @@
+/* Hero de inicio: ocupa toda la pantalla con imagen de fondo */
+.hero {
+    position: relative;
+    background-image: url('../assets/Inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+/* Overlay oscuro */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 0;
+}
+
+/* La navbar flota sobre el hero */
+.hero > #navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.hero > * { position: relative; z-index: 2; }
+
+.hero-content {
+    color: #ffffff;
+    margin-left: clamp(20px, 8vw, 100px);
+    padding-right: 20px;
+    max-width: 90%;
+}
+
+.hero-content h1 {
+    font-size: clamp(2rem, 7vw, 60px);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 2px;
+}
+
+.hero-content p {
+    margin-top: 0;
+    font-size: clamp(14px, 2.5vw, 18px);
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.9);
+}
+
+.naranja { color: var(--magnoliga-orange); }
+
+/* Botón de inicio */
+.btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    border: 1px solid var(--magnoliga-orange);
+    color: var(--magnoliga-orange);
+    font-family: var(--font-primary);
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--magnoliga-orange);
+    color: #ffffff;
+}
+
+@media (max-width: 480px) {
+    .hero-content { margin-left: 20px; max-width: calc(100% - 40px); }
+    .hero-content p { letter-spacing: 1px; }
+    .btn { padding: 10px 22px; font-size: 14px; }
+}
