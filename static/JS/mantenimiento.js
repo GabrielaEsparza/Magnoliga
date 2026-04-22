@@ -23,11 +23,26 @@ async function api(url, method = 'GET', body = null) {
   return res.json();
 }
 
-function getYouTubeId(url) {
-  const m = url.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
-  );
-  return m ? m[1] : null;
+// ── HELPERS ──────────────────────────────────
+
+// FIX 1: getYouTubeId robusto — usa URL nativa para parsear query params.
+// Cubre: watch?v=, youtu.be/, /embed/, /shorts/ e ignora &t=, &list=, &si=, etc.
+function getYouTubeId(rawUrl) {
+  if (!rawUrl) return null;
+  try {
+    const url = new URL(rawUrl);
+    if (url.searchParams.has('v')) return url.searchParams.get('v');
+    const pathMatch = url.pathname.match(/\/(embed|shorts|v)\/([a-zA-Z0-9_-]{11})/);
+    if (pathMatch) return pathMatch[2];
+    if (url.hostname === 'youtu.be') {
+      const id = url.pathname.slice(1).split('?')[0];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(id)) return id;
+    }
+    return null;
+  } catch {
+    const m = rawUrl.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
 }
 
 function showToast(msg, isError = false) {
@@ -38,6 +53,7 @@ function showToast(msg, isError = false) {
   bootstrap.Toast.getOrCreateInstance(el, { delay: 2200 }).show();
 }
 
+// ── RENDER ───────────────────────────────────
 async function renderMedia() {
   const grid   = document.getElementById('user-media-grid');
   const addCol = document.getElementById('add-card-col');
@@ -54,14 +70,45 @@ async function renderMedia() {
     col.className = 'col-md-6 user-card-col';
 
     let mediaHtml;
+
     if (item.tipo === 'foto') {
-      mediaHtml = `<img src="${item.imagen}" class="card-img-top gallery-img" alt="${item.titulo}">`;
+      // FIX 2: Asegurar ruta absoluta en imágenes
+      const imgSrc = item.imagen
+        ? (item.imagen.startsWith('http') || item.imagen.startsWith('/') ? item.imagen : `/${item.imagen}`)
+        : '';
+      mediaHtml = `<img src="${imgSrc}"
+        class="card-img-top gallery-img"
+        alt="${item.titulo}"
+        loading="lazy"
+        onerror="this.src=''; this.style.minHeight='180px'; this.style.background='#222';">`;
+
     } else {
+      // FIX 3: Miniatura clickeable en lugar de iframe inmediato
       const ytId = getYouTubeId(item.video_url || '');
-      mediaHtml = `
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe>
-        </div>`;
+
+      if (!ytId) {
+        mediaHtml = `
+          <div class="ratio ratio-16x9 d-flex align-items-center justify-content-center bg-dark text-secondary">
+            <span><i class="bi bi-exclamation-circle me-1"></i>URL de video no válida</span>
+          </div>`;
+      } else {
+        mediaHtml = `
+          <div class="ratio ratio-16x9 yt-thumb-wrapper" data-ytid="${ytId}" style="cursor:pointer; position:relative;">
+            <img
+              src="https://img.youtube.com/vi/${ytId}/hqdefault.jpg"
+              alt="${item.titulo}"
+              loading="lazy"
+              class="w-100 h-100"
+              style="object-fit:cover;"
+              onerror="this.src='https://img.youtube.com/vi/${ytId}/mqdefault.jpg'">
+            <div class="yt-play-btn" style="
+              position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+              background:rgba(0,0,0,0.7); border-radius:50%; width:56px; height:56px;
+              display:flex; align-items:center; justify-content:center; pointer-events:none;">
+              <i class="bi bi-play-fill text-white fs-4" style="margin-left:3px;"></i>
+            </div>
+          </div>`;
+      }
     }
 
     const descHtml = item.descripcion
@@ -89,6 +136,22 @@ async function renderMedia() {
     }
   });
 
+  // FIX 4: Click en miniatura → reemplaza por iframe con autoplay
+  grid.querySelectorAll('.yt-thumb-wrapper').forEach(wrapper => {
+    wrapper.addEventListener('click', function() {
+      const ytId = this.dataset.ytid;
+      this.innerHTML = `
+        <iframe
+          src="https://www.youtube.com/embed/${ytId}?autoplay=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="width:100%; height:100%; border:0;">
+        </iframe>`;
+      this.style.cursor = 'default';
+    });
+  });
+
+  // Eventos eliminar
   grid.querySelectorAll('.remove-btn').forEach(btn => {
     btn.addEventListener('click', async function() {
       if (!confirm('¿Eliminar este elemento?')) return;
@@ -103,6 +166,7 @@ async function renderMedia() {
   });
 }
 
+// ── INIT ─────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async function() {
 
   await renderMedia();
@@ -118,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   let pendingPhotoFile = null;
 
-  // Video
+  // ── Video ──
   dropzone.addEventListener('click', () => {
     document.getElementById('mediaTitle').value = '';
     document.getElementById('mediaUrl').value   = '';
@@ -141,6 +205,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     const desc  = document.getElementById('mediaDesc').value.trim();
     if (!title || !url) return;
 
+    // FIX 5: Validar URL de YouTube antes de guardar
+    if (!getYouTubeId(url)) {
+      showToast('La URL no es un link válido de YouTube', true);
+      return;
+    }
+
     const fd = new FormData();
     fd.append('tipo',        'video');
     fd.append('titulo',      title);
@@ -157,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   });
 
-  // Foto
+  // ── Foto ──
   const photoModalInput         = document.getElementById('photo-modal-input');
   const photoPreviewImg         = document.getElementById('photo-preview-img');
   const photoPreviewPlaceholder = document.getElementById('photo-preview-placeholder');

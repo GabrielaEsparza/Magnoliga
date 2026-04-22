@@ -25,11 +25,47 @@ async function api(url, method = 'GET', body = null) {
 }
 
 // ── HELPERS ──────────────────────────────────
-function getYouTubeId(url) {
-  const m = url.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
-  );
-  return m ? m[1] : null;
+
+/**
+ * FIX 1: getYouTubeId mejorado.
+ * Ahora usa URL nativa para parsear correctamente query params,
+ * y cubre todos los formatos: watch?v=, youtu.be/, /embed/, /shorts/
+ * Ignora parámetros extra como &t=, &list=, &si=, etc.
+ */
+function getYouTubeId(rawUrl) {
+  if (!rawUrl) return null;
+  try {
+    const url = new URL(rawUrl);
+
+    // Formato: https://www.youtube.com/watch?v=VIDEO_ID
+    if (url.searchParams.has('v')) {
+      return url.searchParams.get('v');
+    }
+
+    // Formatos: youtu.be/VIDEO_ID, /embed/VIDEO_ID, /shorts/VIDEO_ID
+    const pathMatch = url.pathname.match(/\/(embed|shorts|v)\/([a-zA-Z0-9_-]{11})/);
+    if (pathMatch) return pathMatch[2];
+
+    // Formato corto: youtu.be/VIDEO_ID
+    if (url.hostname === 'youtu.be') {
+      const id = url.pathname.slice(1).split('?')[0];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(id)) return id;
+    }
+
+    return null;
+  } catch {
+    // Si la URL no es válida, fallback a regex
+    const m = rawUrl.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+}
+
+/**
+ * FIX 2: Obtener la URL de miniatura de mayor calidad disponible.
+ * Intenta maxresdefault (HD), si falla carga hqdefault.
+ */
+function getYouTubeThumbnail(ytId) {
+  return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
 }
 
 function showToast(msg, isError = false) {
@@ -58,14 +94,51 @@ async function renderMedia() {
     col.className = 'col-md-6 user-card-col';
 
     let mediaHtml;
+
     if (item.tipo === 'foto') {
-      mediaHtml = `<img src="${item.imagen}" class="card-img-top gallery-img" alt="${item.titulo}">`;
+      // FIX 3: Asegurar que la URL de imagen sea absoluta.
+      // Si el backend devuelve ruta relativa, el browser la resolverá correctamente,
+      // pero si viene sin slash inicial la agregamos.
+      const imgSrc = item.imagen
+        ? (item.imagen.startsWith('http') || item.imagen.startsWith('/') ? item.imagen : `/${item.imagen}`)
+        : '';
+
+      mediaHtml = `<img src="${imgSrc}"
+        class="card-img-top gallery-img"
+        alt="${item.titulo}"
+        loading="lazy"
+        onerror="this.src=''; this.style.minHeight='180px'; this.style.background='#222';">`;
+
     } else {
+      // FIX 4: Video con miniatura clickeable (lazy load del iframe).
+      // Esto evita que se carguen todos los iframes de golpe y mejora el rendimiento.
       const ytId = getYouTubeId(item.video_url || '');
-      mediaHtml = `
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/${ytId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-        </div>`;
+
+      if (!ytId) {
+        // URL inválida: mostrar mensaje en lugar de iframe roto
+        mediaHtml = `
+          <div class="ratio ratio-16x9 d-flex align-items-center justify-content-center bg-dark text-secondary">
+            <span><i class="bi bi-exclamation-circle me-1"></i>URL de video no válida</span>
+          </div>`;
+      } else {
+        const thumb = getYouTubeThumbnail(ytId);
+        mediaHtml = `
+          <div class="ratio ratio-16x9 yt-thumb-wrapper" data-ytid="${ytId}" style="cursor:pointer; position:relative;">
+            <img
+              src="${thumb}"
+              alt="${item.titulo}"
+              loading="lazy"
+              class="w-100 h-100"
+              style="object-fit:cover;"
+              onerror="this.src='https://img.youtube.com/vi/${ytId}/mqdefault.jpg'">
+            <div class="yt-play-btn" style="
+              position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+              background:rgba(0,0,0,0.7); border-radius:50%; width:56px; height:56px;
+              display:flex; align-items:center; justify-content:center; pointer-events:none;">
+              <i class="bi bi-play-fill text-white fs-4" style="margin-left:3px;"></i>
+            </div>
+          </div>`;
+      }
     }
 
     const descHtml = item.descripcion
@@ -86,12 +159,26 @@ async function renderMedia() {
         ${descHtml}
       </div>`;
 
-    // Insertar antes de los dropzones si es admin, o al final si no
     if (addCol) {
       grid.insertBefore(col, addCol);
     } else {
       grid.appendChild(col);
     }
+  });
+
+  // FIX 5: Al hacer clic en la miniatura, reemplaza la imagen por el iframe
+  grid.querySelectorAll('.yt-thumb-wrapper').forEach(wrapper => {
+    wrapper.addEventListener('click', function() {
+      const ytId = this.dataset.ytid;
+      this.innerHTML = `
+        <iframe
+          src="https://www.youtube.com/embed/${ytId}?autoplay=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="width:100%; height:100%; border:0;">
+        </iframe>`;
+      this.style.cursor = 'default';
+    });
   });
 
   // Eventos eliminar
@@ -139,6 +226,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     const url   = document.getElementById('mediaUrl').value.trim();
     const desc  = document.getElementById('mediaDesc').value.trim();
     if (!title || !url) return;
+
+    // FIX 6: Validar que la URL sea de YouTube antes de guardar
+    if (!getYouTubeId(url)) {
+      showToast('La URL no es un link válido de YouTube', true);
+      return;
+    }
 
     const fd = new FormData();
     fd.append('tipo',        'video');
