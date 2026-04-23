@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import cloudinary
 
 load_dotenv()
 
@@ -18,8 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',       
     'django.contrib.staticfiles',
-    'cloudinary_storage',
     'cloudinary',
     'core',
 ]
@@ -94,7 +95,10 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')  # lee el que ya tienes en Railway
+
+cloudinary.config(
+    cloudinary_url=os.environ.get('CLOUDINARY_URL')
+)
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
