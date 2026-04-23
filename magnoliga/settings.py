@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import cloudinary
 
 load_dotenv()
 
@@ -18,8 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',          # debe ir ANTES de staticfiles
     'django.contrib.staticfiles',
-    'cloudinary_storage',
     'cloudinary',
     'core',
 ]
@@ -87,6 +88,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -94,13 +97,18 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- Cloudinary (media files) ---
+# Lee todo desde CLOUDINARY_URL (formato: cloudinary://API_KEY:API_SECRET@CLOUD_NAME)
+cloudinary.config(url=os.environ.get('CLOUDINARY_URL'))
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': cloudinary.config().cloud_name,
+    'API_KEY':    cloudinary.config().api_key,
+    'API_SECRET': cloudinary.config().api_secret,
+}
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CSRF_TRUSTED_ORIGINS = [os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost')]
