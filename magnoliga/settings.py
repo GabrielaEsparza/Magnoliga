@@ -19,7 +19,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',       
     'django.contrib.staticfiles',
     'cloudinary',
     'core',
@@ -100,11 +99,6 @@ cloudinary.config(
     cloudinary_url=os.environ.get('CLOUDINARY_URL')
 )
 
-CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_URL = '/media/'
 
 

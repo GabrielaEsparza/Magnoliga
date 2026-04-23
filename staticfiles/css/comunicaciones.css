@@ -1,0 +1,294 @@
+/* ════════════════════════════════════════
+   1. HERO & CONFIGURACIÓN BASE
+   ════════════════════════════════════════ */
+.page-hero {
+    background-image: url('../assets/comunicacioneshero.png');
+    min-height: 85vh;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(10,10,10,0.2));
+    z-index: 0;
+}
+
+/* Colores de fondo para secciones */
+.bg-black { background-color: #000000 !important; }
+.bg-dark-section { background-color: #080808 !important; }
+
+/* ════════════════════════════════════════
+   2. SECCIÓN SERVICIOS (Cards Horizontales/Verticales)
+   ════════════════════════════════════════ */
+.card-custom {
+    background-color: #0a0c10; /* Negro azulado muy oscuro */
+    border: 1px solid #1e2126;
+    border-radius: 8px;
+    padding: 2.5rem 1.5rem;
+    height: 100%;
+    text-align: left;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Tarjeta activa con borde naranja */
+.card-custom.active {
+    border: 1.5px solid var(--magnoliga-orange);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.1);
+}
+
+.card-custom h5 {
+    font-family: var(--font-headings);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.card-custom p {
+    color: #a3a3a3;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Iconos de Servicios (Minimalistas) */
+.icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--magnoliga-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: 0.3s ease;
+}
+
+.card-custom:hover .icon-circle {
+    border-color: var(--magnoliga-orange);
+    background: rgba(249, 115, 22, 0.05);
+}
+
+/* ════════════════════════════════════════
+   3. SECCIÓN EQUIPOS (Cards Compactas)
+   ════════════════════════════════════════ */
+.team-card {
+    background-color: #0d1117;
+    border: 1px solid #1e2126;
+    border-radius: 6px;
+    padding: 1.5rem 0.5rem;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--magnoliga-orange);
+}
+
+.team-card i {
+    color: var(--magnoliga-orange);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.team-card h6 {
+    font-family: var(--font-display); /* Bebas Neue */
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: #ffffff;
+}
+
+.team-card span {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════
+   4. SECCIÓN EVENTOS (Cards Horizontales)
+   ════════════════════════════════════════ */
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.event-item {
+    background-color: #0d1117;
+    border: 1px solid #1e2126;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.event-item:hover {
+    border-color: var(--magnoliga-orange);
+    background-color: #11161d;
+}
+
+.event-item h6 {
+    font-family: var(--font-display); /* Bebas Neue */
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.event-info-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.event-info-group span i {
+    margin-right: 6px;
+    color: #444;
+}
+
+.event-item p {
+    color: #a3a3a3;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.orange-text {
+    color: var(--magnoliga-orange) !important;
+}
+
+/* ════════════════════════════════════════
+   5. PANEL DE ADMINISTRACIÓN (Botón Quitar)
+   ════════════════════════════════════════ */
+.btn-delete {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.card-custom:hover .btn-delete, 
+.team-card:hover .btn-delete, 
+.event-item:hover .btn-delete {
+    opacity: 1;
+}
+
+.admin-input {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: white !important;
+}
+
+.admin-input:focus {
+    border-color: var(--magnoliga-orange) !important;
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.3) !important;
+}
+
+.border-orange {
+    border: 1px solid var(--magnoliga-orange) !important;
+}
+
+/* ════════════════════════════════════════
+   6. RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════ */
+@media (max-width: 767px) {
+    .card-custom { text-align: center; padding: 1.5rem; }
+    .icon-circle { margin: 0 auto 1.5rem; }
+    
+    .event-item { padding: 1.25rem; }
+    .event-info-group { flex-direction: column; gap: 0.5rem; }
+    
+    .team-card h6 { font-size: 1.1rem; }
+}
+
+/* ════════════════════════════════════════
+   7. SECCIÓN MEDIA (Videos y Fotos)
+   — copiado de depoturismo.css —
+   ════════════════════════════════════════ */
+
+.bg-card  { background-color: #161616 !important; }
+.bg-input { background-color: #1e1e1e !important; }
+
+/* ── Dropzone ── */
+.dropzone {
+    border: 2px dashed #333;
+    border-radius: 0.75rem;
+    min-height: 220px;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    padding: 2rem;
+}
+.dropzone:hover,
+.dropzone.dragover {
+    border-color: var(--magnoliga-orange);
+    background-color: rgba(249,115,22,0.05);
+}
+
+/* ── Tarjeta de usuario ── */
+.user-card { position: relative; }
+.user-card .remove-btn {
+    position: absolute; top: 8px; right: 8px; z-index: 2;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(0,0,0,0.7); border: none;
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s; cursor: pointer;
+}
+.user-card:hover .remove-btn { opacity: 1; }
+.user-card .remove-btn:hover { color: var(--magnoliga-orange); }
+
+.card-desc { font-size: 0.78rem; color: #a3a3a3; margin-top: 4px; line-height: 1.4; }
+
+/* ── Imagen de galería ── */
+.gallery-img { height: 320px; object-fit: cover; width: 100%; }
+
+/* ── Preview de foto ── */
+.photo-preview-box {
+    border: 2px dashed #333; border-radius: 0.75rem;
+    min-height: 160px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; overflow: hidden;
+    transition: border-color 0.2s;
+}
+.photo-preview-box:hover { border-color: var(--magnoliga-orange); }
+.photo-preview-box img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 0.6rem; }
+#photo-preview-placeholder { text-align: center; padding: 1.5rem; }
+
+/* ── Formularios ── */
+.form-control:focus, .form-control { box-shadow: none; }
+.form-control::placeholder { color: #666; }
+.form-control:focus { border: 1px solid var(--magnoliga-orange) !important; }
+textarea.form-control { resize: none; }
+.input-group-text { color: #666; }
+
+.modal-content { border-radius: 1rem; }
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+    .gallery-img { height: 220px; }
+    .dropzone    { min-height: 160px; }
+}
+@media (max-width: 480px) {
+    .gallery-img { height: 180px; }
+    .dropzone    { min-height: 160px; padding: 1.2rem; }
+}
