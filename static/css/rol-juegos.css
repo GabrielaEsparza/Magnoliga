@@ -298,9 +298,9 @@
 }
 @media (max-width: 576px) {
     #categories-grid > * {
-        flex: 0 0 100%;
-        max-width: 100%;
+        flex: 0 0 calc(50% - 0.75rem);
+        max-width: calc(50% - 0.75rem);
     }
-    .category-card { aspect-ratio: 16/9; }
-    .category-card h3 { font-size: 0.9rem; }
+    .category-card { aspect-ratio: 3/2; }
+    .category-card h3 { font-size: 0.78rem; }
 }
