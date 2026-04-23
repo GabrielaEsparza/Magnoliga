@@ -30,24 +30,24 @@
     <section class="py-5">
         <div class="container">
 
-            <!-- Grid de categorías -->
+            <!-- Grid de categorías — mismo layout que categorias.html -->
             <div id="categories-grid" class="mb-5">
 
-    {% if es_admin %}
-    <div class="reveal-up" id="card-add-cat">
-        <div class="category-card category-card-rect category-card-add"
-             onclick="abrirModalAgregarCategoria()"
-             style="background:#1a1a1a; border: 2px dashed #f97316; cursor:pointer;">
-            <div class="card-overlay" style="opacity:0.1;"></div>
-            <div class="card-content-centered text-center">
-                <i class="bi bi-plus-circle fs-1 text-orange mb-2 d-block"></i>
-                <h3 class="text-orange">Agregar categoría</h3>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-                
+                {% if es_admin %}
+                <!-- Tarjeta "Agregar categoría" — mismo estilo que .btn-add-cat -->
+                <div class="reveal-up" id="card-add-cat">
+                    <div class="category-card category-card-add"
+                         onclick="abrirModalAgregarCategoria()">
+                        <div class="card-content-centered text-center p-3">
+                            <i class="bi bi-plus-circle fs-1 text-orange mb-2 d-block" style="font-size:2rem;"></i>
+                            <span class="text-orange fw-bold" style="font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em;">Agregar categoría</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
             </div><!-- /categories-grid -->
+            <!-- Las tarjetas de categorías las inyecta rol-juegos.js -->
 
             <!-- Nota importante -->
             <div class="important-note-box reveal-up mb-5" id="nota-importante">
@@ -65,22 +65,29 @@
             <div id="matches-section" class="details-section d-none p-4 p-md-5 reveal-up">
                 <div class="orange-overlay"></div>
 
-                <!-- Header -->
+                <!-- Header — botón cambiar foto aparece aquí, igual que en catModal de categorias -->
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 z-1 mb-4">
                     <div>
                         <h2 class="mb-1" id="expanded-cat-title">Categoría</h2>
                         <p class="mb-0 text-white-50" id="expanded-cat-date"></p>
                     </div>
                     <div class="d-flex flex-wrap gap-2 align-items-center">
-    {% if es_admin %}
-    <button class="btn btn-orange btn-sm fw-semibold" id="btn-add-match">
-        <i class="bi bi-plus-circle me-1"></i> Agregar partido
-    </button>
-    {% endif %}
-    <button class="btn btn-outline-light btn-sm" onclick="cerrarPartidos()">
-        <i class="bi bi-arrow-left me-1"></i> Regresar
-    </button>
-</div>
+                        {% if es_admin %}
+                        <!-- Botón cambiar foto — mismo estilo que en catModal -->
+                        <button type="button" class="btn-change-photo" onclick="openRolPhotoUpload()">
+                            <i class="bi bi-image me-1"></i>Cambiar foto
+                        </button>
+                        <!-- Input oculto para cambio de foto -->
+                        <input type="file" id="rolPhotoInput" accept="image/*" class="d-none" onchange="saveRolCatPhoto(event)">
+
+                        <button class="btn btn-orange btn-sm fw-semibold" id="btn-add-match">
+                            <i class="bi bi-plus-circle me-1"></i> Agregar partido
+                        </button>
+                        {% endif %}
+                        <button class="btn btn-outline-light btn-sm" onclick="cerrarPartidos()">
+                            <i class="bi bi-arrow-left me-1"></i> Regresar
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Lista de partidos -->
@@ -151,35 +158,35 @@
     </div>
 
     {% if es_admin %}
-<div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0" style="background:#161616; border-radius:1rem;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title text-white">Agregar categoría</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body pt-3">
-                <div class="mb-3">
-                    <label class="form-label text-secondary small">Nombre de la categoría *</label>
-                    <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-nombre" placeholder="Ej. Sub-17">
+    <div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="background:#161616; border-radius:1rem;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-white">Agregar categoría</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary small">Slug (identificador único) *</label>
-                    <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-slug" placeholder="Ej. cat_13">
-                    <small class="text-secondary">Solo letras, números y guiones bajos. Ej: cat_13</small>
-                </div>
-                <div id="new-cat-error" class="alert alert-danger py-2 small d-none">
-                    Por favor llena todos los campos correctamente.
-                </div>
-                <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-orange fw-semibold flex-grow-1" id="btn-save-new-cat">Agregar</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <div class="modal-body pt-3">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Nombre de la categoría *</label>
+                        <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-nombre" placeholder="Ej. Sub-17">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small">Slug (identificador único) *</label>
+                        <input type="text" class="form-control bg-input border-0 text-white" id="new-cat-slug" placeholder="Ej. cat_13">
+                        <small class="text-secondary">Solo letras, números y guiones bajos. Ej: cat_13</small>
+                    </div>
+                    <div id="new-cat-error" class="alert alert-danger py-2 small d-none">
+                        Por favor llena todos los campos correctamente.
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-orange fw-semibold flex-grow-1" id="btn-save-new-cat">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
     <div id="footer"></div>
 
