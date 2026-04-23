@@ -1,8 +1,10 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
+
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
-    imagen = models.ImageField(upload_to='categorias/', blank=True, null=True)
+    imagen = CloudinaryField('image', blank=True, null=True)
     orden  = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -85,7 +87,7 @@ class GaleriaItem(models.Model):
     TIPO_CHOICES = [('foto', 'Foto'), ('video', 'Video')]
     categoria   = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='galeria')
     tipo        = models.CharField(max_length=10, choices=TIPO_CHOICES)
-    imagen      = models.ImageField(upload_to='galeria/', blank=True, null=True)
+    imagen      = CloudinaryField('image', blank=True, null=True)
     video_url   = models.URLField(blank=True, null=True)
     titulo      = models.CharField(max_length=200, blank=True)
     orden       = models.PositiveIntegerField(default=0)
@@ -95,9 +97,9 @@ class GaleriaItem(models.Model):
 
 
 class RolCategoria(models.Model):
-    slug    = models.CharField(max_length=50, unique=True)  # 'cat_1', 'cat_2', etc.
+    slug    = models.CharField(max_length=50, unique=True)
     nombre  = models.CharField(max_length=100)
-    imagen  = models.ImageField(upload_to='rol/', blank=True, null=True)
+    imagen  = CloudinaryField('image', blank=True, null=True)
 
     def __str__(self):
         return self.nombre
@@ -123,7 +125,7 @@ class ComunicacionesItem(models.Model):
     tipo      = models.CharField(max_length=10, choices=TIPO_CHOICES)
     titulo    = models.CharField(max_length=200, blank=True)
     descripcion = models.TextField(blank=True)
-    imagen    = models.ImageField(upload_to='comunicaciones/', blank=True, null=True)
+    imagen    = CloudinaryField('image', blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
     orden     = models.PositiveIntegerField(default=0)
     creado    = models.DateTimeField(auto_now_add=True)
@@ -133,17 +135,13 @@ class ComunicacionesItem(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.titulo}"
-    
-
-    def __str__(self):
-        return f"{self.tipo} - {self.titulo}"
 
 
 class DepoturismoItem(models.Model):
     tipo        = models.CharField(max_length=10)
     titulo      = models.CharField(max_length=200, blank=True)
     descripcion = models.TextField(blank=True)
-    imagen      = models.ImageField(upload_to='depoturismo/', blank=True, null=True)
+    imagen      = CloudinaryField('image', blank=True, null=True)
     video_url   = models.URLField(blank=True, null=True)
     orden       = models.PositiveIntegerField(default=0)
     creado      = models.DateTimeField(auto_now_add=True)
@@ -158,9 +156,9 @@ class DepoturismoItem(models.Model):
 class ArquitecturaDeportiva(models.Model):
     titulo      = models.CharField(max_length=200)
     descripcion = models.TextField(blank=True)
-    imagen      = models.ImageField(upload_to='arquitectura/', blank=True, null=True)
+    imagen      = CloudinaryField('image', blank=True, null=True)
     video_url   = models.URLField(blank=True, null=True)
-    tipo        = models.CharField(max_length=10, default='foto')  # 'foto' | 'video'
+    tipo        = models.CharField(max_length=10, default='foto')
     orden       = models.PositiveIntegerField(default=0)
     creado      = models.DateTimeField(auto_now_add=True)
 
@@ -169,6 +167,7 @@ class ArquitecturaDeportiva(models.Model):
 
     def __str__(self):
         return self.titulo
+
 
 class Patrocinador(models.Model):
     nombre    = models.CharField(max_length=200)
@@ -179,7 +178,7 @@ class Patrocinador(models.Model):
     instagram = models.CharField(max_length=100, blank=True)
     facebook  = models.CharField(max_length=200, blank=True)
     web       = models.URLField(blank=True)
-    imagen    = models.ImageField(upload_to='patrocinadores/', blank=True, null=True)
+    imagen    = CloudinaryField('image', blank=True, null=True)
     imagen_url = models.URLField(blank=True)
     orden     = models.PositiveIntegerField(default=0)
     creado    = models.DateTimeField(auto_now_add=True)
