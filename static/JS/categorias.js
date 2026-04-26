@@ -208,8 +208,30 @@ async function saveCatPhoto(e) {
 }
 
 function openCatPhotoUpload() {
-  document.getElementById('catPhotoInput').value = '';
-  document.getElementById('catPhotoInput').click();
+  const input = document.getElementById('catPhotoInput');
+  input.value = '';
+  
+  // Remover listener anterior y agregar uno nuevo
+  input.onchange = null;
+  input.addEventListener('change', async function handler(e) {
+    input.removeEventListener('change', handler);
+    const file = e.target.files[0];
+    if (!file || file.size === 0) {
+      showToast('Archivo inválido', true);
+      return;
+    }
+    const fd = new FormData();
+    fd.append('imagen', file);
+    try {
+      await api(`/api/categorias/${state.currentCatId}/foto/`, 'POST', fd);
+      await loadCategories();
+      showToast('Foto actualizada');
+    } catch(e) {
+      showToast('Error al subir foto', true);
+    }
+  });
+  
+  input.click();
 }
 
 // ── JORNADAS ───────────────────────────────
