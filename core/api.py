@@ -62,9 +62,13 @@ def categoria_foto(request, cat_id):
     cat  = get_object_or_404(Categoria, id=cat_id)
     foto = request.FILES.get('imagen')
     if foto:
-        cat.imagen = foto
-        cat.save()
-        return json_response({'imagen': cat.imagen.url})
+        try:
+            cat.imagen = foto
+            cat.save()
+            return json_response({'imagen': cat.imagen.url})
+        except Exception as e:
+            import traceback
+            return json_response({'error': str(e), 'detail': traceback.format_exc()}, 500)
     return json_response({'error': 'No se recibió imagen'}, 400)
 
 
