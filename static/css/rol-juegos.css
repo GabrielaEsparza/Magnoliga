@@ -1,5 +1,5 @@
 /* ============================================================
-   ESTILOS BASE Y FONDO PREMIUM (Azul marino muy oscuro)
+   ESTILOS BASE
    ============================================================ */
 .bg-magnoliga-dark {
     background-color: #030a16 !important;
@@ -23,22 +23,21 @@
 }
 
 /* ============================================================
-   CUADRÍCULA DE CATEGORÍAS — Bootstrap row g-4 (igual que categorias)
+   CUADRÍCULA DE CATEGORÍAS
    ============================================================ */
 #categories-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem; /* gap visual equivalente a g-4 */
+    gap: 1.5rem;
 }
 
-/* Cada tarjeta ocupa 1/3 del ancho (3 columnas) */
 #categories-grid > * {
     flex: 0 0 calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
 }
 
 /* ============================================================
-   TARJETA DE CATEGORÍA — idéntica a .cat-card de categorias.css
+   TARJETA DE CATEGORÍA
    ============================================================ */
 .category-card {
     position: relative;
@@ -49,15 +48,6 @@
     transition: transform 0.25s, box-shadow 0.25s;
     background-size: cover;
     background-position: center;
-    /* La imagen de fondo se aplica via JS como background-image inline */
-}
-
-/* Imagen dentro de la tarjeta (si se usa <img> en vez de background) */
-.category-card img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: brightness(0.65) saturate(0.85);
-    transition: filter 0.3s, transform 0.3s;
 }
 
 .category-card:hover {
@@ -65,47 +55,72 @@
     box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2);
 }
 
-.category-card:hover img {
-    filter: brightness(0.78) saturate(1);
-    transform: scale(1.04);
-}
-
-/* Overlay gradiente de abajo hacia arriba — igual que .cat-overlay */
+/* Overlay oscuro */
 .card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.72) 0%, transparent 65%);
-    display: flex;
-    align-items: flex-end;
-    padding: 1rem;
+    background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 100%);
+    z-index: 1;
 }
 
-/* Nombre de categoría sobre el overlay — igual que .cat-name */
+/* ── NOMBRE — grande, centrado ── */
+.card-content-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 1rem;
+}
+
 .category-card h3 {
-    font-size: 1rem;
-    font-weight: 800;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: #fff;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.9);
     margin: 0;
     font-family: var(--font-headings);
+    line-height: 1.1;
 }
 
-/* Subtítulo / fecha pequeña */
-.category-card p {
-    font-family: var(--font-primary);
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.65);
+/* ── FOOTER INFO — click prompt arriba, fecha abajo ── */
+.card-footer-info {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.55rem 0.75rem;
+    pointer-events: none;
+}
+
+.card-footer-info .click-prompt {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
     letter-spacing: 0.04em;
-    margin: 0.15rem 0 0 0;
+    align-self: flex-start;
 }
 
-/* Botón cambiar foto — aparece en hover, posición top-right */
+.card-footer-info .date {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--magnoliga-orange);
+    align-self: flex-start;
+}
+
+/* ============================================================
+   BOTÓN CAMBIAR FOTO (en tarjeta, aparece en hover)
+   ============================================================ */
 .btn-change-photo-rol {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 42px; /* deja espacio para el botón de eliminar */
     z-index: 3;
     background: rgba(249,115,22,0.85);
     border: none;
@@ -124,7 +139,9 @@
     opacity: 1;
 }
 
-/* Botón eliminar categoría */
+/* ============================================================
+   BOTÓN ELIMINAR CATEGORÍA
+   ============================================================ */
 .btn-delete-cat {
     position: absolute;
     top: 0.5rem;
@@ -146,7 +163,9 @@
     background: rgb(220, 53, 69);
 }
 
-/* Tarjeta "Agregar categoría" — igual que .btn-add-cat */
+/* ============================================================
+   TARJETA "AGREGAR CATEGORÍA"
+   ============================================================ */
 .category-card-add {
     border: 2px dashed #333 !important;
     border-radius: 0.75rem;
@@ -164,17 +183,7 @@
     border-color: var(--magnoliga-orange) !important;
 }
 .category-card-add .card-overlay {
-    display: none; /* Sin overlay en la tarjeta de agregar */
-}
-
-/* Contenido centrado (solo para add card) */
-.card-content-centered {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    z-index: 2;
+    display: none;
 }
 
 /* ============================================================
@@ -188,11 +197,11 @@
 .important-note-box {
     background-color: rgba(249, 115, 22, 0.05);
     border-left: 4px solid var(--magnoliga-orange);
-    padding: 25px;
-    border-radius: 8px;
     border-top: 1px solid rgba(249, 115, 22, 0.1);
     border-right: 1px solid rgba(249, 115, 22, 0.1);
     border-bottom: 1px solid rgba(249, 115, 22, 0.1);
+    padding: 25px;
+    border-radius: 8px;
 }
 .important-note-box h4 {
     font-family: var(--font-headings);
@@ -241,9 +250,27 @@
 .match-item:hover {
     background: rgba(255, 255, 255, 0.1);
 }
-.admin-btns .btn {
-    padding: 2px 8px;
-    font-size: 1.1rem;
+
+/* ============================================================
+   BOTÓN CAMBIAR FOTO (en header del detalle)
+   ============================================================ */
+.btn-change-photo {
+    background: rgba(249,115,22,0.12);
+    border: 1px solid rgba(249,115,22,0.35);
+    border-radius: 6px;
+    color: var(--magnoliga-orange);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.18s, border-color 0.18s;
+    white-space: nowrap;
+}
+.btn-change-photo:hover {
+    background: rgba(249,115,22,0.22);
+    border-color: var(--magnoliga-orange);
 }
 
 /* ============================================================
@@ -267,26 +294,6 @@
     border: 1px solid #333 !important;
 }
 
-/* Botón cambiar foto en el header del detalle — igual que .btn-change-photo de categorias */
-.btn-change-photo {
-    background: rgba(249,115,22,0.12);
-    border: 1px solid rgba(249,115,22,0.35);
-    border-radius: 6px;
-    color: var(--magnoliga-orange);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 0.3rem 0.75rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background 0.18s, border-color 0.18s;
-    white-space: nowrap;
-}
-.btn-change-photo:hover {
-    background: rgba(249,115,22,0.22);
-    border-color: var(--magnoliga-orange);
-}
-
 /* ============================================================
    RESPONSIVIDAD
    ============================================================ */
@@ -302,34 +309,5 @@
         max-width: calc(50% - 0.75rem);
     }
     .category-card { aspect-ratio: 3/2; }
-    .category-card h3 { font-size: 0.78rem; }
-}
-
-
-/* Nombre grande en tarjeta — 5/8 del alto */
-.category-card h3 {
-    font-size: clamp(1.4rem, 3.5vw, 2.2rem);  /* antes era 1rem */
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #fff;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
-    margin: 0;
-    font-family: var(--font-headings);
-    line-height: 1.1;
-}
-
-/* Centrar contenido verticalmente en la tarjeta */
-.category-card-rect {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.category-card-rect .card-content-centered {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    padding: 1rem;
+    .category-card h3 { font-size: clamp(1rem, 5vw, 1.4rem); }
 }
