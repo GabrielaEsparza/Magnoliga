@@ -545,26 +545,32 @@ async function renderEquipos() {
     return;
   }
 
-  // Obtener partidos para asistencias
-  let partidos = [];
+  // Obtener todos los partidos de la categoría
+  let todosPartidos = [];
   try {
     const jornadas = await api(`/api/categorias/${state.currentCatId}/jornadas/`);
-    jornadas.forEach(j => j.partidos.forEach(p => partidos.push({...p, jornadaLabel: j.label})));
+    jornadas.forEach(j => j.partidos.forEach(p => todosPartidos.push({ ...p, jornadaId: j.id })));
   } catch(e) {}
 
   equipos.forEach(equipo => {
     const players = equipo.jugadores || [];
 
+    // Solo partidos donde jugó este equipo
+    const partidos = todosPartidos.filter(p =>
+      p.local.toLowerCase().includes(equipo.nombre.toLowerCase()) ||
+      p.visitante.toLowerCase().includes(equipo.nombre.toLowerCase())
+    );
+
     let ths = `<th>#&nbsp; Jugador/a</th>`;
     for (let i = 0; i < partidos.length; i++) {
-      ths += `<th style="font-size:0.6rem; max-width:60px; white-space:normal; text-align:center;">${partidos[i].local}<br>vs<br>${partidos[i].visitante}</th>`;
+      ths += `<th class="th-partido">${partidos[i].local}<br>vs<br>${partidos[i].visitante}</th>`;
     }
     ths += `<th>Total</th>`;
 
     const trs = players.map(jugador => {
       let cells = '';
       for (let i = 0; i < partidos.length; i++) {
-        cells += `<td><button class="att-cell empty" data-jugador="${jugador.id}" data-jornada="${partidos[i].id}" onclick="toggleAtt(this)">·</button></td>`;
+        cells += `<td><button class="att-cell empty" data-jugador="${jugador.id}" data-jornada="${partidos[i].jornadaId}" onclick="toggleAtt(this)">·</button></td>`;
       }
       return `<tr>
         <td>#${jugador.numero}&nbsp; ${jugador.nombre}</td>
@@ -594,7 +600,7 @@ async function renderEquipos() {
           <div class="att-wrap" id="${wrapId}">
             <table class="att-table">
               <thead><tr>${ths}</tr></thead>
-              <tbody>${trs || `<tr><td colspan="${partidos.length+2}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
+              <tbody>${trs || `<tr><td colspan="${partidos.length + 2}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
             </table>
           </div>
           <div class="att-nav">
@@ -608,24 +614,29 @@ async function renderEquipos() {
     container.appendChild(div);
   });
 
-  await loadAsistencias(equipos, partidos);
+  await loadAsistencias(equipos, todosPartidos);
 }
 
-async function loadAsistencias(equipos, partidos) {
+async function loadAsistencias(equipos, todosPartidos) {
   try {
     const asistencias = await api(`/api/asistencias/?cat=${state.currentCatId}`);
     const mapa = {};
     asistencias.forEach(a => { mapa[`${a.jugador_id}_${a.jornada_id}`] = a.presente; });
 
     for (const equipo of equipos) {
+      const partidos = todosPartidos.filter(p =>
+        p.local.toLowerCase().includes(equipo.nombre.toLowerCase()) ||
+        p.visitante.toLowerCase().includes(equipo.nombre.toLowerCase())
+      );
+
       for (const jugador of equipo.jugadores) {
         let presentes = 0;
         for (let i = 0; i < partidos.length; i++) {
           const btn = document.querySelector(
-            `button.att-cell[data-jugador="${jugador.id}"][data-jornada="${partidos[i].id}"]`
+            `button.att-cell[data-jugador="${jugador.id}"][data-jornada="${partidos[i].jornadaId}"]`
           );
           if (!btn) continue;
-          const val = mapa[`${jugador.id}_${partidos[i].id}`];
+          const val = mapa[`${jugador.id}_${partidos[i].jornadaId}`];
           if (val === true)       { btn.className = 'att-cell present'; btn.textContent = '✓'; presentes++; }
           else if (val === false) { btn.className = 'att-cell absent';  btn.textContent = '✗'; }
         }

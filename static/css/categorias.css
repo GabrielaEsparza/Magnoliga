@@ -371,3 +371,12 @@ textarea.form-control { resize: none; }
     transition: background 0.15s;
 }
 .btn-del-jornada:hover { background: rgba(239,68,68,0.15); }
+
+
+.att-table th.th-partido {
+    font-size: 0.55rem;
+    max-width: 50px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+}
