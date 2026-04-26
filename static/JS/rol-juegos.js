@@ -344,3 +344,28 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   await cargarCategorias();
 });
+
+
+// ── FOTO DESDE DETALLE ────────────────────────
+function openRolPhotoUpload() {
+  const input = document.getElementById('rolPhotoInput');
+  input.value = '';
+  input.onchange = null;
+  input.addEventListener('change', async function handler(e) {
+    input.removeEventListener('change', handler);
+    const file = input.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('imagen', file);
+    try {
+      await api(`/api/rol/categorias/${categoriaActual}/foto/`, 'POST', fd);
+      // Actualizar fondo de la tarjeta en el grid
+      const card = document.getElementById('card-' + categoriaActual);
+      if (card) card.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+      showToast('Foto actualizada');
+    } catch(e) {
+      showToast('Error al subir foto', true);
+    }
+  });
+  input.click();
+}

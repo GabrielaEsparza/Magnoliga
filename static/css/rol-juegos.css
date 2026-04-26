@@ -304,3 +304,32 @@
     .category-card { aspect-ratio: 3/2; }
     .category-card h3 { font-size: 0.78rem; }
 }
+
+
+/* Nombre grande en tarjeta — 5/8 del alto */
+.category-card h3 {
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);  /* antes era 1rem */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    margin: 0;
+    font-family: var(--font-headings);
+    line-height: 1.1;
+}
+
+/* Centrar contenido verticalmente en la tarjeta */
+.category-card-rect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-card-rect .card-content-centered {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    padding: 1rem;
+}
