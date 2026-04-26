@@ -358,3 +358,16 @@ textarea.form-control { resize: none; }
 .btn-del-cat:hover {
   background: rgb(220, 53, 69);
 }
+
+
+.btn-del-jornada {
+    background: none;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #ef4444;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.7rem;
+    transition: background 0.15s;
+}
+.btn-del-jornada:hover { background: rgba(239,68,68,0.15); }

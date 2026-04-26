@@ -211,28 +211,29 @@ function openCatPhotoUpload() {
   const input = document.getElementById('catPhotoInput');
   input.value = '';
   
+  // Remover listener anterior y agregar uno nuevo
   input.onchange = null;
   input.addEventListener('change', async function handler(e) {
     input.removeEventListener('change', handler);
-    const file = input.files[0];  // ← usa input.files en lugar de e.target.files
-    if (!file) {
-      showToast('No se seleccionó archivo', true);
+    const file = e.target.files[0];
+    if (!file || file.size === 0) {
+      showToast('Archivo inválido', true);
       return;
     }
-    console.log('Archivo:', file.name, file.size, file.type); // ← para debug
     const fd = new FormData();
     fd.append('imagen', file);
     try {
       await api(`/api/categorias/${state.currentCatId}/foto/`, 'POST', fd);
       await loadCategories();
       showToast('Foto actualizada');
-    } catch(err) {
+    } catch(e) {
       showToast('Error al subir foto', true);
     }
   });
   
   input.click();
 }
+
 // ── JORNADAS ───────────────────────────────
 async function renderJornadas() {
   const list = document.getElementById('jornadasList');
@@ -252,7 +253,9 @@ async function renderJornadas() {
 
     const gamesHTML = jornada.partidos.map((g) => {
       const dateFmt = g.fecha ? new Date(g.fecha + 'T00:00').toLocaleDateString('es-MX', { weekday:'short', day:'numeric', month:'short' }) : '';
-      const editBtn = ES_ADMIN ? `<button class="btn-edit-game" onclick="openEditGame(${g.id}, ${jornada.id})">✏</button>` : '';
+      const editBtn = ES_ADMIN ? `
+        <button class="btn-edit-game" onclick="openEditGame(${g.id}, ${jornada.id})">✏</button>
+        <button class="btn-edit-game" onclick="deletePartido(${g.id})" style="color:#ef4444; border-color:#ef4444">🗑</button>` : '';
 
       if (g.pts_local !== null && g.pts_local !== undefined) {
         const lW = g.pts_local > g.pts_visit, vW = g.pts_visit > g.pts_local;
@@ -299,17 +302,20 @@ async function renderJornadas() {
     block.innerHTML = `
       <div class="jornada-header" onclick="this.parentElement.classList.toggle('open')">
         <strong>${jornada.label}</strong>
-        <span class="cat-chevron"><i class="bi bi-chevron-down"></i></span>
+        <div class="d-flex align-items-center gap-2">
+          ${ES_ADMIN ? `<button class="btn-del-jornada" onclick="event.stopPropagation(); deleteJornada(${jornada.id})"><i class="bi bi-trash"></i></button>` : ''}
+          <span class="cat-chevron"><i class="bi bi-chevron-down"></i></span>
+        </div>
       </div>
       <div class="jornada-body">
         ${gamesHTML}
         ${addPartidoBtn}
       </div>`;
+
     if (ji === 0) block.classList.add('open');
     list.appendChild(block);
   });
 }
-
 async function saveGame() {
   const local = document.getElementById('fj-local').value.trim();
   const visit = document.getElementById('fj-visit').value.trim();
@@ -818,6 +824,28 @@ async function deleteGaleriaItem(itemId, btn) {
     await api(`/api/galeria/${itemId}/`, 'DELETE');
     btn.closest('.col-md-4').remove();
     showToast('Eliminado');
+  } catch(e) {
+    showToast('Error al eliminar', true);
+  }
+}
+
+async function deleteJornada(jornadaId) {
+  if (!confirm('¿Eliminar esta jornada y todos sus partidos?')) return;
+  try {
+    await api(`/api/jornadas/${jornadaId}/`, 'DELETE');
+    await renderJornadas();
+    showToast('Jornada eliminada');
+  } catch(e) {
+    showToast('Error al eliminar', true);
+  }
+}
+
+async function deletePartido(partidoId) {
+  if (!confirm('¿Eliminar este partido?')) return;
+  try {
+    await api(`/api/partidos/${partidoId}/`, 'DELETE');
+    await renderJornadas();
+    showToast('Partido eliminado');
   } catch(e) {
     showToast('Error al eliminar', true);
   }
