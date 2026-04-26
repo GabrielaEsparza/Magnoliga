@@ -211,29 +211,28 @@ function openCatPhotoUpload() {
   const input = document.getElementById('catPhotoInput');
   input.value = '';
   
-  // Remover listener anterior y agregar uno nuevo
   input.onchange = null;
   input.addEventListener('change', async function handler(e) {
     input.removeEventListener('change', handler);
-    const file = e.target.files[0];
-    if (!file || file.size === 0) {
-      showToast('Archivo inválido', true);
+    const file = input.files[0];  // ← usa input.files en lugar de e.target.files
+    if (!file) {
+      showToast('No se seleccionó archivo', true);
       return;
     }
+    console.log('Archivo:', file.name, file.size, file.type); // ← para debug
     const fd = new FormData();
     fd.append('imagen', file);
     try {
       await api(`/api/categorias/${state.currentCatId}/foto/`, 'POST', fd);
       await loadCategories();
       showToast('Foto actualizada');
-    } catch(e) {
+    } catch(err) {
       showToast('Error al subir foto', true);
     }
   });
   
   input.click();
 }
-
 // ── JORNADAS ───────────────────────────────
 async function renderJornadas() {
   const list = document.getElementById('jornadasList');
