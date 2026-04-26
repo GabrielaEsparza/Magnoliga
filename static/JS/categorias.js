@@ -193,31 +193,15 @@ async function addCategory() {
   }
 }
 
-async function saveCatPhoto(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const fd = new FormData();
-  fd.append('imagen', file);
-  try {
-    await api(`/api/categorias/${state.currentCatId}/foto/`, 'POST', fd);
-    await loadCategories();
-    showToast('Foto actualizada');
-  } catch(e) {
-    showToast('Error al subir foto', true);
-  }
-}
-
 function openCatPhotoUpload() {
   const input = document.getElementById('catPhotoInput');
   input.value = '';
-  
-  // Remover listener anterior y agregar uno nuevo
   input.onchange = null;
   input.addEventListener('change', async function handler(e) {
     input.removeEventListener('change', handler);
-    const file = e.target.files[0];
-    if (!file || file.size === 0) {
-      showToast('Archivo inválido', true);
+    const file = input.files[0];
+    if (!file) {
+      showToast('No se seleccionó archivo', true);
       return;
     }
     const fd = new FormData();
@@ -226,11 +210,10 @@ function openCatPhotoUpload() {
       await api(`/api/categorias/${state.currentCatId}/foto/`, 'POST', fd);
       await loadCategories();
       showToast('Foto actualizada');
-    } catch(e) {
+    } catch(err) {
       showToast('Error al subir foto', true);
     }
   });
-  
   input.click();
 }
 
@@ -316,6 +299,7 @@ async function renderJornadas() {
     list.appendChild(block);
   });
 }
+
 async function saveGame() {
   const local = document.getElementById('fj-local').value.trim();
   const visit = document.getElementById('fj-visit').value.trim();
@@ -326,9 +310,7 @@ async function saveGame() {
   if (!local || !visit || !fecha) { showToast('Completa los datos', true); return; }
 
   try {
-    // Crear jornada nueva
     const jornada = await api(`/api/categorias/${state.currentCatId}/jornadas/`, 'POST', { fecha });
-    // Crear partido en esa jornada
     await api(`/api/jornadas/${jornada.id}/partidos/`, 'POST', {
       local, visitante: visit,
       fecha, hora,
@@ -368,7 +350,6 @@ async function saveGameInJornada(jornadaId) {
 
 async function openEditGame(partidoId, jornadaId) {
   state.editingGame = { partidoId, jornadaId };
-  // Fetch partido data
   const jornadas = await api(`/api/categorias/${state.currentCatId}/jornadas/`);
   const jornada  = jornadas.find(j => j.id === jornadaId);
   const g        = jornada.partidos.find(p => p.id === partidoId);
@@ -401,6 +382,28 @@ async function saveGameEdit() {
     showToast('Partido actualizado');
   } catch(e) {
     showToast('Error al actualizar', true);
+  }
+}
+
+async function deleteJornada(jornadaId) {
+  if (!confirm('¿Eliminar esta jornada y todos sus partidos?')) return;
+  try {
+    await api(`/api/jornadas/${jornadaId}/`, 'DELETE');
+    await renderJornadas();
+    showToast('Jornada eliminada');
+  } catch(e) {
+    showToast('Error al eliminar', true);
+  }
+}
+
+async function deletePartido(partidoId) {
+  if (!confirm('¿Eliminar este partido?')) return;
+  try {
+    await api(`/api/partidos/${partidoId}/`, 'DELETE');
+    await renderJornadas();
+    showToast('Partido eliminado');
+  } catch(e) {
+    showToast('Error al eliminar', true);
   }
 }
 
@@ -464,7 +467,6 @@ async function dropRow(e) {
   const dest    = +e.currentTarget.dataset.idx;
   const destId  = +e.currentTarget.dataset.id;
   if (dragSrcIdx === null || dragSrcIdx === dest) return;
-  // Update orden in DB
   try {
     await api(`/api/standings/${destId}/`, 'PUT', { orden: dragSrcIdx });
   } catch(e) {}
@@ -513,7 +515,6 @@ async function addTeamFromEquipos() {
   if (!name) return;
   try {
     await api(`/api/categorias/${state.currentCatId}/equipos/`, 'POST', { nombre: name });
-    // También agregar a standings
     await api(`/api/categorias/${state.currentCatId}/standings/`, 'POST', { equipo: name });
     document.getElementById('eq-team-name').value = '';
     document.getElementById('addTeamFormEq').classList.remove('visible');
@@ -544,28 +545,32 @@ async function renderEquipos() {
     return;
   }
 
-  // Obtener jornadas para asistencias
-  let jornadas = [];
-  try { jornadas = await api(`/api/categorias/${state.currentCatId}/jornadas/`); } catch(e) {}
+  // Obtener partidos para asistencias
+  let partidos = [];
+  try {
+    const jornadas = await api(`/api/categorias/${state.currentCatId}/jornadas/`);
+    jornadas.forEach(j => j.partidos.forEach(p => partidos.push({...p, jornadaLabel: j.label})));
+  } catch(e) {}
 
   equipos.forEach(equipo => {
     const players = equipo.jugadores || [];
-    const numJ    = jornadas.length || 1;
 
     let ths = `<th>#&nbsp; Jugador/a</th>`;
-    for (let j = 0; j < numJ; j++) ths += `<th>J${j+1}</th>`;
+    for (let i = 0; i < partidos.length; i++) {
+      ths += `<th style="font-size:0.6rem; max-width:60px; white-space:normal; text-align:center;">${partidos[i].local}<br>vs<br>${partidos[i].visitante}</th>`;
+    }
     ths += `<th>Total</th>`;
 
-    const trs = players.map(p => {
+    const trs = players.map(jugador => {
       let cells = '';
-      for (let j = 0; j < numJ; j++) {
-        cells += `<td><button class="att-cell empty" data-jugador="${p.id}" data-jornada="${jornadas[j]?.id}" onclick="toggleAtt(this)">·</button></td>`;
+      for (let i = 0; i < partidos.length; i++) {
+        cells += `<td><button class="att-cell empty" data-jugador="${jugador.id}" data-jornada="${partidos[i].id}" onclick="toggleAtt(this)">·</button></td>`;
       }
       return `<tr>
-  <td>#${p.numero}&nbsp; ${p.nombre}</td>
-  ${cells}
-  <td class="att-total" id="total_${p.id}">0/${numJ}</td>
-</tr>`;
+        <td>#${jugador.numero}&nbsp; ${jugador.nombre}</td>
+        ${cells}
+        <td class="att-total" id="total_${jugador.id}">0/${partidos.length}</td>
+      </tr>`;
     }).join('');
 
     const isOpen = state.openAccordions.has(equipo.nombre);
@@ -584,12 +589,12 @@ async function renderEquipos() {
         <i class="bi bi-chevron-down cat-chevron"></i>
       </div>
       <div class="team-acc-body">
-        <p class="att-section-label">Asistencias</p>
+        <p class="att-section-label">Asistencias por partido</p>
         <div class="att-scroll-outer">
           <div class="att-wrap" id="${wrapId}">
             <table class="att-table">
               <thead><tr>${ths}</tr></thead>
-              <tbody>${trs || `<tr><td colspan="${numJ+2}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
+              <tbody>${trs || `<tr><td colspan="${partidos.length+2}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
             </table>
           </div>
           <div class="att-nav">
@@ -603,11 +608,10 @@ async function renderEquipos() {
     container.appendChild(div);
   });
 
-  // Cargar asistencias
-  await loadAsistencias(equipos, jornadas);
+  await loadAsistencias(equipos, partidos);
 }
 
-async function loadAsistencias(equipos, jornadas) {
+async function loadAsistencias(equipos, partidos) {
   try {
     const asistencias = await api(`/api/asistencias/?cat=${state.currentCatId}`);
     const mapa = {};
@@ -616,17 +620,17 @@ async function loadAsistencias(equipos, jornadas) {
     for (const equipo of equipos) {
       for (const jugador of equipo.jugadores) {
         let presentes = 0;
-        for (let ji = 0; ji < jornadas.length; ji++) {
+        for (let i = 0; i < partidos.length; i++) {
           const btn = document.querySelector(
-            `button.att-cell[data-jugador="${jugador.id}"][data-jornada="${jornadas[ji].id}"]`
+            `button.att-cell[data-jugador="${jugador.id}"][data-jornada="${partidos[i].id}"]`
           );
           if (!btn) continue;
-          const val = mapa[`${jugador.id}_${jornadas[ji].id}`];
+          const val = mapa[`${jugador.id}_${partidos[i].id}`];
           if (val === true)       { btn.className = 'att-cell present'; btn.textContent = '✓'; presentes++; }
           else if (val === false) { btn.className = 'att-cell absent';  btn.textContent = '✗'; }
         }
         const totalEl = document.getElementById(`total_${jugador.id}`);
-        if (totalEl) totalEl.textContent = `${presentes}/${jornadas.length}`;
+        if (totalEl) totalEl.textContent = `${presentes}/${partidos.length}`;
       }
     }
   } catch(e) { /* silencioso */ }
@@ -660,17 +664,15 @@ async function toggleAtt(btn) {
     btn.className   = 'att-cell ' + (next ? 'present' : 'absent');
     btn.textContent = next ? '✓' : '✗';
 
-  const totalEl = document.getElementById(`total_${jugadorId}`);
+    const totalEl = document.getElementById(`total_${jugadorId}`);
     if (totalEl) {
       const row = btn.closest('tr');
       const presentes = row.querySelectorAll('.att-cell.present').length;
       const total     = row.querySelectorAll('.att-cell').length;
       totalEl.textContent = `${presentes}/${total}`;
     }
-
-
   } catch(e) {
-      console.error('Error asistencia:', e.message); // ← agrega esto
+    console.error('Error asistencia:', e.message);
     showToast('Error al guardar asistencia', true);
   }
 }
@@ -746,7 +748,6 @@ async function renderGaleria() {
     grid.appendChild(col);
   });
 
-  // Volver a agregar botones de admin al final
   if (ES_ADMIN) {
     const addPhoto = document.createElement('div');
     addPhoto.className = 'col-md-4';
@@ -824,28 +825,6 @@ async function deleteGaleriaItem(itemId, btn) {
     await api(`/api/galeria/${itemId}/`, 'DELETE');
     btn.closest('.col-md-4').remove();
     showToast('Eliminado');
-  } catch(e) {
-    showToast('Error al eliminar', true);
-  }
-}
-
-async function deleteJornada(jornadaId) {
-  if (!confirm('¿Eliminar esta jornada y todos sus partidos?')) return;
-  try {
-    await api(`/api/jornadas/${jornadaId}/`, 'DELETE');
-    await renderJornadas();
-    showToast('Jornada eliminada');
-  } catch(e) {
-    showToast('Error al eliminar', true);
-  }
-}
-
-async function deletePartido(partidoId) {
-  if (!confirm('¿Eliminar este partido?')) return;
-  try {
-    await api(`/api/partidos/${partidoId}/`, 'DELETE');
-    await renderJornadas();
-    showToast('Partido eliminado');
   } catch(e) {
     showToast('Error al eliminar', true);
   }
