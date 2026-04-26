@@ -26,7 +26,7 @@ async function api(url, method = 'GET', body = null) {
 
 // ── STATE ────────────────────────────────────
 let categoriaActual = null;
-let editingPartidoId = null;
+let editingPartidoId = null; 
 let matchModal;
 
 // ── HELPERS ──────────────────────────────────
