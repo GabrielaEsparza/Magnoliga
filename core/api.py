@@ -63,6 +63,7 @@ def categoria_foto(request, cat_id):
     foto = request.FILES.get('imagen')
     if foto:
         try:
+            foto.seek(0)  # ← agrega esta línea
             cat.imagen = foto
             cat.save()
             return json_response({'imagen': cat.imagen.url})
