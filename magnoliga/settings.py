@@ -116,7 +116,3 @@ cloudinary.config(
     cloudinary_url=os.environ.get('CLOUDINARY_URL'),
     secure=True  # ← agrega esta línea
 )
-
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False
