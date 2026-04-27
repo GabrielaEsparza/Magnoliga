@@ -499,6 +499,23 @@ async function openEditRow(standingId) {
   bsEditRowModal.show();
 }
 
+
+async function saveRowEdit() {
+  const fields = ['jj', 'jg', 'jp', 'pf', 'pc', 'pts'];
+  const body = {};
+  for (const f of fields) {
+    body[f] = +document.getElementById(`er-${f}`).value;
+  }
+  try {
+    await api(`/api/standings/${state.editingRowId}/`, 'PUT', body);
+    bsEditRowModal.hide();
+    await renderStandings();
+    showToast('Estadísticas actualizadas');
+  } catch(e) {
+    showToast('Error al guardar', true);
+  }
+}
+
 async function deleteStanding(standingId) {
   if (!confirm('¿Eliminar este equipo de la tabla?')) return;
   try {
