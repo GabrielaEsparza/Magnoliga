@@ -78,7 +78,8 @@ def categoria_foto(request, cat_id):
 def jornadas_list(request, cat_id):
     cat = get_object_or_404(Categoria, id=cat_id)
 
-const editBtn = ES_ADMIN ? `<button class="btn btn-sm btn-secondary py-0 px-2" style="font-size:.7rem" onclick="openEditRow(${t.id})"><i class="bi bi-pencil"></i></button>` : '';        data = [{
+    if request.method == 'GET':
+        data = [{
             'id':    j.id,
             'label': j.label,
             'fecha': str(j.fecha) if j.fecha else None,
