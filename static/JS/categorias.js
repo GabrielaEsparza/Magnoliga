@@ -295,7 +295,7 @@ async function renderJornadas() {
         ${addPartidoBtn}
       </div>`;
 
-    if (ji === 0) block.classList.add('open');
+    //if (ji === 0) block.classList.add('open');
     list.appendChild(block);
   });
 }
@@ -437,7 +437,10 @@ async function renderStandings() {
       tr.addEventListener('drop',      dropRow);
       tr.addEventListener('dragend',   dragEnd);
     }
-    const editBtn = ES_ADMIN ? `<button class="btn btn-sm btn-secondary py-0 px-2" style="font-size:.7rem" onclick="openEditRow(${t.id})"><i class="bi bi-pencil"></i></button>` : '';
+    const editBtn = ES_ADMIN ? `
+  <button class="btn btn-sm btn-secondary py-0 px-2" style="font-size:.7rem" onclick="openEditRow(${t.id})"><i class="bi bi-pencil"></i></button>
+  <button class="btn btn-sm btn-danger py-0 px-2 ms-1" style="font-size:.7rem" onclick="deleteStanding(${t.id})"><i class="bi bi-trash"></i></button>
+` : '';
     tr.innerHTML = `
       <td><span class="pos-num">${i+1}</span></td>
       <td>${t.equipo}</td>
@@ -496,16 +499,14 @@ async function openEditRow(standingId) {
   bsEditRowModal.show();
 }
 
-async function saveRowEdit() {
-  const body = {};
-  ['jj','jg','jp','pf','pc','pts'].forEach(f => body[f] = +document.getElementById(`er-${f}`).value);
+async function deleteStanding(standingId) {
+  if (!confirm('¿Eliminar este equipo de la tabla?')) return;
   try {
-    await api(`/api/standings/${state.editingRowId}/`, 'PUT', body);
-    bsEditRowModal.hide();
+    await api(`/api/standings/${standingId}/`, 'DELETE');
     await renderStandings();
-    showToast('Estadísticas guardadas');
+    showToast('Equipo eliminado');
   } catch(e) {
-    showToast('Error al guardar', true);
+    showToast('Error al eliminar', true);
   }
 }
 
@@ -527,6 +528,7 @@ async function addTeamFromEquipos() {
 }
 
 async function renderEquipos() {
+  state.openAccordions.clear();
   const container = document.getElementById('equiposAccordion');
   container.innerHTML = '<p class="text-secondary small">Cargando...</p>';
 

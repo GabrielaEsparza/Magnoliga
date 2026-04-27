@@ -78,8 +78,7 @@ def categoria_foto(request, cat_id):
 def jornadas_list(request, cat_id):
     cat = get_object_or_404(Categoria, id=cat_id)
 
-    if request.method == 'GET':
-        data = [{
+const editBtn = ES_ADMIN ? `<button class="btn btn-sm btn-secondary py-0 px-2" style="font-size:.7rem" onclick="openEditRow(${t.id})"><i class="bi bi-pencil"></i></button>` : '';        data = [{
             'id':    j.id,
             'label': j.label,
             'fecha': str(j.fecha) if j.fecha else None,
@@ -92,7 +91,7 @@ def jornadas_list(request, cat_id):
                 'pts_local':p.pts_local,
                 'pts_visit':p.pts_visit,
             } for p in j.partidos.all()]
-        } for j in cat.jornadas.all()]
+        } for j in cat.jornadas.all().order_by('fecha', 'id')]
         return json_response(data)
 
     if request.method == 'POST':
