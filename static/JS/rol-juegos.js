@@ -329,6 +329,56 @@ async function guardarNuevaCategoria() {
   }
 }
 
+
+// ── REORDENAR CATEGORÍAS ──────────────────────
+let dragSrcSlug = null;
+let catOrder = [];
+
+function enableCatDrag() {
+  const wrappers = document.querySelectorAll('[id^="wrapper-"]');
+  wrappers.forEach(el => {
+    el.draggable = true;
+    el.addEventListener('dragstart', e => {
+      dragSrcSlug = el.id.replace('wrapper-', '');
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      el.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+    el.addEventListener('drop', async e => {
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      const destSlug = el.id.replace('wrapper-', '');
+      if (dragSrcSlug === destSlug) return;
+
+      const grid = document.getElementById('categories-grid');
+      const src  = document.getElementById('wrapper-' + dragSrcSlug);
+      const dest = document.getElementById('wrapper-' + destSlug);
+      grid.insertBefore(src, dest);
+
+      const allWrappers = [...document.querySelectorAll('[id^="wrapper-"]')];
+      const newOrder = allWrappers.map((w, i) => {
+        const slug = w.id.replace('wrapper-', '');
+        const cat  = catOrder.find(c => c.slug === slug);
+        return { id: cat.id, orden: i };
+      });
+      try {
+        await api('/api/rol/categorias/reorder/', 'POST', newOrder);
+        showToast('Orden guardado');
+      } catch(e) {
+        showToast('Error al guardar orden', true);
+      }
+    });
+    el.addEventListener('dragend', () => {
+      document.querySelectorAll('[id^="wrapper-"]').forEach(w =>
+        w.classList.remove('dragging', 'drag-over')
+      );
+    });
+  });
+}
+
 // ── INIT ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async function() {
   const modalEl = document.getElementById('matchModal');

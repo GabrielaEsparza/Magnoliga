@@ -356,6 +356,7 @@ def rol_categorias_list(request):
             'slug':   c.slug,
             'nombre': c.nombre,
             'imagen': c.imagen.url if c.imagen else None,
+             'orden':  c.orden, 
         } for c in cats]
         return json_response(data)
 
@@ -365,11 +366,12 @@ def rol_categorias_list(request):
         body = json.loads(request.body)
         nombre = body.get('nombre', '').strip()
         slug   = body.get('slug', '').strip()
+        orden=RolCategoria.objects.count()
         if not nombre or not slug:
             return json_response({'error': 'nombre y slug requeridos'}, 400)
         if RolCategoria.objects.filter(slug=slug).exists():
             return json_response({'error': 'El slug ya existe'}, 400)
-        cat = RolCategoria.objects.create(nombre=nombre, slug=slug)
+        cat = RolCategoria.objects.create(nombre=nombre, slug=slug, orden=orden)
         return json_response({'id': cat.id, 'slug': cat.slug, 'nombre': cat.nombre, 'imagen': None}, 201)
 
 
@@ -437,7 +439,8 @@ def rol_partido_detalle(request, partido_id):
             return json_response({'error': 'No autorizado'}, 403)
         p.delete()
         return json_response({'ok': True})
-    
+
+
     # ── COMUNICACIONES ────────────────────────────────────────────────────
 @csrf_exempt
 def comunicaciones_list(request):
@@ -675,4 +678,15 @@ def rol_categoria_detalle(request, slug):
         if not (request.user.is_authenticated and request.user.is_staff):
             return json_response({'error': 'No autorizado'}, 403)
         cat.delete()
+        return json_response({'ok': True})
+
+
+@csrf_exempt
+def rol_categorias_reorder(request):
+    if not (request.user.is_authenticated and request.user.is_staff):
+        return json_response({'error': 'No autorizado'}, 403)
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        for item in body:
+            RolCategoria.objects.filter(id=item['id']).update(orden=item['orden'])
         return json_response({'ok': True})

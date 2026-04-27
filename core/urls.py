@@ -11,7 +11,7 @@ urlpatterns = [
     path('deporturismo/',      views.deporturismo,     name='deporturismo'),
     path('mantenimiento/',     views.mantenimiento,    name='mantenimiento'),
     path('seccion-magnoliga/', views.seccion_magnoliga,name='seccion_magnoliga'),
-    path('api/rol/categorias/<slug:slug>/', api.rol_categoria_detalle, name='api_rol_categoria_detalle'),
+
 
     # ── API Categorías ───────────────────────
     path('api/categorias/',                      api.categorias_list,    name='api_categorias'),
@@ -46,10 +46,11 @@ urlpatterns = [
     path('api/galeria/<int:item_id>/',                   api.galeria_detalle, name='api_galeria_detalle'),
 
     # ── API Rol de Juegos ────────────────────────────────────────────
-    path('api/rol/categorias/',                      api.rol_categorias_list,   name='api_rol_categorias'),
-    path('api/rol/categorias/<slug:slug>/foto/',     api.rol_categoria_foto,    name='api_rol_categoria_foto'),
-    path('api/rol/categorias/<slug:slug>/partidos/', api.rol_partidos_list,     name='api_rol_partidos'),
-    path('api/rol/partidos/<int:partido_id>/',       api.rol_partido_detalle,   name='api_rol_partido_detalle'),
+   path('api/rol/categorias/',                          api.rol_categorias_list,    name='api_rol_categorias'),
+path('api/rol/categorias/reorder/',                  api.rol_categorias_reorder, name='api_rol_categorias_reorder'),
+path('api/rol/categorias/<slug:slug>/foto/',         api.rol_categoria_foto,     name='api_rol_categoria_foto'),
+path('api/rol/categorias/<slug:slug>/partidos/',     api.rol_partidos_list,      name='api_rol_partidos'),
+path('api/rol/partidos/<int:partido_id>/',           api.rol_partido_detalle,    name='api_rol_partido_detalle'),
 
     # ── API Comunicaciones ───────────────────────────────────────────
     path('api/comunicaciones/',                api.comunicaciones_list,    name='api_comunicaciones'),

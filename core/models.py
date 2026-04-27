@@ -100,6 +100,10 @@ class RolCategoria(models.Model):
     slug    = models.CharField(max_length=50, unique=True)
     nombre  = models.CharField(max_length=100)
     imagen  = CloudinaryField('image', blank=True, null=True)
+    orden   = models.PositiveIntegerField(default=0)  # ← agrega esta línea
+
+    class Meta:                    # ← agrega este bloque
+        ordering = ['orden']
 
     def __str__(self):
         return self.nombre
