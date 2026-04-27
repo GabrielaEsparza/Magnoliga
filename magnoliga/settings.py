@@ -105,7 +105,11 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-CSRF_TRUSTED_ORIGINS = [os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost')]
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.magnoliga.com',
+    'https://magnoliga.com',
+    'https://web-production-e0bf2.up.railway.app',
+]
 
 
 cloudinary.config(
