@@ -14,6 +14,8 @@ const state = {
   openAccordions:   new Set(),
   dragMode:         false,
   categories:       [],
+  editingPlayerId:   null,
+  editingTeamId:     null,
 };
 
 // ── CSRF ────────────────────────────────────
@@ -39,14 +41,16 @@ async function api(url, method = 'GET', body = null) {
 }
 
 // ── BOOTSTRAP MODAL INSTANCES ──────────────
-let bsCatModal, bsEditModal, bsEditRowModal, bsAddPlayerModal, bsEditGameModal;
+let bsCatModal, bsEditModal, bsEditRowModal, bsAddPlayerModal, bsEditGameModal, bsEditPlayerModal, bsEditTeamModal;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  bsCatModal       = new bootstrap.Modal(document.getElementById('catModal'));
-  bsEditModal      = new bootstrap.Modal(document.getElementById('editModal'));
-  bsEditRowModal   = new bootstrap.Modal(document.getElementById('editRowModal'));
-  bsAddPlayerModal = new bootstrap.Modal(document.getElementById('addPlayerModal'));
-  bsEditGameModal  = new bootstrap.Modal(document.getElementById('editGameModal'));
+  bsCatModal        = new bootstrap.Modal(document.getElementById('catModal'));
+  bsEditModal       = new bootstrap.Modal(document.getElementById('editModal'));
+  bsEditRowModal    = new bootstrap.Modal(document.getElementById('editRowModal'));
+  bsAddPlayerModal  = new bootstrap.Modal(document.getElementById('addPlayerModal'));
+  bsEditGameModal   = new bootstrap.Modal(document.getElementById('editGameModal'));
+  bsEditPlayerModal = new bootstrap.Modal(document.getElementById('editPlayerModal'));
+  bsEditTeamModal   = new bootstrap.Modal(document.getElementById('editTeamModal'));
 
   document.querySelectorAll('.modal-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -413,11 +417,6 @@ async function renderStandings() {
   const tbl  = document.getElementById('standingsTable');
   body.innerHTML = '';
   tbl.classList.toggle('drag-mode', state.dragMode);
-  const btn = document.getElementById('btnDragToggle');
-  if (btn) {
-    btn.classList.toggle('drag-active', state.dragMode);
-    btn.textContent = state.dragMode ? '⠿ Reordenando…' : '⠿ Reordenar';
-  }
 
   let standings = [];
   try {
@@ -564,7 +563,6 @@ async function renderEquipos() {
     return;
   }
 
-  // Obtener todos los partidos de la categoría
   let todosPartidos = [];
   try {
     const jornadas = await api(`/api/categorias/${state.currentCatId}/jornadas/`);
@@ -573,8 +571,6 @@ async function renderEquipos() {
 
   equipos.forEach(equipo => {
     const players = equipo.jugadores || [];
-
-    // Solo partidos donde jugó este equipo
     const partidos = todosPartidos.filter(p =>
       p.local.toLowerCase().includes(equipo.nombre.toLowerCase()) ||
       p.visitante.toLowerCase().includes(equipo.nombre.toLowerCase())
@@ -585,24 +581,34 @@ async function renderEquipos() {
       ths += `<th class="th-partido">${partidos[i].local}<br>vs<br>${partidos[i].visitante}</th>`;
     }
     ths += `<th>Total</th>`;
+    if (ES_ADMIN) ths += `<th></th>`;
 
     const trs = players.map(jugador => {
       let cells = '';
       for (let i = 0; i < partidos.length; i++) {
         cells += `<td><button class="att-cell empty" data-jugador="${jugador.id}" data-jornada="${partidos[i].jornadaId}" onclick="toggleAtt(this)">·</button></td>`;
       }
+      const playerActions = ES_ADMIN ? `
+        <td class="text-nowrap">
+          <button class="btn btn-sm btn-secondary py-0 px-2" style="font-size:.7rem" onclick="openEditPlayer(${jugador.id}, '${jugador.nombre.replace(/'/g,"\\'")}', '${jugador.numero}')"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-sm btn-danger py-0 px-2 ms-1" style="font-size:.7rem" onclick="deleteJugador(${jugador.id}, ${equipo.id})"><i class="bi bi-trash"></i></button>
+        </td>` : '';
       return `<tr>
         <td>#${jugador.numero}&nbsp; ${jugador.nombre}</td>
         ${cells}
         <td class="att-total" id="total_${jugador.id}">0/${partidos.length}</td>
+        ${playerActions}
       </tr>`;
     }).join('');
 
     const isOpen = state.openAccordions.has(equipo.nombre);
     const wrapId = 'attWrap_' + equipo.id;
-    const addBtns = ES_ADMIN ? `
-      <div class="d-flex gap-2 flex-wrap mt-3">
-        <button class="btn-ghost-dashed" onclick="openAddPlayer(${equipo.id}, '${equipo.nombre}')"><i class="bi bi-person-plus me-1"></i>Agregar jugador/a</button>
+
+    const teamActions = ES_ADMIN ? `
+      <div class="d-flex gap-2 mt-1">
+        <button class="btn-ghost-dashed" onclick="openAddPlayer(${equipo.id}, '${equipo.nombre.replace(/'/g,"\\'")}')"><i class="bi bi-person-plus me-1"></i>Agregar jugador/a</button>
+        <button class="btn-ghost-dashed" onclick="openEditTeam(${equipo.id}, '${equipo.nombre.replace(/'/g,"\\'")}')"><i class="bi bi-pencil me-1"></i>Editar equipo</button>
+        <button class="btn-ghost-dashed" style="border-color:#ef4444;color:#ef4444" onclick="deleteEquipo(${equipo.id})"><i class="bi bi-trash me-1"></i>Eliminar equipo</button>
       </div>` : '';
 
     const div = document.createElement('div');
@@ -619,7 +625,7 @@ async function renderEquipos() {
           <div class="att-wrap" id="${wrapId}">
             <table class="att-table">
               <thead><tr>${ths}</tr></thead>
-              <tbody>${trs || `<tr><td colspan="${partidos.length + 2}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
+              <tbody>${trs || `<tr><td colspan="${partidos.length + 2 + (ES_ADMIN?1:0)}" class="text-secondary text-center py-3 small">Sin jugadores aún</td></tr>`}</tbody>
             </table>
           </div>
           <div class="att-nav">
@@ -628,7 +634,7 @@ async function renderEquipos() {
             <button class="att-nav-btn" onclick="attScroll('${wrapId}',180)"><i class="bi bi-chevron-right"></i></button>
           </div>
         </div>
-        ${addBtns}
+        ${teamActions}
       </div>`;
     container.appendChild(div);
   });
@@ -857,5 +863,72 @@ async function deleteGaleriaItem(itemId, btn) {
     showToast('Eliminado');
   } catch(e) {
     showToast('Error al eliminar', true);
+  }
+}
+
+// ── EDITAR / ELIMINAR EQUIPO ───────────────────────────────────────
+function openEditTeam(equipoId, equipoNombre) {
+  state.editingTeamId = equipoId;
+  document.getElementById('et-name').value = equipoNombre;
+  bsEditTeamModal.show();
+}
+
+async function saveTeamEdit() {
+  const nombre = document.getElementById('et-name').value.trim();
+  if (!nombre) return;
+  try {
+    await api(`/api/equipos/${state.editingTeamId}/`, 'PUT', { nombre });
+    bsEditTeamModal.hide();
+    await renderEquipos();
+    showToast('Equipo actualizado');
+  } catch(e) {
+    showToast('Error al actualizar equipo', true);
+  }
+}
+
+async function deleteEquipo(equipoId) {
+  if (!confirm('¿Eliminar este equipo y todos sus jugadores?')) return;
+  try {
+    await api(`/api/equipos/${equipoId}/`, 'DELETE');
+    await renderEquipos();
+    showToast('Equipo eliminado');
+  } catch(e) {
+    showToast('Error al eliminar equipo', true);
+  }
+}
+
+// ── EDITAR / ELIMINAR JUGADOR ──────────────────────────────────────
+function openEditPlayer(jugadorId, nombre, numero) {
+  state.editingPlayerId = jugadorId;
+  document.getElementById('ep-name').value = nombre;
+  document.getElementById('ep-num').value  = numero;
+  bsEditPlayerModal.show();
+}
+
+async function savePlayerEdit() {
+  const nombre = document.getElementById('ep-name').value.trim();
+  const numero = document.getElementById('ep-num').value.trim();
+  if (!nombre) return;
+  try {
+    await api(`/api/jugadores/${state.editingPlayerId}/`, 'PUT', { nombre, numero });
+    bsEditPlayerModal.hide();
+    state.openAccordions.add(nombre); // mantener abierto
+    await renderEquipos();
+    showToast('Jugador/a actualizado/a');
+  } catch(e) {
+    showToast('Error al actualizar jugador', true);
+  }
+}
+
+async function deleteJugador(jugadorId, equipoId) {
+  if (!confirm('¿Eliminar este jugador/a?')) return;
+  // guardar equipo abierto antes de re-render
+  const equipoDiv = document.querySelector(`.team-accordion[data-equipo-id="${equipoId}"]`);
+  try {
+    await api(`/api/jugadores/${jugadorId}/`, 'DELETE');
+    await renderEquipos();
+    showToast('Jugador/a eliminado/a');
+  } catch(e) {
+    showToast('Error al eliminar jugador', true);
   }
 }

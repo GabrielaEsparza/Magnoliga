@@ -193,6 +193,15 @@ def equipos_list(request, cat_id):
 def equipo_detalle(request, equipo_id):
     e = get_object_or_404(Equipo, id=equipo_id)
 
+
+    if request.method == 'PUT':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        body = json.loads(request.body)
+        e.nombre = body.get('nombre', e.nombre)
+        e.save()
+        return json_response({'ok': True})
+
     if request.method == 'DELETE':
         if not (request.user.is_authenticated and request.user.is_staff):
             return json_response({'error': 'No autorizado'}, 403)
@@ -220,6 +229,15 @@ def jugadores_list(request, equipo_id):
 @csrf_exempt
 def jugador_detalle(request, jugador_id):
     j = get_object_or_404(Jugador, id=jugador_id)
+
+    if request.method == 'PUT':
+        if not (request.user.is_authenticated and request.user.is_staff):
+            return json_response({'error': 'No autorizado'}, 403)
+        body = json.loads(request.body)
+        j.nombre = body.get('nombre', j.nombre)
+        j.numero = body.get('numero', j.numero)
+        j.save()
+        return json_response({'ok': True})
 
     if request.method == 'DELETE':
         if not (request.user.is_authenticated and request.user.is_staff):
@@ -257,13 +275,16 @@ def standings_list(request, cat_id):
     cat = get_object_or_404(Categoria, id=cat_id)
 
     if request.method == 'GET':
+        standings = list(cat.standings.all())
+        # Orden automático: PTS desc, luego DIF desc
+        standings.sort(key=lambda s: (-(s.pts), -(s.pf - s.pc)))
         data = [{
             'id':     s.id,
             'equipo': s.equipo,
             'orden':  s.orden,
             'jj': s.jj, 'jg': s.jg, 'jp': s.jp,
             'pf': s.pf, 'pc': s.pc, 'pts': s.pts,
-        } for s in cat.standings.all()]
+        } for s in standings]
         return json_response(data)
 
     if request.method == 'POST':

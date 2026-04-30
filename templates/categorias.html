@@ -276,32 +276,53 @@
         </div>
     </div>
 
-    <!-- ══ ADD PLAYER ══ -->
-    <div class="modal fade" id="addPlayerModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-card border-0">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-white" id="addPlayerTitle">Agregar Jugador/a</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <!-- ══ EDIT PLAYER ══ -->
+<div class="modal fade" id="editPlayerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-card border-0">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white" id="editPlayerTitle">Editar Jugador/a</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Nombre</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="ep-name" placeholder="Nombre completo">
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label text-secondary small">Nombre</label>
-                        <input type="text" class="form-control bg-input border-0 text-white" id="ap-name" placeholder="Nombre completo">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-secondary small">Número</label>
-                        <input type="text" class="form-control bg-input border-0 text-white" id="ap-num" placeholder="# (escribe el número)" inputmode="numeric" pattern="[0-9]*">
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-orange fw-semibold" onclick="savePlayer()">Guardar</button>
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Número</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="ep-num" placeholder="#" inputmode="numeric" pattern="[0-9]*">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-orange fw-semibold" onclick="savePlayerEdit()">Guardar</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<!-- ══ EDIT TEAM ══ -->
+<div class="modal fade" id="editTeamModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-card border-0">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white">Editar Equipo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Nombre del equipo</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="et-name" placeholder="Nombre">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-orange fw-semibold" onclick="saveTeamEdit()">Guardar</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- ══ EDIT GAME ══ -->
     <div class="modal fade" id="editGameModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -347,6 +368,58 @@
     </div>
 
     <!-- Toast -->
+
+    <!-- ══ EDIT PLAYER ══ -->
+<div class="modal fade" id="editPlayerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-card border-0">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white" id="editPlayerTitle">Editar Jugador/a</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Nombre</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="ep-name" placeholder="Nombre completo">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Número</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="ep-num" placeholder="#" inputmode="numeric" pattern="[0-9]*">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-orange fw-semibold" onclick="savePlayerEdit()">Guardar</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ EDIT TEAM ══ -->
+<div class="modal fade" id="editTeamModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-card border-0">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white">Editar Equipo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Nombre del equipo</label>
+                    <input type="text" class="form-control bg-input border-0 text-white" id="et-name" placeholder="Nombre">
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-orange fw-semibold" onclick="saveTeamEdit()">Guardar</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
         <div id="liveToast" class="toast align-items-center text-white border-0" role="alert">
             <div class="d-flex">
