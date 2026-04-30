@@ -141,3 +141,27 @@ textarea.form-control { resize: none; }
     .gallery-img { height: 180px; }
     .dropzone    { min-height: 160px; padding: 1.2rem; }
 }
+
+
+.btn-youtube {
+    background: #FF0000;
+    color: #fff;
+    padding: 0.6rem 1.4rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+}
+.btn-youtube:hover {
+    background: #cc0000;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.btn-youtube i {
+    font-size: 1.3rem;
+}
